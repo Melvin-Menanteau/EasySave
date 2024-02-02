@@ -26,6 +26,10 @@ namespace EasySave
                 {
                     Console.WriteLine("Lancement d'une sauvegarde");
                 }
+                else if (variable.StartsWith("cls"))
+                {
+                    Console.Clear();
+                }
             }
         }
     }
