@@ -72,6 +72,19 @@ namespace EasySave
         }
     }
 
+    class LoggerEtat : Logger
+    {
+        public LoggerEtat()
+        {
+            // create a new log file with the current date
+            Logfile = new FileStream("state.txt", FileMode.Append);
+        }
+        ~LoggerEtat()
+        {
+               Logfile.Close();
+        }
+
+    }   
 
 }
 
