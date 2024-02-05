@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace EasySave
+﻿namespace EasySave
 {
 	public enum SaveType
 	{
@@ -11,28 +8,24 @@ namespace EasySave
 
 	public class Save
 	{
-		private static int idCounter = 0;
+		private static int _idCounter = 0;
 		public int Id { get; }
 		public string Name { get; set; }
 		public string InputFolder { get; set; }
 		public string OutputFolder { get; set; }
 		public SaveType SaveType { get; set; }
 
-		public Save(string name, string inputFolder, string outputFolder, SaveType saveType, [Optional] int id)
+		public Save(int? id, string name, string inputFolder, string outputFolder, SaveType saveType)
 		{
 			if (id == null)
 			{
-				idCounter++;
-				Id = idCounter;
-			}
-			else
+				_idCounter++;
+			} else if (id > _idCounter)
 			{
-				Id = id;
+                _idCounter = (int)id;
+            }
 
-				if (id > idCounter)
-					idCounter = id;
-			}
-
+			Id = id ?? _idCounter;
 			Name = name;
 			InputFolder = inputFolder;
 			OutputFolder = outputFolder;
