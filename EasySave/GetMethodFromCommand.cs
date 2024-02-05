@@ -132,7 +132,12 @@ namespace EasySave
             {
                 IdsString = match.Groups[1].Value;
 
-                if (IdsString.Contains("-"))
+
+                if(IdsString.Contains("-") && IdsString.Contains(";"))
+                {
+                    Console.WriteLine("Erreur - La commande LS ne peut pas contenir - et ;");
+                }
+                else if (IdsString.Contains("-"))
                 {
                     string[] Id = IdsString.Split('-');
 
@@ -172,6 +177,10 @@ namespace EasySave
                             Ids.Add(id);
                         }
                     }
+                }
+                else if (int.TryParse(IdsString, out int id))
+                {
+                    Ids.Add(id);
                 }
             }
             else

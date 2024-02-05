@@ -13,23 +13,16 @@ namespace EasySave
                 Console.Write("> ");
                 Console.ResetColor();
 
-                var variable = Console.ReadLine();
+                var commande = Console.ReadLine();
 
-                if (variable == string.Empty) 
+                if (commande == string.Empty) 
                 {
                     continue;
                 }
-                else if (variable.StartsWith("cs"))
+                else
                 {
-                    Console.WriteLine("Création d'une sauvegarde");
-                }
-                else if (variable.StartsWith("ls"))
-                {
-                    Console.WriteLine("Lancement d'une sauvegarde");
-                }
-                else if (variable.StartsWith("cls"))
-                {
-                    Console.Clear();
+                    GetMethodFromCommand getMethodFromCommand = new GetMethodFromCommand();
+                    getMethodFromCommand.GetMethod(commande);
                 }
             }
         }
