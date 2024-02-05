@@ -8,21 +8,20 @@ namespace EasySave
     {
         private static SaveConfiguration _instance;
 
-        List<Save> saveConfiguration;
+        private readonly List<Save> ListeConfiguration;
 
-        /* R��criture du constructeur pour le rendre priv� */
+        /// <summary>
+        /// Rendre le constructeur prive afin d'empecher l'instanciation de la classe
+        /// </summary>
         private SaveConfiguration()
         {
-            saveConfiguration = GetConfigurations();
-            Console.WriteLine(saveConfiguration.Count);
-            saveConfiguration.ForEach(save => Console.WriteLine(save.ToString()));
-
-            UpdateConfiguration(0, "Sauvegarde 1", "C:/Users/Utilisateur/Documents", "D:/Sauvegardes", SaveType.COMPLETE);
-
-            saveConfiguration.ForEach(save => Console.WriteLine(save.ToString()));
+            ListeConfiguration = GetConfigurations();
         }
 
-        /* M�thode pour r�cup�rer l'instance de la classe */
+        /// <summary>
+        /// Méthode pour recuperer l'instance de la classe
+        /// </summary>
+        /// <returns>Instance de la classe</returns>
         public static SaveConfiguration GetInstance()
         {
             if (_instance == null)
@@ -33,43 +32,46 @@ namespace EasySave
             return _instance;
         }
 
-        /* R�cup�ration des configurations enregistr�es depuis un fichier */
+        /// <summary>
+        /// Recuperation des configurations de sauvegarde depuis un fichier de configuration
+        /// </summary>
+        /// <returns>Liste des configurations de sauvegarde</returns>
         private List<Save> GetConfigurations()
         {
             return new List<Save>() {
-                new Save("Sauvegarde 1", "C:/Users/Utilisateur/Documents", "D:/Sauvegardes", SaveType.COMPLETE, 5),
-                new Save("Sauvegarde 2", "C:/Users/Utilisateur/Images", "D:/Sauvegardes", SaveType.DIFFERENTIAL),
-                new Save("Sauvegarde 3", "C:/Users/Utilisateur/Vid�os", "D:/Sauvegardes", SaveType.COMPLETE, 3)
+                new Save(5, "Sauvegarde 1", "C:/Users/Utilisateur/Documents", "D:/Sauvegardes", SaveType.COMPLETE),
+                new Save(1, "Sauvegarde 2", "C:/Users/Utilisateur/Images", "D:/Sauvegardes", SaveType.DIFFERENTIAL),
+                new Save(3, "Sauvegarde 3", "C:/Users/Utilisateur/Vid�os", "D:/Sauvegardes", SaveType.COMPLETE)
             };
         }
 
         /// <summary>
-        /// R�cup�rer l'ensemble des configurations de sauvegarde disponible
+        /// Recuperer l'ensemble des configurations de sauvegarde disponible
         /// </summary>
         /// <returns>Liste des configurations de sauvegarde</returns>
         public List<Save> GetConfiguration()
         {
-            return saveConfiguration;
+            return ListeConfiguration;
         }
 
         /// <summary>
-        /// R�cup�rer une configuration de sauvegarde par son identifiant
+        /// Recuperer une configuration de sauvegarde par son identifiant
         /// </summary>
         /// <param name="id">L'identifiant de la configuration</param>
-        /// <returns>La premi�re configuration de sauvegarde trouv�e avec cette id ou null si aucune n'existe</returns>
+        /// <returns>La premiere configuration de sauvegarde trouvee avec cette id ou null si aucune n'existe</returns>
         public Save GetConfiguration(int id)
         {
-            return saveConfiguration.Find(save => save.Id == id) ?? null;
+            return ListeConfiguration.Find(save => save.Id == id) ?? null;
         }
 
         /// <summary>
-        /// R�cup�rer une configuration de sauvegarde par son nom
+        /// Recuperer une configuration de sauvegarde par son nom
         /// </summary>
         /// <param name="name">Le nom de la sauvegarde</param>
-        /// <returns>La premi�re configuration de sauvegarde trouv�e avec ce nom ou null si aucune n'existe</returns>
+        /// <returns>La premiere configuration de sauvegarde trouvee avec ce nom ou null si aucune n'existe</returns>
         public Save GetConfiguration(string name)
         {
-            return saveConfiguration.Find(save => save.Name == name) ?? null;
+            return ListeConfiguration.Find(save => save.Name == name) ?? null;
         }
 
         /// <summary>
@@ -79,38 +81,38 @@ namespace EasySave
         /// <param name="inputFolder">Le dossier source de la sauvegarde</param>
         /// <param name="outputFolder">Le dossier de destination de la sauvegarde</param>
         /// <param name="saveType">Le type de sauvegarde</param>
-        /// <exception cref="Exception">Il existe d�j� 5 configurations enregistr�es</exception>
+        /// <exception cref="Exception">Il existe deja 5 configurations enregistr�es</exception>
         public void AddConfiguration(string nom, string inputFolder, string outputFolder, SaveType saveType)
         {
-            if (saveConfiguration.Count >= 5)
+            if (ListeConfiguration.Count >= 5)
             {
                 throw new Exception("Le nombre maximum de sauvegardes est atteint");
             }
 
-            saveConfiguration.Add(new Save(nom, inputFolder, outputFolder, saveType));
+            ListeConfiguration.Add(new Save(null, nom, inputFolder, outputFolder, saveType));
         }
 
         /// <summary>
         /// Supprimer une configuration de sauvegarde
         /// </summary>
-        /// <param name="id">L'identifiant de la configuration � supprimer</param>
+        /// <param name="id">L'identifiant de la configuration a supprimer</param>
         public bool RemoveConfiguration(int id)
         {
-            return saveConfiguration.Remove(GetConfiguration(id));
+            return ListeConfiguration.Remove(GetConfiguration(id));
         }
 
         /// <summary>
-        /// Mettre � jour une configuration de sauvegarde
+        /// Mettre a jour une configuration de sauvegarde
         /// </summary>
-        /// <param name="id">L'identifiant de la configuration � mettre � jour</param>
+        /// <param name="id">L'identifiant de la configuration a mettre a jour</param>
         /// <param name="nom">Le nom de la sauvegarde</param>
         /// <param name="inputFolder">Le dossier source de la sauvegarde</param>
         /// <param name="outputFolder">Le dossier de destination de la sauvegarde</param>
         /// <param name="saveType">Le type de sauvegarde</param>
-        /// <exception cref="Exception">Aucune sauvegarde ne correspond � cet identifiant</exception>
-        public void UpdateConfiguration(int id, [Optional] string nom, [Optional]  string inputFolder, [Optional] string outputFolder, SaveType? saveType)
+        /// <exception cref="Exception">Aucune sauvegarde ne correspond a cet identifiant</exception>
+        public void UpdateConfiguration(int id, [Optional] string nom, [Optional]  string inputFolder, [Optional] string outputFolder, SaveType? saveType = null)
         {
-            Save save = GetConfiguration(id) ?? throw new Exception("Aucune sauvegarde ne correspond � cet identifiant");
+            Save save = GetConfiguration(id) ?? throw new Exception("Aucune sauvegarde ne correspond a cet identifiant");
 
             if (nom != null)
                 save.Name = nom;
@@ -121,8 +123,8 @@ namespace EasySave
             if (outputFolder != null)
                 save.OutputFolder = outputFolder;
 
-            //if (saveType != null)
-            //    save.SaveType = saveType;
+            if (saveType != null)
+                save.SaveType = saveType.Value;
         }
     }
 }
