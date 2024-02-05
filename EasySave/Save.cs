@@ -1,38 +1,47 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
-public enum SaveType
+namespace EasySave
 {
-    Complete,
-    Differential
-}
-
-public class Save
-{
-	private static int idCounter = 0;
-	private int id { get; };
-	private string name { get; set; };
-	private string inputFolder { get; set; };
-	private string outputFolder { get; set; };
-	private SaveType saveType { get; set; };
-
-	public Save(int id = null, string name, string inputFolder, string outputFolder, SaveType saveType)
+	public enum SaveType
 	{
-		if (id == null)
-		{
-            idCounter++;
-            id = idCounter;
-        }
-        else
-		{
-            id = id;
-
-			if (id > idCounter)
-                idCounter = id;
-        }
-
-		name = name;
-		inputFolder = inputFolder;
-		outputFolder = outputFolder;
-		saveType = saveType;
+		COMPLETE,
+		DIFFERENTIAL
 	}
+
+	public class Save
+	{
+		private static int idCounter = 0;
+		public int Id { get; }
+		public string Name { get; set; }
+		public string InputFolder { get; set; }
+		public string OutputFolder { get; set; }
+		public SaveType SaveType { get; set; }
+
+		public Save(string name, string inputFolder, string outputFolder, SaveType saveType, [Optional] int id)
+		{
+			if (id == null)
+			{
+				idCounter++;
+				Id = idCounter;
+			}
+			else
+			{
+				Id = id;
+
+				if (id > idCounter)
+					idCounter = id;
+			}
+
+			Name = name;
+			InputFolder = inputFolder;
+			OutputFolder = outputFolder;
+			SaveType = saveType;
+		}
+
+        public override string ToString()
+        {
+			return $"Save {Id} : {Name} - {InputFolder} -> {OutputFolder} - {SaveType}";
+		}
+    }
 }
