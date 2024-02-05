@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="Save.cs"/>
-	<Compile Include="SaveConfiguration.cs"/>
+    <Compile Include="Logger.cs" />
+	  <Compile Include="Save.cs"/>
+	  <Compile Include="SaveConfiguration.cs"/>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
