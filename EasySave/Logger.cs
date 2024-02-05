@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace EasySave
@@ -10,12 +7,13 @@ namespace EasySave
     abstract class Logger
     {
         protected FileStream Logfile;
-        public void log(string message) {
+        public void log(string message)
+        {
             // write message to logfile in append mode
             try
             {
                 StreamWriter sw = new StreamWriter(Logfile);
-                sw.WriteLine( message);
+                sw.WriteLine(message);
                 sw.Close();
             }
             catch (Exception e)
@@ -50,7 +48,7 @@ namespace EasySave
         /// <param name="target">Fichier de destination</param>
         /// <param name="size">Taille du fichier en octets</param>
         /// <param name="transfer_time">Temps de transfer millisecondes</param>
-        public void Log(string save_name ,string source , string target , int size , float transfer_time)
+        public void Log(string save_name, string source, string target, int size, float transfer_time)
         {
             // get current date hour
             DateTime date = DateTime.Now;
@@ -59,7 +57,7 @@ namespace EasySave
 
             // get filename of Logfile to check if the date has changed
             string filename = Logfile.Name;
-            if(filename != "log_" + date.ToString("yyyy-MM-dd") + ".txt")
+            if (filename != "log_" + date.ToString("yyyy-MM-dd") + ".txt")
             {
                 // close the current log file
                 Logfile.Close();
@@ -74,6 +72,7 @@ namespace EasySave
 
     class LoggerEtat : Logger
     {
+        List<Save> saves;
         public LoggerEtat()
         {
             // create a new log file with the current date
@@ -81,10 +80,14 @@ namespace EasySave
         }
         ~LoggerEtat()
         {
-               Logfile.Close();
+            Logfile.Close();
+        }
+        public void AddSave(Save save)
+        {
+            saves.Add(save);
         }
 
-    }   
+    }
 
 }
 
