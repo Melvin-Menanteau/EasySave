@@ -68,6 +68,8 @@ namespace EasySave
             string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + "\",\n \"Time\": \"" + date + "\",\n},";
             log(log_json);
         }
+
+        
     }
 
     class LoggerEtat : Logger
@@ -85,6 +87,17 @@ namespace EasySave
         public void AddSave(Save save)
         {
             saves.Add(save);
+        }
+
+        public void WriteStatesToFile()
+        {
+            string states_json = "[\n";
+            foreach (Save save in saves)
+            {
+                states_json += "{\n \"Name\": \"" + save.Name + "\",\n \"SourceFilePath\": \"" + save.InputFolder + "\",\n \"TargetFilePath\": \"" + save.OutputFolder + "\",\n \"State\": \"" + save.SaveType + "\",\n \"TotalFilesToCopy\": \"" + save.Name + "\",\n \"TotalFilesSize\": \"" + save.Name + "\",\n \"NbFilesLeftToDo\": \"" + save.Name + "\",\n \"Progression\": \"" + save.Name + "\",\n }" ;
+            }
+            states_json += "\n]";
+            log(states_json);
         }
 
     }
