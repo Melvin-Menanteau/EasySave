@@ -40,6 +40,16 @@ namespace EasySave
             Logfile.Close();
         }
 
+
+
+        /// <summary>
+        /// Cette methode permet d'ajouter les informations d'un transfer au fichier de log journalier
+        /// </summary>
+        /// <param name="save_name">Nom de la sauvegarde</param>
+        /// <param name="source">Fichier source </param>
+        /// <param name="target">Fichier de destination</param>
+        /// <param name="size">Taille du fichier en octets</param>
+        /// <param name="transfer_time">Temps de transfer millisecondes</param>
         public void Log(string save_name ,string source , string target , int size , float transfer_time)
         {
             // get current date hour
