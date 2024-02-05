@@ -7,6 +7,18 @@ namespace EasySave
 {
     public class GetMethodFromCommand
     {
+        public SaveConfiguration Configuration;
+
+        public List<Save> Saves = new List<Save>();
+
+        public GetMethodFromCommand()
+        {
+            Configuration = SaveConfiguration.GetInstance();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
         public void GetMethod(string command)
         {
             if (command.StartsWith("ls"))
@@ -53,19 +65,11 @@ namespace EasySave
         {
             List<int> Ids = new List<int>();
 
-            //Simulation de la liste des sauvegarde existantes
-            Dictionary<string, int> ids = new Dictionary<string, int>
-            {
-                { "nom1", 1 },
-                { "nom2", 2 },
-                { "nom3", 3 },
-                { "nom4", 4 },
-                { "nom5", 5 }
-            };
+            Saves = Configuration.GetConfiguration();
 
-            foreach (var elem in ids)
+            foreach (var save in Saves)
             {
-                Ids.Add(elem.Value);
+                Ids.Add(save.Id);
             }
 
             return Ids;
@@ -93,25 +97,16 @@ namespace EasySave
 
         public int GetIdFromNom(string nom)
         {
-            int Id;
+            int Id = -1;
 
-            //Simulation de la liste des sauvegarde existantes
-            Dictionary<string, int> ids = new Dictionary<string, int>
-            {
-                { "nom1", 1 },
-                { "nom2", 2 },
-                { "nom3", 3 },
-                { "nom4", 4 },
-                { "nom5", 5 }
-            };
+            Saves = Configuration.GetConfiguration();
 
-            if (ids.TryGetValue(nom, out int valeur))
+            foreach (Save save in Saves)
             {
-                Id = valeur;
-            }
-            else
-            {
-                Id = -1;
+                if (save.Name == nom)
+                {
+                    Id = save.Id;
+                }
             }
 
             return Id;
@@ -122,8 +117,7 @@ namespace EasySave
             List<int> Ids = new List<int>();
             string IdsString = "";
 
-            //Simulation de la liste des sauvegarde existantes
-            List<int> idsSauvegardeExistant = new List<int> { 1, 2, 3, 4, 5 };
+            Saves = Configuration.GetConfiguration();
 
             Regex regex = new Regex(@"-id\s+""([^""]*)""");
             Match match = regex.Match(command);
@@ -149,11 +143,11 @@ namespace EasySave
                         (EndId, StartId) = (StartId, EndId);
                     }
 
-                    foreach (int id in idsSauvegardeExistant)
+                    foreach (Save save in Saves)
                     {
-                        if (StartId <= id && id <= EndId)
+                        if (StartId <= save.Id && save.Id <= EndId)
                         {
-                            Ids.Add(id);
+                            Ids.Add(save.Id);
                         }
                     }
                 }
@@ -164,18 +158,21 @@ namespace EasySave
                     try
                     {
                         IdInt = IdString.Select(int.Parse).ToArray();
+                        foreach(int id in IdInt)
+                        {
+                            foreach (Save save in Saves)
+                            {
+                                if (id == save.Id)
+                                {
+                                    Ids.Add(id); 
+                                    break;
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
                         throw new Exception(ex.Message);
-                    }
-
-                    foreach (int id in IdInt)
-                    {
-                        if (idsSauvegardeExistant.Contains(id))
-                        {
-                            Ids.Add(id);
-                        }
                     }
                 }
                 else if (int.TryParse(IdsString, out int id))
