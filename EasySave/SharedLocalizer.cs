@@ -7,26 +7,7 @@ namespace EasySave
 {
     public class SharedLocalizer
     {
-        private static SharedLocalizer _instance;
         private static readonly ResourceManager _resourceManager = new ResourceManager("EasySave.Resources.locale", typeof(Program).Assembly);
-
-        /// <summary>
-        /// Rendre le constructeur prive afin d'empecher l'instanciation de la classe
-        /// </summary>
-        private SharedLocalizer()
-        {
-            SetCulture("fr-FR");
-        }
-
-        public static SharedLocalizer GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new SharedLocalizer();
-            }
-
-            return _instance;
-        }
 
         public static void SetCulture(string culture)
         {
