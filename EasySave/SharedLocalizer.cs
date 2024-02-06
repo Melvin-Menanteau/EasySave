@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Globalization;
 using System.Resources;
+using System.Threading;
 
 namespace EasySave
 {
     public class SharedLocalizer
     {
         private static SharedLocalizer _instance;
-        private readonly ResourceManager _resourceManager;
-        private CultureInfo _currentCulture;
+        private static readonly ResourceManager _resourceManager = new ResourceManager("EasySave.Resources.locale", typeof(Program).Assembly);
+        private static CultureInfo _currentCulture;
 
         /// <summary>
         /// Rendre le constructeur prive afin d'empecher l'instanciation de la classe
         /// </summary>
         private SharedLocalizer()
         {
-            _resourceManager = new ResourceManager("EasySave.Resources.Strings", typeof(Program).Assembly);
-            _currentCulture = CultureInfo.CurrentCulture;
+            SetCulture("fr-FR");
         }
 
         public static SharedLocalizer GetInstance()
@@ -29,14 +29,14 @@ namespace EasySave
             return _instance;
         }
 
-        public void SetCulture(CultureInfo culture)
+        public static void SetCulture(string culture)
         {
-            _currentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
         }
 
-        public string GetLocalizedString(string key)
+        public static string GetLocalizedString(string key)
         {
-            return _resourceManager.GetString(key, _currentCulture);
+            return _resourceManager.GetString(key);
         }
     }
 }
