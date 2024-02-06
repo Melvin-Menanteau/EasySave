@@ -87,7 +87,10 @@ namespace EasySave
             }
             else if (command.StartsWith("help"))
             {
-                
+                Console.WriteLine(SharedLocalizer.GetLocalizedString("CreateSave"));
+                Console.WriteLine(SharedLocalizer.GetLocalizedString("ClearConsole"));
+                Console.WriteLine(SharedLocalizer.GetLocalizedString("Help"));
+                Console.WriteLine(SharedLocalizer.GetLocalizedString("LaunchSave"));
             }
             else if (command.StartsWith("cs"))
             {
