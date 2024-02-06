@@ -94,7 +94,24 @@ namespace EasySave
             string states_json = "[\n";
             foreach (Save save in saves)
             {
-                states_json += "{\n \"Name\": \"" + save.Name + "\",\n \"SourceFilePath\": \"" + save.InputFolder + "\",\n \"TargetFilePath\": \"" + save.OutputFolder + "\",\n \"State\": \"" + save.SaveType + "\",\n \"TotalFilesToCopy\": \"" + save.Name + "\",\n \"TotalFilesSize\": \"" + save.Name + "\",\n \"NbFilesLeftToDo\": \"" + save.Name + "\",\n \"Progression\": \"" + save.Name + "\",\n }" ;
+                string state;
+                switch (save.State)
+                {
+                    case SaveState.NOT_STARTED:
+                        state = "NOT_STARTED";
+                        break;
+                    case SaveState.IN_PROGRESS:
+                        state = "IN_PROGRESS";
+                        break;
+                    case SaveState.FINISHED:
+                        state = "FINISHED";
+                        break;
+                    default:
+                        state = "UNKNOWN";
+                        break;
+                }
+                float progress = 1 - save.TotalFilesToCopy / save.NbFilesLeftToDo;
+                states_json += "{\n \"Name\": \"" + save.Name + "\",\n \"SourceFilePath\": \"" + save.InputFolder + "\",\n \"TargetFilePath\": \"" + save.OutputFolder + "\",\n \"State\": \"" + state + "\",\n \"TotalFilesToCopy\": \"" + save.TotalFilesToCopy + "\",\n \"TotalFilesSize\": \"" + save.TotalFilesSize + "\",\n \"NbFilesLeftToDo\": \"" + save.NbFilesLeftToDo + "\",\n \"Progression\": \"" + progress + "\",\n }" ;
             }
             states_json += "\n]";
             log(states_json);
