@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -70,6 +71,101 @@ namespace EasySave
             {
                 Console.Clear();
             }
+            else if (command.StartsWith("cs"))
+            {
+                Saves = Configuration.GetConfiguration();
+
+                try
+                {
+                    string nom = GetNomFromCommand(command);
+
+                    if (nom == null) { return; }
+
+                    string InputFolder = GetInputFolderFromCommand(command);
+
+                    if (InputFolder == null) { return; }
+
+                    string OutputFolder = GetOutputFolderFromCommand(command);
+
+                    if (OutputFolder == null) { return; }
+
+                    SaveType TypeSave = GetTypeOfSaveFromCommand(command);
+
+                    Configuration.AddConfiguration(nom, InputFolder, OutputFolder, TypeSave);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        public string GetInputFolderFromCommand(string command)
+        {
+            string path ="";
+
+            Regex regex = new Regex(@"-if\s+""([^""]*)""");
+            Match match = regex.Match(command);
+
+            if (match.Success)
+            {
+                path = match.Groups[1].Value;
+            }
+            else if (command.Contains("-if"))
+            {
+                Console.WriteLine("Erreur - Regex non conforme");
+                path = null;
+            }
+
+            return path;
+        }
+
+        public string GetOutputFolderFromCommand(string command)
+        {
+            string path = "";
+
+            Regex regex = new Regex(@"-of\s+""([^""]*)""");
+            Match match = regex.Match(command);
+
+            if (match.Success)
+            {
+                path = match.Groups[1].Value;
+            }
+            else if (command.Contains("-of"))
+            {
+                Console.WriteLine("Erreur - Regex non conforme");
+                path = null;
+            }
+
+            return path;
+        }
+        public SaveType GetTypeOfSaveFromCommand(string command)
+        {
+            string typeString = "";
+            SaveType type = new();
+
+            Regex regex = new Regex(@"-t\s+""([^""]*)""");
+            Match match = regex.Match(command);
+
+            if (match.Success)
+            {
+                typeString = match.Groups[1].Value;
+                if (typeString.ToUpper() == "COMPLETE")
+                {
+                    type = SaveType.COMPLETE;
+                }
+                else if (typeString.ToUpper() == "DIFFERENTIAL")
+                {
+                    type = SaveType.DIFFERENTIAL;
+                }
+            }
+            else if (command.Contains("-t"))
+            {
+                Console.WriteLine("Erreur - Regex non conforme");
+                typeString = null;
+            }
+
+            return type;
         }
 
         public List<int> GetAllIdsFromCommand()
