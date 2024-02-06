@@ -5,10 +5,10 @@ actor Utilisateur as user
 
 package EasySave {
   usecase "Créer une sauvegarde" as uc1
-  usecase "Renseigner Nom" as uc7
-  usecase "Renseigner répertoire source" as uc8
-  usecase "Renseigner répertoire cible" as uc9
-  usecase "Renseigner type de sauvegarde" as uc10
+  usecase "Récupérer le nom de la sauvegarde" as uc7
+  usecase "Récupérer le répertoire source de la sauvegarde" as uc8
+  usecase "Récupérer le répertoire cible de la sauvegarde" as uc9
+  usecase "Récuperer le type de la sauvegarde" as uc10
   usecase "Quitter l'application" as uc6
   usecase "Lancer une sauvegarde" as uc2
   usecase "Sélectionner la sauvegarde" as uc3
@@ -19,13 +19,17 @@ package EasySave {
 
 user --> uc1
 user --> uc11
-uc1 --> uc7
-uc1 --> uc8
-uc1 --> uc9 
-uc1 --> uc10
+
+uc1 <-. uc7 : <<include>> 
+uc1 <-. uc8 : <<include>>
+uc1 <-. uc9 : <<include>>
+uc1 <-. uc10 : <<include>>
+
 user --> uc6
 user --> uc2
+
 uc2 --> uc3
 uc2 .-> uc4 : <<include>>
 uc2 .-> uc5 : <<include>>
+
 @enduml
