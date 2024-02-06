@@ -6,7 +6,7 @@ namespace EasySave
         public void EffectuerSauvegardeComplete_CopieContenuDossierSourceVersDossierCible()
         {
             // Arrange
-            var easySaveC = new EasySaveC();
+            var easySaveC = new EasySave();
             string sourceDir = @"C:\Users\vpetit\Desktop\test\source";
             string targetDir = @"C:\Users\vpetit\Desktop\test\destination";
 
@@ -36,7 +36,7 @@ namespace EasySave
         public void EffectuerSauvegardeDifferentielle_CopieFichiersModifiesOuAjoutes()
         {
             // Arrange
-            var easySaveC = new EasySaveC();
+            var easySaveC = new EasySave();
             string sourceDir = @"C:\Users\vpetit\Desktop\test\source";
             string targetDir = "C:\\Users\\vpetit\\Desktop\\test\\destination";
 
