@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Text.Json;
 
 namespace EasySave
 {
@@ -39,11 +40,16 @@ namespace EasySave
         /// <returns>Liste des configurations de sauvegarde</returns>
         private List<Save> GetConfigurations()
         {
-            return new List<Save>() {
-                new Save(5, "Sauvegarde 1", "C:\\Users\\vpetit\\Desktop\\test\\source", "C:\\Users\\vpetit\\Desktop\\test\\destination", SaveType.DIFFERENTIAL),
-                //new Save(1, "Sauvegarde 2", "C:/Users/Utilisateur/Images", "D:/Sauvegardes", SaveType.DIFFERENTIAL),
-                //new Save(3, "Sauvegarde 3", "C:/Users/Utilisateur/Vid�os", "D:/Sauvegardes", SaveType.COMPLETE)
-            };
+            string jsonString = File.ReadAllText("config.json");
+            // spit the string into an array of strings using the }, as a delimiter
+            string[] saves = jsonString.Split("},");
+            List<Save> list = new List<Save>();
+            for (int i = 0; i < saves.Length - 1; i++)
+            {
+                Save save = JsonSerializer.Deserialize<Save>(saves[i])!;
+                list.Add(save);
+            }
+            return list;
         }
 
         /// <summary>
