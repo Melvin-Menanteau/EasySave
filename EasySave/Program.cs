@@ -21,7 +21,7 @@ namespace EasySave
                 }
                 else
                 {
-                    GetMethodFromCommand getMethodFromCommand = new GetMethodFromCommand();
+                    GetMethodFromCommand getMethodFromCommand = new();
                     getMethodFromCommand.GetMethod(commande);
                 }
             }
