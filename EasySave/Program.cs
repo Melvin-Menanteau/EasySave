@@ -12,6 +12,12 @@ namespace EasySave
 
         static void Main(string[] args)
         {
+            SharedLocalizer sharedLocalizer = SharedLocalizer.GetInstance();
+
+            Console.WriteLine(sharedLocalizer.GetLocalizedString("Hello"));
+            sharedLocalizer.SetCulture(new System.Globalization.CultureInfo("en-EN"));
+            Console.WriteLine(sharedLocalizer.GetLocalizedString("Hello"));
+
             while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
