@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace EasySave
 {
@@ -125,6 +126,20 @@ namespace EasySave
 
             if (saveType != null)
                 save.SaveType = saveType.Value;
+        }
+
+        public void SaveConfigToFile()
+        {
+            string save_json = "";
+            foreach (Save save in ListeConfiguration)
+            {
+                save_json += "{\n \"Id\": " + save.Id + ",\n \"Name\": \"" + save.Name + "\",\n \"InputFolder\": \"" + save.InputFolder + "\",\n \"OutputFolder\": \"" + save.OutputFolder + "\",\n \"SaveType\": \"" + save.SaveType + "\"\n},\n";
+            }
+            FileStream file = new FileStream("config.json", FileMode.Create);
+            StreamWriter writer = new StreamWriter(file);
+            writer.Write(save_json);
+            writer.Close();
+            file.Close();
         }
     }
 }
