@@ -32,9 +32,6 @@ namespace EasySave
                 listeId = _saveConfiguration.GetConfiguration().ConvertAll(save => save.Id);
             }
 
-            Console.WriteLine(listeId.Count);
-            listeId.ForEach(id => Console.WriteLine(id));
-
             foreach (int id in listeId)
             {
                 Save save = _saveConfiguration.GetConfiguration(id) ?? throw new ArgumentException($"Il n'existe pas de configuration de sauvegarde pour cet identifiant: {id}");

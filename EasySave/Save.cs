@@ -53,7 +53,7 @@
 
         public override string ToString()
         {
-			return $"Save {Id} : {Name} - {InputFolder} -> {OutputFolder} - {SaveType}";
+			return $"\"{Name}\" (id: {Id}): \"{InputFolder}\" -> \"{OutputFolder}\" - {SaveType}";
 		}
     }
 }

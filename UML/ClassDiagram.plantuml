@@ -79,19 +79,22 @@ class SharedLocalizer {
 	{static}+GetLocalizedString(key: string) : string
 }
 
-GetMethodFromCommand --> SharedLocalizer
-class GetMethodFromCommand {
-	+Configuration: SaveConfiguration
-	+Saves: List<Save>
-	+GetMethodFromCommand()
-	+GetMethod(command: string) : void
-	+GetLangFromCommand(command: string) : string
-	+GetInputFolderFromCommand(command: string) : string
-	+GetOutputFolderFromCommand(command: string) : string
-	+GetTypeOfSaveFromCommand(command: string) : SaveType
-	+GetAllIdsFromCommand() : List<int>
-	+GetNomFromCommand(command: string) : string
-	+GetIdFromNom(nom: string) : int
-	+GetIdsFromCommand(command: string) : List<int>
+CommandInterpretor --> SharedLocalizer
+CommandInterpretor *-- SaveConfiguration
+CommandInterpretor *-- EasySave
+class CommandInterpretor {
+	{static}+ReadCommand(command: string) : void
+	{static}-_regexCommand() : Regex
+	{static}-_regexIds() : Regex
+	{static}-_regexParam() : Regex
+	{static}-ExtraireParametre(args: string) : Dictionary<string, string>
+	{static}-ArgIdsToList(args: string) : List<int>
+	{static}-LancerSauvegarde(args: string) : void
+	{static}-ListerSauvegardes() : void
+	{static}-AjouterConfiguration(args: string) : void
+	{static}-ModifierConfiguration(args: string) : void
+	{static}-SupprimerConfiguration(args: string) : void
+	{static}-ChangerLangue(args: string) : void
+	{static}-AfficherAide() : void
 }
 @enduml

@@ -120,29 +120,62 @@
   <data name="ClearConsole" xml:space="preserve">
     <value>La commande CLS permet d'effacer les anciennes lignes écrites dans la console.</value>
   </data>
+  <data name="CommandParseException" xml:space="preserve">
+    <value>Le format de la commande est incorrect</value>
+  </data>
   <data name="CreateSave" xml:space="preserve">
-    <value>La commande CS permet de créer un travail de sauvegarde. Elle doit contenir les arguments suivants :
-   -n  : Suivi du nom entre guillemet permet de donner le nom au travail de la sauvegarde
-   -if : Suivi du chemin absolue du répèrtoire source du travil de la sauvegarde   
-   -of : Suivi du chemin absolue du répèrtoire cible du travil de la sauvegarde 
-   -t  : Suivi du type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)</value>
+    <value>"add": Permet de créer un travail de sauvegarde. Elle doit contenir les arguments suivants :
+   -name / n  : Nom du travail de sauvegarde
+   -inputFolder / i : Chemin absolue du répèrtoire source du travil de la sauvegarde   
+   -outputFolder / o : Chemin absolue du répèrtoire cible du travil de la sauvegarde 
+   -saveType / T : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)</value>
   </data>
   <data name="HelloWorld" xml:space="preserve">
     <value>Bonjour, Monde!</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>La commande HELP permet d'obtenir des informations générales sur les commandes disponibles.</value>
+    <value>"help" ("h"): Permet d'obtenir la liste des commandes disponibles ainsi qu'une explication sur ces dernières.</value>
   </data>
   <data name="Langage" xml:space="preserve">
     <value>Passage en mode français !</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Il est possible de rajouter le paramètre "lang" aux commandes afin de changer la langue (actuellement "fr" et "en" sont supportés)</value>
+  </data>
   <data name="LaunchSave" xml:space="preserve">
-    <value>La commande LS permet de lancer un travail de sauvegarde existant. Elle doit contenir un de ces arguments suivants :
-   -n  : Suivi du nom de la sauvegarde entre guillemet que l'on veut lancer
-   -id : Suivi du ou des sauvegardes que l'on souhaite lancer.
-Exemple :   
-   - ls -id "1-3" : Lancera la sauvegarde 1 à 3
-   - ls -id "1;3" : Lancera la sauvegarde 1 et 3
-   - ls -id "1" : Lancera la sauvegarde 1</value>
+    <value>"run" ("r"): Permet de lancer un travail de sauvegarde existant. Un id de sauvegarde ou une liste d'id est attendu en paramètre. Si aucun id n'est fournit, toutes les sauvegardes seront lancées.
+   -id : Id des sauvegardes à lancer.
+Exemple :
+   - run 1 : Lance la sauvegarde 1
+   - run -id "1-3" : Lance la sauvegarde 1 à 3
+   - r -id "1-3" : Lance la sauvegarde 1 à 3
+   - run -id "1;3" : Lance la sauvegarde 1 et 3
+   - run -id "1-3;5;7-9" : Lance les sauvegardes 1 à 3, 5 et 7 à 9
+   - r : Lance toutes les sauvegardes</value>
+  </data>
+  <data name="ListSave" xml:space="preserve">
+    <value>"list" ("ls"): Permet d'afficher les travaux de sauvegarde configurés ainsi que leur id.</value>
+  </data>
+  <data name="MissingParameter" xml:space="preserve">
+    <value>Parametre manquant</value>
+  </data>
+  <data name="RemoveSave" xml:space="preserve">
+    <value>"delete": Permet de supprimer un travail de sauvegarde existant. Un id de sauvegarde ou une liste d'id est attendu en paramètre.
+   -id : Id des sauvegardes à lancer.
+Exemple :
+   - delete 1 : Supprime la sauvegarde 1
+   - delete -id "1-3" : Supprime les sauvegarde 1 à 3
+   - delete -id "1;3" : Supprime les sauvegarde 1 et 3
+   - delete -id "1-3;5;7-9" : Supprime les sauvegardes 1 à 3, 5 et 7 à 9</value>
+  </data>
+  <data name="UnrecognizedCommand" xml:space="preserve">
+    <value>La commande n'est pas reconnue. "help" / "h" pour afficher la liste des commandes disponible</value>
+  </data>
+  <data name="UpdateSave" xml:space="preserve">
+    <value>"update": Permet de modifier un travail de sauvegarde existant. L'id du travail à modifier est obligatoire, les autres paramètres sont optionnels selon les champs que l'on souhaite mettre à jour:
+   -name / n  : Nom du travail de sauvegarde
+   -inputFolder / i : Chemin absolue du répèrtoire source du travil de la sauvegarde   
+   -outputFolder / o : Chemin absolue du répèrtoire cible du travil de la sauvegarde 
+   -saveType / T : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)</value>
   </data>
 </root>
