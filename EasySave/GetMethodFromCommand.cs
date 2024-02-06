@@ -58,6 +58,17 @@ namespace EasySave
                 {
                     Console.WriteLine("Erreur - Commande LS non reconnue");
                 }
+                else
+                {
+                    foreach(var id in IdsSauvegarde)
+                    {
+                        Console.WriteLine(id);
+                    }
+                }
+            }
+            else if (command.StartsWith("cls"))
+            {
+                Console.Clear();
             }
         }
 
