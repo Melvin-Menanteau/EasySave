@@ -120,4 +120,7 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Bonjour, Monde!</value>
   </data>
+  <data name="Langage" xml:space="preserve">
+    <value>Passage en mode français !</value>
+  </data>
 </root>

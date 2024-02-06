@@ -71,6 +71,24 @@ namespace EasySave
             {
                 Console.Clear();
             }
+            else if (command.StartsWith("lang"))
+            {
+                string lang = GetLangFromCommand(command);
+
+                if (lang.ToLower() == "en" || lang.ToLower() == "fr")
+                {
+                    SharedLocalizer.SetCulture(lang);
+                    Console.WriteLine(SharedLocalizer.GetLocalizedString("Langage"));
+                }
+                else
+                {
+                    Console.WriteLine("Erreur - Commande LANG non reconnue");
+                }
+            }
+            else if (command.StartsWith("help"))
+            {
+                
+            }
             else if (command.StartsWith("cs"))
             {
                 Saves = Configuration.GetConfiguration();
@@ -98,6 +116,26 @@ namespace EasySave
                     Console.WriteLine(ex.Message);
                 }
             }
+        }
+
+        public string GetLangFromCommand(string command)
+        {
+            string lang = "";
+
+            Regex regex = new Regex(@"lang\s+""([^""]*)""");
+            Match match = regex.Match(command);
+
+            if (match.Success)
+            {
+                lang = match.Groups[1].Value;
+            }
+            else if (command.Contains("lang"))
+            {
+                Console.WriteLine("Erreur - Regex non conforme");
+                lang = null;
+            }
+
+            return lang;
         }
 
         public string GetInputFolderFromCommand(string command)
