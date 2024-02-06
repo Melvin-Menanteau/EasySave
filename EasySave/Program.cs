@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 namespace EasySave
 {
-    public class Program
+    internal class Program
     {
-        public string hello()
-        {
-            return "Hello";
-        }
-
         static void Main(string[] args)
         {
             while (true)
