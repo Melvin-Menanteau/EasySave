@@ -5,13 +5,12 @@ abstract class Logger {
 }
 
 Logger <|-- LoggerJournalier
-Logger <|-- LoggerEtat
-
 class LoggerJournalier {
     +LoggerJournalier()
     +Log(save_name: string, source: string, target: string, size: int, transfer_time: float) : void
 }
 
+Logger <|-- LoggerEtat
 LoggerEtat o-- Save
 class LoggerEtat {
     +saves: List<Save>
@@ -75,10 +74,7 @@ class Save {
 }
 
 class SharedLocalizer {
-	{static}-_instance: SharedLocalizer
 	{static}-_resourceManager: ResourceManager
-	-SharedLocalizer()
-	{static}+GetInstance() : SharedLocalizer
 	{static}+SetCulture(culture: string) : void
 	{static}+GetLocalizedString(key: string) : string
 }
