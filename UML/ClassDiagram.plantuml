@@ -78,4 +78,20 @@ class SharedLocalizer {
 	{static}+SetCulture(culture: string) : void
 	{static}+GetLocalizedString(key: string) : string
 }
+
+GetMethodFromCommand --> SharedLocalizer
+class GetMethodFromCommand {
+	+Configuration: SaveConfiguration
+	+Saves: List<Save>
+	+GetMethodFromCommand()
+	+GetMethod(command: string) : void
+	+GetLangFromCommand(command: string) : string
+	+GetInputFolderFromCommand(command: string) : string
+	+GetOutputFolderFromCommand(command: string) : string
+	+GetTypeOfSaveFromCommand(command: string) : SaveType
+	+GetAllIdsFromCommand() : List<int>
+	+GetNomFromCommand(command: string) : string
+	+GetIdFromNom(nom: string) : int
+	+GetIdsFromCommand(command: string) : List<int>
+}
 @enduml
