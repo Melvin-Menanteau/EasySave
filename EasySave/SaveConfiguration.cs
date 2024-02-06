@@ -39,9 +39,9 @@ namespace EasySave
         private List<Save> GetConfigurations()
         {
             return new List<Save>() {
-                new Save(5, "Sauvegarde 1", "C:/Users/Utilisateur/Documents", "D:/Sauvegardes", SaveType.COMPLETE),
-                new Save(1, "Sauvegarde 2", "C:/Users/Utilisateur/Images", "D:/Sauvegardes", SaveType.DIFFERENTIAL),
-                new Save(3, "Sauvegarde 3", "C:/Users/Utilisateur/Vid�os", "D:/Sauvegardes", SaveType.COMPLETE)
+                new Save(5, "Sauvegarde 1", "C:\\Users\\vpetit\\Desktop\\test\\source", "C:\\Users\\vpetit\\Desktop\\test\\destination", SaveType.DIFFERENTIAL),
+                //new Save(1, "Sauvegarde 2", "C:/Users/Utilisateur/Images", "D:/Sauvegardes", SaveType.DIFFERENTIAL),
+                //new Save(3, "Sauvegarde 3", "C:/Users/Utilisateur/Vid�os", "D:/Sauvegardes", SaveType.COMPLETE)
             };
         }
 
