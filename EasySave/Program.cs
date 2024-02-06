@@ -21,7 +21,7 @@ namespace EasySave
                 }
                 else if (commande.StartsWith("ls"))
                 {
-                    EasySaveC easySaveC = new EasySaveC();
+                    EasySave easySaveC = new EasySave();
                     SaveConfiguration saveConfiguration;
                     saveConfiguration = SaveConfiguration.GetInstance();
                     List<int> ids = [];

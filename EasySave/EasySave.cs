@@ -12,10 +12,10 @@ namespace EasySave
     /// Elle est chargee de faire l'interface entre l'utilisateur et les travaux de sauvegarde, en permettant
     /// par exemple de lancer une sauvegarde, de creer une sauvegarde, ou de lister les sauvegardes disponibles.
     /// </summary>
-    public class EasySaveC
+    public class EasySave
     {
         private readonly SaveConfiguration _saveConfiguration;
-        public EasySaveC()
+        public EasySave()
         {
             _saveConfiguration = SaveConfiguration.GetInstance();
         }
