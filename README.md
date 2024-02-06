@@ -3,7 +3,7 @@
 ##### Groupe 4 : CARTERON Pierre - MENANTEAU Melvin - PETIT Victor - VIGNAUD Mathéo
 
 ### Cas d'utilisation de EasySave
-![Image Usecase](https://www.plantuml.com/plantuml/png/XOzDIWD148NtTOeY6rSHpCz6GWY8ErS63r1qLoQjDJsXkZeWue7c77CnUyPPD8guQ7ZD-pweTqX6QhaL43uPMeSQchEX3yhEGXS1o5cd-691GYBZh4W9Ss85k91xeuRnaTBxaQwC7u1ZvIWnBXvqw5anHyP4-SeDgUV5PBkx6doYwFu2LpLu77hvFYiMNkWtlgxnPsul4Wh8U0hk78hpscMD96FqZD8rQHOt_uZ-PkYD33cYbJRXE4vcUGkV0CLMN2xtqxhgiuBovhoUyksKDtYFkrs8JhBd_RvgjZ-Q0qUVM_a2)
+![Diagramme de cas d'utilisation de l'application EasySave](./UML/output/UseCaseDiagram.svg)
 
 ### Diagramme de classe de EasySave :
 ![Diagramme de classe de l'application EasySave](./UML/output/ClassDiagram.svg)
