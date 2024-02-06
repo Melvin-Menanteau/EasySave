@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace EasySave
@@ -10,12 +7,13 @@ namespace EasySave
     abstract class Logger
     {
         protected FileStream Logfile;
-        public void log(string message) {
+        public void log(string message)
+        {
             // write message to logfile in append mode
             try
             {
                 StreamWriter sw = new StreamWriter(Logfile);
-                sw.WriteLine( message);
+                sw.WriteLine(message);
                 sw.Close();
             }
             catch (Exception e)
@@ -50,7 +48,7 @@ namespace EasySave
         /// <param name="target">Fichier de destination</param>
         /// <param name="size">Taille du fichier en octets</param>
         /// <param name="transfer_time">Temps de transfer millisecondes</param>
-        public void Log(string save_name ,string source , string target , int size , float transfer_time)
+        public void Log(string save_name, string source, string target, int size, float transfer_time)
         {
             // get current date hour
             DateTime date = DateTime.Now;
@@ -59,7 +57,7 @@ namespace EasySave
 
             // get filename of Logfile to check if the date has changed
             string filename = Logfile.Name;
-            if(filename != "log_" + date.ToString("yyyy-MM-dd") + ".txt")
+            if (filename != "log_" + date.ToString("yyyy-MM-dd") + ".txt")
             {
                 // close the current log file
                 Logfile.Close();
@@ -70,10 +68,13 @@ namespace EasySave
             string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + "\",\n \"Time\": \"" + date + "\",\n},";
             log(log_json);
         }
+
+        
     }
 
     class LoggerEtat : Logger
     {
+        List<Save> saves;
         public LoggerEtat()
         {
             // create a new log file with the current date
@@ -81,10 +82,42 @@ namespace EasySave
         }
         ~LoggerEtat()
         {
-               Logfile.Close();
+            Logfile.Close();
+        }
+        public void AddSave(Save save)
+        {
+            saves.Add(save);
         }
 
-    }   
+        public void WriteStatesToFile()
+        {
+            string states_json = "[\n";
+            foreach (Save save in saves)
+            {
+                string state;
+                switch (save.State)
+                {
+                    case SaveState.NOT_STARTED:
+                        state = "NOT_STARTED";
+                        break;
+                    case SaveState.IN_PROGRESS:
+                        state = "IN_PROGRESS";
+                        break;
+                    case SaveState.FINISHED:
+                        state = "FINISHED";
+                        break;
+                    default:
+                        state = "UNKNOWN";
+                        break;
+                }
+                float progress = 1 - save.TotalFilesToCopy / save.NbFilesLeftToDo;
+                states_json += "{\n \"Name\": \"" + save.Name + "\",\n \"SourceFilePath\": \"" + save.InputFolder + "\",\n \"TargetFilePath\": \"" + save.OutputFolder + "\",\n \"State\": \"" + state + "\",\n \"TotalFilesToCopy\": \"" + save.TotalFilesToCopy + "\",\n \"TotalFilesSize\": \"" + save.TotalFilesSize + "\",\n \"NbFilesLeftToDo\": \"" + save.NbFilesLeftToDo + "\",\n \"Progression\": \"" + progress + "\",\n }" ;
+            }
+            states_json += "\n]";
+            log(states_json);
+        }
+
+    }
 
 }
 

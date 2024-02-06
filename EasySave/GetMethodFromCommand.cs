@@ -9,7 +9,7 @@ namespace EasySave
     {
         public SaveConfiguration Configuration;
 
-        public List<Save> Saves = new List<Save>();
+        public List<Save> Saves = [];
 
         public GetMethodFromCommand()
         {
@@ -23,7 +23,7 @@ namespace EasySave
         {
             if (command.StartsWith("ls"))
             {
-                List<int> IdsSauvegarde = new List<int>();
+                List<int> IdsSauvegarde = [];
 
                 if (command.Contains("-n"))
                 {
@@ -58,12 +58,23 @@ namespace EasySave
                 {
                     Console.WriteLine("Erreur - Commande LS non reconnue");
                 }
+                else
+                {
+                    foreach(var id in IdsSauvegarde)
+                    {
+                        Console.WriteLine(id);
+                    }
+                }
+            }
+            else if (command.StartsWith("cls"))
+            {
+                Console.Clear();
             }
         }
 
         public List<int> GetAllIdsFromCommand()
         {
-            List<int> Ids = new List<int>();
+            List<int> Ids = [];
 
             Saves = Configuration.GetConfiguration();
 
@@ -114,7 +125,7 @@ namespace EasySave
 
         public List<int> GetIdsFromCommand(string command)
         {
-            List<int> Ids = new List<int>();
+            List<int> Ids = [];
             string IdsString = "";
 
             Saves = Configuration.GetConfiguration();
@@ -127,11 +138,11 @@ namespace EasySave
                 IdsString = match.Groups[1].Value;
 
 
-                if(IdsString.Contains("-") && IdsString.Contains(";"))
+                if(IdsString.Contains('-') && IdsString.Contains(';'))
                 {
                     Console.WriteLine("Erreur - La commande LS ne peut pas contenir - et ;");
                 }
-                else if (IdsString.Contains("-"))
+                else if (IdsString.Contains('-'))
                 {
                     string[] Id = IdsString.Split('-');
 
@@ -151,7 +162,7 @@ namespace EasySave
                         }
                     }
                 }
-                else if (IdsString.Contains(";"))
+                else if (IdsString.Contains(';'))
                 {
                     string[] IdString = IdsString.Split(';');
                     int[] IdInt = new int[IdString.Length];

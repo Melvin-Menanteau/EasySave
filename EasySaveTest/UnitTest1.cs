@@ -45,7 +45,7 @@ namespace EasySave
             File.WriteAllText(Path.Combine(sourceDir, "file1.txt"), "Hello, world!");
             File.WriteAllText(Path.Combine(sourceDir, "subfolder1", "file2.txt"), "Bonjour!");
 
-            // Première sauvegarde
+            // PremiÃ¨re sauvegarde
             easySaveC.EffectuerSauvegardeDifferentielle(new Save
                 (0,
                 "Test",
