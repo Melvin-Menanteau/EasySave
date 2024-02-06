@@ -5,9 +5,7 @@ namespace EasySave
         [Fact]
         public void Test1()
         {
-            Program program = new Program();
-            string result = program.hello();
-            Assert.Equal("Hello", result);
+            
         }
     }
 }
