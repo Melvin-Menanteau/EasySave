@@ -117,7 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ClearConsole" xml:space="preserve">
+    <value>La commande CLS permet d'effacer les anciennes lignes écrites dans la console.</value>
+  </data>
+  <data name="CreateSave" xml:space="preserve">
+    <value>La commande CS permet de créer un travail de sauvegarde. Elle doit contenir les arguments suivants :
+   -n  : Suivi du nom entre guillemet permet de donner le nom au travail de la sauvegarde
+   -if : Suivi du chemin absolue du répèrtoire source du travil de la sauvegarde   
+   -of : Suivi du chemin absolue du répèrtoire cible du travil de la sauvegarde 
+   -t  : Suivi du type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)</value>
+  </data>
   <data name="HelloWorld" xml:space="preserve">
     <value>Bonjour, Monde!</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>La commande HELP permet d'obtenir des informations générales sur les commandes disponibles.</value>
+  </data>
+  <data name="Langage" xml:space="preserve">
+    <value>Passage en mode français !</value>
+  </data>
+  <data name="LaunchSave" xml:space="preserve">
+    <value>La commande LS permet de lancer un travail de sauvegarde existant. Elle doit contenir un de ces arguments suivants :
+   -n  : Suivi du nom de la sauvegarde entre guillemet que l'on veut lancer
+   -id : Suivi du ou des sauvegardes que l'on souhaite lancer.
+Exemple :   
+   - ls -id "1-3" : Lancera la sauvegarde 1 à 3
+   - ls -id "1;3" : Lancera la sauvegarde 1 et 3
+   - ls -id "1" : Lancera la sauvegarde 1</value>
   </data>
 </root>

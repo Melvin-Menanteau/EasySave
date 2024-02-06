@@ -117,7 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ClearConsole" xml:space="preserve">
+    <value>The CLS command allows you to delete old lines written in the console.</value>
+  </data>
+  <data name="CreateSave" xml:space="preserve">
+    <value>The CS command allows you to create a backup job. It must contain the following arguments: 
+   -n: Followed by the name in quotation marks gives the name to the backup job
+   -if: Followed by the absolute path of the source directory of the backup job
+   -of: Tracking the absolute path of the target directory of the backup job
+   -t: Tracking the type of backup job, either complete or differential</value>
+  </data>
   <data name="HelloWorld" xml:space="preserve">
     <value>Hello, World!</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>The HELP command provides general information about available commands.</value>
+  </data>
+  <data name="Langage" xml:space="preserve">
+    <value>Switch to English mode!</value>
+  </data>
+  <data name="LaunchSave" xml:space="preserve">
+    <value>The LS command launches an existing backup job. It must contain one of these following arguments:
+   -n: Followed by the name of the backup in quotes that you want to launch
+   -id: Tracking the backup(s) you wish to launch.
+Example :
+   - ls -id "1-3": Will launch backup 1 to 3
+   - ls -id "1;3": Will launch backup 1 and 3
+   - ls -id "1": Will start backup 1</value>
   </data>
 </root>
