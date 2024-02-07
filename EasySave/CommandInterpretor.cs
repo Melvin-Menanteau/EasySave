@@ -36,9 +36,9 @@ namespace EasySave
 
                 Dictionary<string, string> parametres = ExtraireParametre(args);
 
-                if (parametres.ContainsKey("lang"))
+                if (parametres.TryGetValue("lang", out string lang))
                 {
-                    ChangerLangue(parametres["lang"]);
+                    ChangerLangue(lang);
                 }
 
                 switch (cmd)
