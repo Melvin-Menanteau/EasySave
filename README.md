@@ -4,7 +4,9 @@
 
 ### Utilisation du logiciel
 **run** (**r**): Permet de lancer un travail de sauvegarde existant. Un id de sauvegarde ou une liste d'id est attendu en paramètre. Si le paramètre all est renseigné, toutes les sauvegardes seront lancées.
-   -id : Id des sauvegardes à lancer.
+
+- -id : Id des sauvegardes à lancer.
+
 Exemple :
 - `run -id "1-3"` : Lance la sauvegarde 1 à 3
 - `r -id "1-3"` : Lance la sauvegarde 1 à 3
@@ -15,19 +17,21 @@ Exemple :
 **list** (**ls**): Permet d'afficher les travaux de sauvegarde configurés ainsi que leur id.
 
 **add**: Permet de créer un travail de sauvegarde. Elle doit contenir les arguments suivants :
-- -name / n  : Nom du travail de sauvegarde
-- -inputFolder / i : Chemin absolue du répèrtoire source du travil de la sauvegarde
-- -outputFolder / o : Chemin absolue du répèrtoire cible du travil de la sauvegarde
-- -saveType / T : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)
+- -name / -n  : Nom du travail de sauvegarde
+- -inputFolder / -i : Chemin absolue du répèrtoire source du travil de la sauvegarde
+- -outputFolder / -o : Chemin absolue du répèrtoire cible du travil de la sauvegarde
+- -saveType / -t : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)
 
 **update**: Permet de modifier un travail de sauvegarde existant. L'id du travail à modifier est obligatoire, les autres paramètres sont optionnels selon les champs que l'on souhaite mettre à jour:
-- -name / n  : Nom du travail de sauvegarde
-- -inputFolder / i : Chemin absolue du répèrtoire source du travil de la sauvegarde
-- -outputFolder / o : Chemin absolue du répèrtoire cible du travil de la sauvegarde
-- -saveType / T : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)
+- -name / -n  : Nom du travail de sauvegarde
+- -inputFolder / -i : Chemin absolue du répèrtoire source du travil de la sauvegarde
+- -outputFolder / -o : Chemin absolue du répèrtoire cible du travil de la sauvegarde
+- -saveType / -t : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)
 
 **delete**: Permet de supprimer un travail de sauvegarde existant. Un id de sauvegarde ou une liste d'id est attendu en paramètre.
+
 - -id : Id des sauvegardes à lancer.
+
 Exemple :
 - `delete -id "1-3"` : Supprime les sauvegarde 1 à 3
 - `delete -id "1;3"` : Supprime les sauvegarde 1 et 3
