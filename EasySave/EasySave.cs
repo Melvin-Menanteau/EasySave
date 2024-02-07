@@ -15,6 +15,9 @@ namespace EasySave
     public class EasySave
     {
         private readonly SaveConfiguration _saveConfiguration;
+        private readonly LoggerJournalier _loggerJournalier = new ();
+        private readonly LoggerEtat _loggerEtat = new ();
+
         public EasySave()
         {
             _saveConfiguration = SaveConfiguration.GetInstance();
@@ -22,10 +25,17 @@ namespace EasySave
 
         /// <summary>
         /// Lancer un ou plusieurs travaux de sauvegarde
-        /// </summary>
+        /// </summary> 
         /// <param name="listeId">Liste des identifiants des sauvegardes a lancer, Si aucun id n'est specifie, lance toutes les sauvegardes.</param>
         public void LancerSauvegarde(List<int> listeId)
         {
+            /* Passer le statut des sauvegardes a NOT_STARTED */
+            foreach (int id in listeId)
+            {
+                UpdateSaveState(_saveConfiguration.GetConfiguration(id), SaveState.NOT_STARTED);
+            }
+
+            /* Lancer les sauvegardes une par une */
             foreach (int id in listeId)
             {
                 Save save = _saveConfiguration.GetConfiguration(id) ?? throw new ArgumentException($"Il n'existe pas de configuration de sauvegarde pour cet identifiant: {id}");
@@ -42,34 +52,22 @@ namespace EasySave
         }
 
         /// <summary>
-        /// Lancer une sauvegarde complète
+        /// Copier un fichier d'un répertoire source vers un répertoire cible
         /// </summary>
-        /// <param name="save">La sauvegarde à effectuer</param>
-        public void EffectuerSauvegardeComplete(Save save)
+        /// <param name="save">L'objet sauvegarde contenant les informations de la sauvegarde</param>
+        /// <param name="sourceFile">Chemin du fichier source</param>
+        /// <param name="targetDir">Chemin du répertoire cible</param>
+        private void CopyFile(Save save, string sourceFile, string targetDir)
         {
-            try
-            {
-                // Vérifier si le dossier source existe
-                if (!Directory.Exists(save.InputFolder))
-                {
-                    throw new DirectoryNotFoundException($"Le dossier source '{save.InputFolder}' n'existe pas.");
-                }
+            DateTime startTransfert = DateTime.Now;
 
-                // Créer le dossier cible s'il n'existe pas
-                if (!Directory.Exists(save.OutputFolder))
-                {
-                    Directory.CreateDirectory(save.OutputFolder);
-                }
+            File.Copy(sourceFile, targetDir, true);
 
-                // Copier le contenu du dossier source vers le dossier cible
-                CopyDirectory(save.InputFolder, save.OutputFolder);
+            DateTime endTransfert = DateTime.Now;
 
-                Console.WriteLine("La sauvegarde est terminée.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Une erreur s'est produite lors de la sauvegarde : {ex.Message}");
-            }
+            float transferTime = (float)(endTransfert - startTransfert).TotalMilliseconds;
+
+            _loggerJournalier.Log(save.Name, sourceFile, targetDir, (int)(new FileInfo(sourceFile)).Length, transferTime);
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace EasySave
         /// </summary>
         /// <param name="sourceDir">Répertoire source</param>
         /// <param name="targetDir">Répertoire cible</param>
-        private void CopyDirectory(string sourceDir, string targetDir)
+        private void CopyDirectory(Save save, string sourceDir, string targetDir)
         {
             sourceDir = Path.GetFullPath(new Uri(sourceDir).LocalPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             targetDir = Path.GetFullPath(new Uri(targetDir).LocalPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
@@ -93,7 +91,8 @@ namespace EasySave
             {
                 string fileName = Path.GetFileName(file);
                 string destFile = Path.Combine(targetDir, fileName);
-                File.Copy(file, destFile, true);
+
+                CopyFile(save, file, destFile);
             }
 
             // Copier les sous-dossiers récursivement
@@ -101,14 +100,54 @@ namespace EasySave
             {
                 string subDirectoryName = new DirectoryInfo(subDirectory).Name;
                 string destSubDirectory = Path.Combine(targetDir, subDirectoryName);
-                CopyDirectory(subDirectory, destSubDirectory);
+                CopyDirectory(save, subDirectory, destSubDirectory);
             }
         }
 
+        /// <summary>
+        /// Lancer une sauvegarde complète
+        /// </summary>
+        /// <param name="save">La sauvegarde à effectuer</param>
+        public void EffectuerSauvegardeComplete(Save save)
+        {
+            try
+            {
+                UpdateSaveState(save, SaveState.IN_PROGRESS);
+                // Vérifier si le dossier source existe
+                if (!Directory.Exists(save.InputFolder))
+                {
+                    throw new DirectoryNotFoundException($"Le dossier source '{save.InputFolder}' n'existe pas.");
+                }
+
+                // Créer le dossier cible s'il n'existe pas
+                if (!Directory.Exists(save.OutputFolder))
+                {
+                    Directory.CreateDirectory(save.OutputFolder);
+                }
+
+                // Copier le contenu du dossier source vers le dossier cible
+                CopyDirectory(save, save.InputFolder, save.OutputFolder);
+
+                UpdateSaveState(save, SaveState.FINISHED);
+                Console.WriteLine("La sauvegarde est terminée.");
+            }
+            catch (Exception ex)
+            {
+                UpdateSaveState(save, SaveState.ERROR);
+                Console.WriteLine($"Une erreur s'est produite lors de la sauvegarde : {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Effectuer une sauvegarde différentielle (ne copie que les fichiers modifiés ou nouveaux)
+        /// </summary>
+        /// <param name="save">L'objet sauvegarde contenant les informations de la sauvegarde</param>
         public void EffectuerSauvegardeDifferentielle(Save save)
         {
             try
             {
+                UpdateSaveState(save, SaveState.IN_PROGRESS);
+
                 if (!Directory.Exists(save.InputFolder))
                 {
                     throw new DirectoryNotFoundException($"Le dossier source '{save.InputFolder}' n'existe pas.");
@@ -155,18 +194,27 @@ namespace EasySave
                     string targetDirName = Path.GetDirectoryName(targetFile);
                     Directory.CreateDirectory(targetDirName);
 
-                    File.Copy(sourceFile, targetFile, true);
+                    CopyFile(save, sourceFile, targetFile);
+
                     Console.WriteLine($"Fichier copié : {sourceFile}");
                 }
 
+                UpdateSaveState(save, SaveState.FINISHED);
                 Console.WriteLine("La sauvegarde différentielle est terminée.");
             }
             catch (Exception ex)
             {
+                UpdateSaveState(save, SaveState.ERROR);
                 Console.WriteLine($"Une erreur s'est produite lors de la sauvegarde différentielle : {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// Vérifier si le contenu de deux fichiers est identique en comparant leurs hachages MD5
+        /// </summary>
+        /// <param name="file1">Chemin du premier fichier</param>
+        /// <param name="file2">Chemin du deuxieme fichier</param>
+        /// <returns>True si les deux fichiers sont identique, false sinon</returns>
         private static bool IsSameContent(string file1, string file2)
         {
             using (var hash1 = MD5.Create())
@@ -179,6 +227,19 @@ namespace EasySave
 
                 return StructuralComparisons.StructuralEqualityComparer.Equals(hashBytes1, hashBytes2);
             }
+        }
+
+        /// <summary>
+        /// Change l'état d'une sauvegarde
+        /// </summary>
+        /// <param name="save">La sauvegarde à mettre à jour</param>
+        /// <param name="state">Le nouvel état de la sauvegarde</param>
+        private void UpdateSaveState(Save save, SaveState state)
+        {
+            Console.WriteLine($"Changement etat sauvegarde {save.Name} : {save.State} -> {state}");
+            save.State = state;
+
+            _loggerEtat.WriteStatesToFile();
         }
     }
 }

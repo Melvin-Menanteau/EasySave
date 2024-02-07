@@ -47,11 +47,14 @@ namespace EasySave
                 writer.Write("[]");
                 writer.Close();
                 file.Close();
+              
                 return new List<Save>();
             }
+          
             string jsonString = File.ReadAllText("config.json");
             // spit the string into an array of strings using the }, as a delimiter
             List<Save> list = JsonSerializer.Deserialize<List<Save>>(jsonString);
+          
             return list;
         }
 
