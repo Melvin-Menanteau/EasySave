@@ -1,4 +1,6 @@
-﻿namespace EasySave
+﻿using System.Text.Json.Serialization;
+
+namespace EasySave
 {
 	public enum SaveType
 	{
@@ -8,23 +10,28 @@
 
 	public enum SaveState
 	{
-        NOT_STARTED,
-        IN_PROGRESS,
-        FINISHED
+        ERROR = -1,
+        NOT_STARTED = 0,
+        IN_PROGRESS = 1,
+        FINISHED = 2
     }
 
 	public class Save
 	{
 		private static int _idCounter = 0;
-		public int Id { get; }
+		public int Id { get; set; }
 		public string Name { get; set; }
 		public string InputFolder { get; set; }
 		public string OutputFolder { get; set; }
-		public SaveType SaveType { get; set; }
-		public int TotalFilesToCopy { get; set; }
-		public int TotalFilesSize { get; set; }
-		public int NbFilesLeftToDo { get; set; }
-		public SaveState State { get; set; }
+        public SaveType SaveType { get; set; }
+        [JsonIgnore]
+        public int TotalFilesToCopy { get; set; }
+        [JsonIgnore]
+        public int TotalFilesSize { get; set; }
+        [JsonIgnore]
+        public int NbFilesLeftToDo { get; set; }
+        [JsonIgnore]
+        public SaveState State { get; set; }
 
         /// <summary>
         /// Constructeur de la classe Save
@@ -50,6 +57,10 @@
 			OutputFolder = outputFolder;
 			SaveType = saveType;
 		}
+
+        public Save()
+        {
+        }
 
         public override string ToString()
         {

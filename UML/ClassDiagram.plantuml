@@ -1,7 +1,7 @@
 @startuml Diagramme de classe
 abstract class Logger {
     #LogFile: FileStream
-    +log(message: string) : void
+    #log(message: string) : void
 }
 
 Logger <|-- LoggerJournalier
@@ -11,24 +11,29 @@ class LoggerJournalier {
 }
 
 Logger <|-- LoggerEtat
-LoggerEtat o-- Save
+LoggerEtat *-- Save
 class LoggerEtat {
-    +saves: List<Save>
+    -_saveConfiguration : SaveConfiguration
     +LoggerEtat()
     +AddSave(save: Save) : void
     +WriteStatesToFile() : void
 }
 
 EasySave *-- SaveConfiguration
-EasySave --> Logger
+EasySave *-- LoggerJournalier
+EasySave *-- LoggerEtat
 class EasySave {
     -_saveConfiguration: SaveConfiguration
+	-_loggerJournalier : LoggerJournalier
+	-_loggerEtat : LoggerEtat
     +EasySave()
     +LancerSauvegarde(listeId: List<int>) : void
-    -CopyDirectory(sourceDir: string, targetDir: string) : void
+	-CopyFile(save: Save, sourceFile: string, targetDir: string) : void
+    -CopyDirectory(save: Save, sourceDir: string, targetDir: string) : void
     +EffectuerSauvegardeComplete(save: Save) : void
     +EffectuerSauvegardeDifferentielle(save: Save) : void
     {static}+IsSameContent(file1: string, file2: string) : bool
+	-UpdateStateSave(save: Save, state: SaveState) : void
 }
 
 SaveConfiguration o-- Save
