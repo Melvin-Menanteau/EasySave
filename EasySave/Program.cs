@@ -14,7 +14,7 @@ namespace EasySave
 
                 var commande = Console.ReadLine();
 
-                if (commande == string.Empty)
+                if (commande == string.Empty) 
                 {
                     continue;
                 }
@@ -23,6 +23,7 @@ namespace EasySave
                     CommandInterpretor.ReadCommand(commande);
                 }
             }
+
         }
     }
 }
