@@ -7,9 +7,24 @@ namespace EasySave
     {
         static void Main(string[] args)
         {
-            SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
-            saveConfiguration.AddConfiguration("math", "/i/i", "/i/i", SaveType.COMPLETE);
-            saveConfiguration.SaveConfigToFile();
+            while (true)
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("> ");
+                Console.ResetColor();
+
+                var commande = Console.ReadLine();
+
+                if (commande == string.Empty) 
+                {
+                    continue;
+                }
+                else
+                {
+                    GetMethodFromCommand getMethodFromCommand = new();
+                    getMethodFromCommand.GetMethod(commande);
+                }
+            }
         }
     }
 }
