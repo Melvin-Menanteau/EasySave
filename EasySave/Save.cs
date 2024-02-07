@@ -62,7 +62,6 @@ namespace EasySave
         {
         }
 
-
         public override string ToString()
         {
 			return $"\"{Name}\" (id: {Id}): \"{InputFolder}\" -> \"{OutputFolder}\" - {SaveType}";

@@ -38,6 +38,8 @@ namespace EasySave
             /* Lancer les sauvegardes une par une */
             foreach (int id in listeId)
             {
+                Console.WriteLine($"Lancement de la sauvegarde \"{_saveConfiguration.GetConfiguration(id).Name}\"...");
+
                 Save save = _saveConfiguration.GetConfiguration(id) ?? throw new ArgumentException($"Il n'existe pas de configuration de sauvegarde pour cet identifiant: {id}");
 
                 if (save.SaveType == SaveType.COMPLETE)
@@ -236,7 +238,6 @@ namespace EasySave
         /// <param name="state">Le nouvel état de la sauvegarde</param>
         private void UpdateSaveState(Save save, SaveState state)
         {
-            Console.WriteLine($"Changement etat sauvegarde {save.Name} : {save.State} -> {state}");
             save.State = state;
 
             _loggerEtat.WriteStatesToFile();

@@ -103,6 +103,8 @@ namespace EasySave
             }
 
             ListeConfiguration.Add(new Save(null, nom, inputFolder, outputFolder, saveType));
+
+            SaveConfigToFile();
         }
 
         /// <summary>
@@ -111,7 +113,11 @@ namespace EasySave
         /// <param name="id">L'identifiant de la configuration a supprimer</param>
         public bool RemoveConfiguration(int id)
         {
-            return ListeConfiguration.Remove(GetConfiguration(id));
+            bool deleted = ListeConfiguration.Remove(GetConfiguration(id));
+
+            SaveConfigToFile();
+
+            return deleted;
         }
 
         /// <summary>
@@ -138,14 +144,19 @@ namespace EasySave
 
             if (saveType != null)
                 save.SaveType = saveType.Value;
+
+            SaveConfigToFile();
         }
 
-        public void SaveConfigToFile()
+        /// <summary>
+        /// Enregistrer les configurations de sauvegarde dans un fichier de configuration
+        /// </summary>
+        private void SaveConfigToFile()
         {
-            string save_json = "";
-            save_json = JsonSerializer.Serialize(ListeConfiguration);
+            string save_json = JsonSerializer.Serialize(ListeConfiguration);
             FileStream file = new FileStream("config.json", FileMode.Create);
             StreamWriter writer = new StreamWriter(file);
+
             writer.Write(save_json);
             writer.Close();
             file.Close();
