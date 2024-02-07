@@ -4,32 +4,20 @@ left to right direction
 actor Utilisateur as user
 
 package EasySave {
-  usecase "Créer une sauvegarde" as uc1
-  usecase "Récupérer le nom de la sauvegarde" as uc7
-  usecase "Récupérer le répertoire source de la sauvegarde" as uc8
-  usecase "Récupérer le répertoire cible de la sauvegarde" as uc9
-  usecase "Récuperer le type de la sauvegarde" as uc10
-  usecase "Quitter l'application" as uc6
-  usecase "Lancer une sauvegarde" as uc2
-  usecase "Sélectionner la sauvegarde" as uc3
-  usecase "Remplir le fichier journalier de logs" as uc4
-  usecase "Remplir le fichier d'état en temps réel" as uc5
-  usecase "Sélection de la langue" as uc11
+    usecase "Lancer un / plusieurs travaux de sauvegarde(s)" as UC_Lancer
+    usecase "Ajouter un travail de sauvegarde" as UC_Creer
+    usecase "Modifier un travail de sauvegarde" as UC_Modifier
+    usecase "Supprimer un travail de sauvegarde" as UC_Supprimer
+    usecase "Afficher les travaux de sauvegarde" as UC_Afficher
+    usecase "Afficher l'aide" as UC_Aide
+    usecase "Modifier la langue de l'application" as UC_Langue
 }
 
-user --> uc1
-user --> uc11
-
-uc1 <-. uc7 : <<include>> 
-uc1 <-. uc8 : <<include>>
-uc1 <-. uc9 : <<include>>
-uc1 <-. uc10 : <<include>>
-
-user --> uc6
-user --> uc2
-
-uc2 --> uc3
-uc2 <-. uc4 : <<include>>
-uc2 <-. uc5 : <<include>>
-
+user --> UC_Lancer
+user --> UC_Creer
+user --> UC_Modifier
+user --> UC_Supprimer
+user --> UC_Afficher
+user --> UC_Aide
+user --> UC_Langue
 @enduml
