@@ -276,6 +276,8 @@ namespace EasySave
             Console.WriteLine(SharedLocalizer.GetLocalizedString("Help"));
             Console.WriteLine();
             Console.WriteLine(SharedLocalizer.GetLocalizedString("Language"));
+            Console.WriteLine();
+            Console.WriteLine(SharedLocalizer.GetLocalizedString("ClearConsole"));
         }
     }
 }
