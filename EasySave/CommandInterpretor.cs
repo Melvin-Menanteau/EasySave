@@ -66,6 +66,10 @@ namespace EasySave
                     case "h":
                         AfficherAide();
                         break;
+                    case "clear":
+                    case "cls":
+                        Console.Clear();
+                        break;
                     default:
                         throw new ArgumentException(SharedLocalizer.GetLocalizedString("UnrecognizedCommand"));
                 }
