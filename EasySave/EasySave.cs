@@ -85,6 +85,9 @@ namespace EasySave
         /// <param name="targetDir">Répertoire cible</param>
         private void CopyDirectory(string sourceDir, string targetDir)
         {
+            sourceDir = Path.GetFullPath(new Uri(sourceDir).LocalPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            targetDir = Path.GetFullPath(new Uri(targetDir).LocalPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
             // Si le répertoire de destination n'existe pas, le créer
             if (!Directory.Exists(targetDir))
             {
@@ -170,7 +173,7 @@ namespace EasySave
             }
         }
 
-        static bool IsSameContent(string file1, string file2)
+        private static bool IsSameContent(string file1, string file2)
         {
             using (var hash1 = MD5.Create())
             using (var hash2 = MD5.Create())
