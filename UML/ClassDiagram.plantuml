@@ -7,7 +7,7 @@ abstract class Logger {
 Logger <|-- LoggerJournalier
 class LoggerJournalier {
     +LoggerJournalier()
-    +Log(save_name: string, source: string, target: string, size: int, transfer_time: float) : void
+    #Log(save_name: string, source: string, target: string, size: int, transfer_time: float) : void
 }
 
 Logger <|-- LoggerEtat

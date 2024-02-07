@@ -7,7 +7,7 @@ namespace EasySave
     abstract class Logger
     {
         protected FileStream Logfile;
-        public void log(string message)
+        protected void log(string message)
         {
             // write message to logfile in append mode
             try
