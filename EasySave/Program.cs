@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EasySave
 {
@@ -21,8 +20,7 @@ namespace EasySave
                 }
                 else
                 {
-                    GetMethodFromCommand getMethodFromCommand = new();
-                    getMethodFromCommand.GetMethod(commande);
+                    CommandInterpretor.ReadCommand(commande);
                 }
             }
         }

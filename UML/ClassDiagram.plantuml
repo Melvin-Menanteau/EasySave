@@ -1,0 +1,100 @@
+@startuml Diagramme de classe
+abstract class Logger {
+    #LogFile: FileStream
+    +log(message: string) : void
+}
+
+Logger <|-- LoggerJournalier
+class LoggerJournalier {
+    +LoggerJournalier()
+    +Log(save_name: string, source: string, target: string, size: int, transfer_time: float) : void
+}
+
+Logger <|-- LoggerEtat
+LoggerEtat o-- Save
+class LoggerEtat {
+    +saves: List<Save>
+    +LoggerEtat()
+    +AddSave(save: Save) : void
+    +WriteStatesToFile() : void
+}
+
+EasySave *-- SaveConfiguration
+EasySave --> Logger
+class EasySave {
+    -_saveConfiguration: SaveConfiguration
+    +EasySave()
+    +LancerSauvegarde(listeId: List<int>) : void
+    -CopyDirectory(sourceDir: string, targetDir: string) : void
+    +EffectuerSauvegardeComplete(save: Save) : void
+    +EffectuerSauvegardeDifferentielle(save: Save) : void
+    {static}+IsSameContent(file1: string, file2: string) : bool
+}
+
+SaveConfiguration o-- Save
+class SaveConfiguration {
+	{static}-_instance: SaveConfiguration
+	-ListeConfiguration: List<Save>
+	{static}+GetInstance() : SaveConfiguration
+	-GetConfigurations() : List<Save>
+	+GetConfiguration() : List<Save>
+	+GetConfiguration(id: int) : Save
+	+GetConfiguration(name: string) : Save
+	+AddConfiguration(name: string, inputFolder: string, outputFolder: string, saveType: SaveType) : void
+	+RemoveConfiguration(id: int) : bool
+	+UpdateConfiguration(id: int, name: string?, inputFolder: string?, outputFolder: string?, saveType: SaveType?) : void
+}
+
+enum SaveType {
+  COMPLETE
+  DIFFERENTIAL
+}
+
+enum SaveState {
+  NOT_STARTED
+  IN_PROGRESS
+  FINISHED
+}
+
+Save --> SaveType
+Save --> SaveState
+class Save {
+	{static}-_idCounter: int = 0
+	+Id: int
+	+Name: string
+	+InputFolder: string
+	+OutputFolder: string
+	+SaveType: SaveType
+	+TotalFilesToCopy: int
+	+TotalFilesSize: int
+	+NbFilesleftToDo: int
+	+State: SaveState
+	+Save(id: int?, name: string, inputFolder: string, outputFolder: string, saveType: SaveType)
+
+}
+
+class SharedLocalizer {
+	{static}-_resourceManager: ResourceManager
+	{static}+SetCulture(culture: string) : void
+	{static}+GetLocalizedString(key: string) : string
+}
+
+CommandInterpretor --> SharedLocalizer
+CommandInterpretor *-- SaveConfiguration
+CommandInterpretor *-- EasySave
+class CommandInterpretor {
+	{static}+ReadCommand(command: string) : void
+	{static}-_regexCommand() : Regex
+	{static}-_regexIds() : Regex
+	{static}-_regexParam() : Regex
+	{static}-ExtraireParametre(args: string) : Dictionary<string, string>
+	{static}-ArgIdsToList(args: string) : List<int>
+	{static}-LancerSauvegarde(args: string) : void
+	{static}-ListerSauvegardes() : void
+	{static}-AjouterConfiguration(args: string) : void
+	{static}-ModifierConfiguration(args: string) : void
+	{static}-SupprimerConfiguration(args: string) : void
+	{static}-ChangerLangue(args: string) : void
+	{static}-AfficherAide() : void
+}
+@enduml

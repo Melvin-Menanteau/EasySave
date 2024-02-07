@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Les SVG des diagrammes UML sont generes lors du push, donc on les ignore
+/UML/output/*.svg
+
 # User-specific files
 *.rsuser
 *.suo
