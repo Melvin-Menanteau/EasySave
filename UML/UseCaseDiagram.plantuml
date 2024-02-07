@@ -29,7 +29,7 @@ user --> uc6
 user --> uc2
 
 uc2 --> uc3
-uc2 .-> uc4 : <<include>>
-uc2 .-> uc5 : <<include>>
+uc2 <-. uc4 : <<include>>
+uc2 <-. uc5 : <<include>>
 
 @enduml
