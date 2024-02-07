@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace EasySave
 {
@@ -38,11 +40,22 @@ namespace EasySave
         /// <returns>Liste des configurations de sauvegarde</returns>
         private List<Save> GetConfigurations()
         {
-            return new List<Save>() {
-                new Save(5, "Sauvegarde 1", "C:\\Users\\melvin.menanteau\\Documents\\CoursInge\\ProgrammationSysteme\\Prosit1", "C:\\Users\\melvin.menanteau\\Documents\\CoursInge\\ProgrammationSysteme\\Sauvegarde1", SaveType.DIFFERENTIAL),
-                new Save(1, "Sauvegarde 2", "C:\\Users\\melvin.menanteau\\Documents\\CoursInge\\ProgrammationSysteme\\Prosit2", "C:\\Users\\melvin.menanteau\\Documents\\CoursInge\\ProgrammationSysteme\\Sauvegarde2", SaveType.COMPLETE),
-                //new Save(3, "Sauvegarde 3", "C:/Users/Utilisateur/Vid�os", "D:/Sauvegardes", SaveType.COMPLETE)
-            };
+            if (!File.Exists("config.json"))
+            {
+                FileStream file = new FileStream("config.json", FileMode.Create);
+                StreamWriter writer = new StreamWriter(file);
+                writer.Write("[]");
+                writer.Close();
+                file.Close();
+              
+                return new List<Save>();
+            }
+          
+            string jsonString = File.ReadAllText("config.json");
+            // spit the string into an array of strings using the }, as a delimiter
+            List<Save> list = JsonSerializer.Deserialize<List<Save>>(jsonString);
+          
+            return list;
         }
 
         /// <summary>
@@ -110,7 +123,7 @@ namespace EasySave
         /// <param name="outputFolder">Le dossier de destination de la sauvegarde</param>
         /// <param name="saveType">Le type de sauvegarde</param>
         /// <exception cref="Exception">Aucune sauvegarde ne correspond a cet identifiant</exception>
-        public void UpdateConfiguration(int id, [Optional] string nom, [Optional]  string inputFolder, [Optional] string outputFolder, SaveType? saveType = null)
+        public void UpdateConfiguration(int id, [Optional] string nom, [Optional] string inputFolder, [Optional] string outputFolder, SaveType? saveType = null)
         {
             Save save = GetConfiguration(id) ?? throw new Exception("Aucune sauvegarde ne correspond a cet identifiant");
 
@@ -119,12 +132,23 @@ namespace EasySave
 
             if (inputFolder != null)
                 save.InputFolder = inputFolder;
-            
+
             if (outputFolder != null)
                 save.OutputFolder = outputFolder;
 
             if (saveType != null)
                 save.SaveType = saveType.Value;
+        }
+
+        public void SaveConfigToFile()
+        {
+            string save_json = "";
+            save_json = JsonSerializer.Serialize(ListeConfiguration);
+            FileStream file = new FileStream("config.json", FileMode.Create);
+            StreamWriter writer = new StreamWriter(file);
+            writer.Write(save_json);
+            writer.Close();
+            file.Close();
         }
     }
 }

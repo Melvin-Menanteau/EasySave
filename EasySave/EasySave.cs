@@ -25,7 +25,7 @@ namespace EasySave
 
         /// <summary>
         /// Lancer un ou plusieurs travaux de sauvegarde
-        /// </summary>
+        /// </summary> 
         /// <param name="listeId">Liste des identifiants des sauvegardes a lancer, Si aucun id n'est specifie, lance toutes les sauvegardes.</param>
         public void LancerSauvegarde(List<int> listeId)
         {
