@@ -26,12 +26,6 @@ namespace EasySave
         /// <param name="listeId">Liste des identifiants des sauvegardes a lancer, Si aucun id n'est specifie, lance toutes les sauvegardes.</param>
         public void LancerSauvegarde(List<int> listeId)
         {
-            // Si la liste est vide, on lance toutes les sauvegardes
-            if (listeId.Count == 0)
-            {
-                listeId = _saveConfiguration.GetConfiguration().ConvertAll(save => save.Id);
-            }
-
             foreach (int id in listeId)
             {
                 Save save = _saveConfiguration.GetConfiguration(id) ?? throw new ArgumentException($"Il n'existe pas de configuration de sauvegarde pour cet identifiant: {id}");

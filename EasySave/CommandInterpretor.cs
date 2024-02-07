@@ -14,12 +14,12 @@ namespace EasySave
         [GeneratedRegex("^(?'cmd'\\w+).?(?'args'.*)?$", RegexOptions.IgnoreCase)]
         private static partial Regex _regexCommand();
 
-        // Regex ids sauvegardes = https://regex101.com/r/yWgA3O/1
+        // Regex ids sauvegardes = https://regex101.com/r/ZhWSGv/1
         [GeneratedRegex("-id\\s+\"?((?'ids'[\\d-]+);?)+\"?", RegexOptions.IgnoreCase)]
         private static partial Regex _regexIds();
 
-        // Regex param commande = https://regex101.com/r/PRQ3zD/1
-        [GeneratedRegex("""(?'param'-(?'paramName'\w+)\s"?(?'paramValue'[^"]+)"?\s?)+""", RegexOptions.IgnoreCase)]
+        // Regex param commande = https://regex101.com/r/IjrFju/1
+        [GeneratedRegex("""(?'param'-(?'paramName'\w+)(\s"?(?'paramValue'[^"]+))?"?\s?)+""", RegexOptions.IgnoreCase)]
         private static partial Regex _regexParam();
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace EasySave
 
             _regexIds().Match(args).Groups["ids"].Captures.ToList().ForEach(groupId =>
             {
-                if (groupId.Value.Contains("-"))
+                if (groupId.Value.Contains('-'))
                 {
                     string[] range = groupId.Value.Split('-');
                     if (range.Length == 2 && int.TryParse(range[0], out int start) && int.TryParse(range[1], out int end))
@@ -155,6 +155,15 @@ namespace EasySave
             if (_regexIds().IsMatch(args))
             {
                 ListeIds = ArgIdsToList(args);
+            }
+            else if (_regexParam().IsMatch(args))
+            {
+                /* Si l'argument "all" est present, lancer toutes les sauvegardes */
+
+                if (ExtraireParametre(args).ContainsKey("all"))
+                {
+                    ListeIds = _saveConfiguration.GetConfiguration().ConvertAll(save => save.Id);
+                }
             }
 
             _easySave.LancerSauvegarde(ListeIds);
@@ -275,9 +284,9 @@ namespace EasySave
             Console.WriteLine();
             Console.WriteLine(SharedLocalizer.GetLocalizedString("Help"));
             Console.WriteLine();
-            Console.WriteLine(SharedLocalizer.GetLocalizedString("Language"));
-            Console.WriteLine();
             Console.WriteLine(SharedLocalizer.GetLocalizedString("ClearConsole"));
+            Console.WriteLine();
+            Console.WriteLine(SharedLocalizer.GetLocalizedString("Language"));
         }
     }
 }
