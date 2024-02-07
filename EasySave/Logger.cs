@@ -38,8 +38,6 @@ namespace EasySave
             Logfile.Close();
         }
 
-
-
         /// <summary>
         /// Cette methode permet d'ajouter les informations d'un transfer au fichier de log journalier
         /// </summary>
@@ -52,8 +50,6 @@ namespace EasySave
         {
             // get current date hour
             DateTime date = DateTime.Now;
-            // write the date hour and the message to the log file
-            string datetime = date.ToString("yyyy-MM-dd HH:mm:ss");
 
             // get filename of Logfile to check if the date has changed
             string filename = Logfile.Name;
@@ -65,34 +61,39 @@ namespace EasySave
                 Logfile = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".txt", FileMode.Append);
             }
 
-            string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + "\",\n \"Time\": \"" + date + "\",\n},";
+            string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + ",\n \"Time\": \"" + date + "\",\n},";
             log(log_json);
         }
-
-        
     }
 
     class LoggerEtat : Logger
     {
-        List<Save> saves;
+        private SaveConfiguration _saveConfiguration = SaveConfiguration.GetInstance();
+
         public LoggerEtat()
         {
             // create a new log file with the current date
-            Logfile = new FileStream("state.txt", FileMode.Append);
+            reopenFile();
         }
         ~LoggerEtat()
         {
             Logfile.Close();
         }
-        public void AddSave(Save save)
+
+        private void reopenFile()
         {
-            saves.Add(save);
+            if (Logfile != null)
+            {
+                Logfile.Close();
+            }
+
+            Logfile = new FileStream("state.txt", FileMode.OpenOrCreate);
         }
 
         public void WriteStatesToFile()
         {
             string states_json = "[\n";
-            foreach (Save save in saves)
+            foreach (Save save in _saveConfiguration.GetConfiguration())
             {
                 string state;
                 switch (save.State)
@@ -106,15 +107,20 @@ namespace EasySave
                     case SaveState.FINISHED:
                         state = "FINISHED";
                         break;
+                    case SaveState.ERROR:
+                        state = "ERROR";
+                        break;
                     default:
                         state = "UNKNOWN";
                         break;
                 }
-                float progress = 1 - save.TotalFilesToCopy / save.NbFilesLeftToDo;
+                float progress = 1 - save.TotalFilesToCopy / (save.NbFilesLeftToDo != 0 ? save.NbFilesLeftToDo : 1);
                 states_json += "{\n \"Name\": \"" + save.Name + "\",\n \"SourceFilePath\": \"" + save.InputFolder + "\",\n \"TargetFilePath\": \"" + save.OutputFolder + "\",\n \"State\": \"" + state + "\",\n \"TotalFilesToCopy\": \"" + save.TotalFilesToCopy + "\",\n \"TotalFilesSize\": \"" + save.TotalFilesSize + "\",\n \"NbFilesLeftToDo\": \"" + save.NbFilesLeftToDo + "\",\n \"Progression\": \"" + progress + "\",\n }" ;
             }
             states_json += "\n]";
             log(states_json);
+
+            reopenFile();
         }
 
     }

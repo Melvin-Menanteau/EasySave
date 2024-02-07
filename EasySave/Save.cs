@@ -10,7 +10,8 @@
 	{
         NOT_STARTED,
         IN_PROGRESS,
-        FINISHED
+        FINISHED,
+		ERROR
     }
 
 	public class Save
