@@ -2,7 +2,7 @@
 
 namespace EasySave
 {
-    internal class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
@@ -14,13 +14,21 @@ namespace EasySave
 
                 var commande = Console.ReadLine();
 
-                if (commande == string.Empty) 
+                if (commande == "exit")
                 {
-                    continue;
+                    break;
                 }
-                else
+
+                if (commande != string.Empty) 
                 {
-                    CommandInterpretor.ReadCommand(commande);
+                    try
+                    {
+                        CommandInterpretor.ReadCommand(commande);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
             }
 

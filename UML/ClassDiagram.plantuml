@@ -41,7 +41,7 @@ class SaveConfiguration {
 	{static}-_instance: SaveConfiguration
 	-ListeConfiguration: List<Save>
 	{static}+GetInstance() : SaveConfiguration
-	-GetConfigurations() : List<Save>
+	{static}-GetConfigurations() : List<Save>
 	+GetConfiguration() : List<Save>
 	+GetConfiguration(id: int) : Save
 	+GetConfiguration(name: string) : Save

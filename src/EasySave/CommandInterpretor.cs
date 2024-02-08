@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace EasySave
 {
-    public partial class CommandInterpretor
+    public static partial class CommandInterpretor
     {
         private static readonly SaveConfiguration _saveConfiguration = SaveConfiguration.GetInstance();
         private static readonly EasySave _easySave = new EasySave();
@@ -113,24 +113,19 @@ namespace EasySave
         {
             List<int> ListeIds = [];
 
-            string argsId = _regexIds().Match(args).Groups["ids"].Value;
-
             _regexIds().Match(args).Groups["ids"].Captures.ToList().ForEach(groupId =>
             {
                 if (groupId.Value.Contains('-'))
                 {
-                    string[] range = groupId.Value.Split('-');
-                    if (range.Length == 2 && int.TryParse(range[0], out int start) && int.TryParse(range[1], out int end))
-                    {
-                        for (int i = start; i <= end; i++)
-                        {
-                            if (!ListeIds.Contains(i))
-                            {
-                                ListeIds.Add(i);
-                            }
-                        }
-                    }
+                    List<int> ids = StringIdRangeToInt(groupId.Value);
 
+                    ids.ForEach(ids =>
+                    {
+                        if (!ListeIds.Contains(ids))
+                        {
+                            ListeIds.Add(ids);
+                        }
+                    });
                 }
                 else
                 {
@@ -145,6 +140,23 @@ namespace EasySave
         }
 
         /// <summary>
+        /// Convertir les ranges d'ids en chaine de caracteres (ex: "3-5") en liste d'entiers (ex: [3, 4, 5])
+        /// </summary>
+        /// <param name="stringRange">La chaine de caracteres a convertir</param>
+        /// <returns>Une liste d'entier contenant les ids</returns>
+        private static List<int> StringIdRangeToInt(string stringRange)
+        {
+            string[] range = stringRange.Split('-');
+
+            if (range.Length == 2 && int.TryParse(range[0], out int start) && int.TryParse(range[1], out int end))
+            {
+                return Enumerable.Range(start, end - start + 1).ToList();
+            }
+
+            return [];
+        }
+
+        /// <summary>
         /// Lancer une sauvegarde
         /// </summary>
         /// <param name="args">Arguments de la commande contenant un string d'id de sauvegarde</param>
@@ -156,14 +168,10 @@ namespace EasySave
             {
                 ListeIds = ArgIdsToList(args);
             }
-            else if (_regexParam().IsMatch(args))
+            /* Si l'argument "all" est present, lancer toutes les sauvegardes */
+            else if (_regexParam().IsMatch(args) && ExtraireParametre(args).ContainsKey("all"))
             {
-                /* Si l'argument "all" est present, lancer toutes les sauvegardes */
-
-                if (ExtraireParametre(args).ContainsKey("all"))
-                {
-                    ListeIds = _saveConfiguration.GetConfiguration().ConvertAll(save => save.Id);
-                }
+                ListeIds = _saveConfiguration.GetConfiguration().ConvertAll(save => save.Id);
             }
 
             _easySave.LancerSauvegarde(ListeIds);
@@ -234,8 +242,6 @@ namespace EasySave
         {
             if (_regexIds().IsMatch(args))
             {
-                string argsId = _regexIds().Match(args).Groups["ids"].Value;
-
                 _regexIds().Match(args).Groups["ids"].Captures.ToList().ForEach(groupId =>
                 {
                     ArgIdsToList(args).ForEach(id =>

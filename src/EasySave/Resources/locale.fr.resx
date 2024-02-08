@@ -130,6 +130,9 @@
    -outputFolder / o : Chemin absolue du répèrtoire cible du travil de la sauvegarde 
    -saveType / T : Type de travil de la sauvegarde, soit complète (complete) soit différentielle (differential)</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>"exit": Quitter l'application</value>
+  </data>
   <data name="HelloWorld" xml:space="preserve">
     <value>Bonjour, Monde!</value>
   </data>

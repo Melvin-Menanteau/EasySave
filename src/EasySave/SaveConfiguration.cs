@@ -38,7 +38,7 @@ namespace EasySave
         /// Recuperation des configurations de sauvegarde depuis un fichier de configuration
         /// </summary>
         /// <returns>Liste des configurations de sauvegarde</returns>
-        private List<Save> GetConfigurations()
+        private static List<Save> GetConfigurations()
         {
             if (!File.Exists("config.json"))
             {
@@ -99,7 +99,7 @@ namespace EasySave
         {
             if (ListeConfiguration.Count >= 5)
             {
-                throw new Exception("Le nombre maximum de sauvegardes est atteint");
+                throw new NotSupportedException("Le nombre maximum de sauvegardes est atteint");
             }
 
             ListeConfiguration.Add(new Save(null, nom, inputFolder, outputFolder, saveType));
@@ -131,7 +131,7 @@ namespace EasySave
         /// <exception cref="Exception">Aucune sauvegarde ne correspond a cet identifiant</exception>
         public void UpdateConfiguration(int id, [Optional] string nom, [Optional] string inputFolder, [Optional] string outputFolder, SaveType? saveType = null)
         {
-            Save save = GetConfiguration(id) ?? throw new Exception("Aucune sauvegarde ne correspond a cet identifiant");
+            Save save = GetConfiguration(id) ?? throw new ArgumentException("Aucune sauvegarde ne correspond a cet identifiant");
 
             if (nom != null)
                 save.Name = nom;

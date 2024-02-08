@@ -41,6 +41,8 @@ Exemple :
 
 **clear** (**cls**): Effacer les lignes précédentes
 
+**exit**: Quitter l'application
+
 Il est possible de rajouter le paramètre "lang" aux commandes afin de changer la langue (actuellement "fr" et "en" sont supportés)
 
 ### Cas d'utilisation de EasySave

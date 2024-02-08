@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace EasySave
 {
-    public class SharedLocalizer
+    public static class SharedLocalizer
     {
         private static readonly ResourceManager _resourceManager = new ResourceManager("EasySave.Resources.locale", typeof(Program).Assembly);
 

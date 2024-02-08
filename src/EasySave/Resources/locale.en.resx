@@ -130,6 +130,9 @@
    -outputFolder / o: The absolute path of the backup job's target directory. 
    -saveType / t : Tracks the type of backup job, either complete ("complete") or differential ("differential")</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>"exit": Exit the application</value>
+  </data>
   <data name="HelloWorld" xml:space="preserve">
     <value>Hello, World!</value>
   </data>
