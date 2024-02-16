@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F04A1618-D75
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B2F87FA4-424F-403E-83A5-DEFEB98849C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySaveAP", "src\EasySave\EasySaveAP.csproj", "{8744A062-87FC-4259-A198-2CB43B1209CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySave", "src\EasySave\EasySave.csproj", "{8744A062-87FC-4259-A198-2CB43B1209CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySaveTest", "test\EasySaveTest\EasySaveTest.csproj", "{D1DE958E-FE3B-4291-8370-C3B44B9301ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySave", "EasySave\EasySave.csproj", "{2F2ABDC3-6AB9-4E97-87B8-D97F4F81E3A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySaveUI", "src\EasySaveUI\EasySaveUI.csproj", "{2F2ABDC3-6AB9-4E97-87B8-D97F4F81E3A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
