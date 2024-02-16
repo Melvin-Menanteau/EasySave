@@ -1,12 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.Json;
+using System.Xml.Linq;
 
 namespace EasySave
 {
     abstract class Logger
     {
         protected FileStream Logfile;
+
         protected void log(string message)
         {
             // write message to logfile in append mode
@@ -25,17 +28,39 @@ namespace EasySave
 
     class LoggerJournalier : Logger
     {
+        private FileStream _logFileJSON;
+        private FileStream _logFileXML;
+
         public LoggerJournalier()
         {
-            // get current date
-            DateTime date = DateTime.Now;
-            // create a new log file with the current date
-            Logfile = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".txt", FileMode.Append);
+            OpenFile();
         }
 
         ~LoggerJournalier()
         {
-            Logfile.Close();
+            Logfile?.Close();
+            _logFileJSON?.Close();
+            _logFileXML?.Close();
+        }
+
+        private void OpenFile()
+        {
+            DateTime date = DateTime.Now;
+            // create a new log file with the current date
+
+            if (_logFileJSON == null || _logFileJSON.Name != "log_" + date.ToString("yyyy-MM-dd") + ".json")
+            {
+                _logFileJSON?.Close();
+
+                _logFileJSON = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".json", FileMode.Append);
+            }
+
+            if (_logFileXML == null || _logFileXML.Name != "log_" + date.ToString("yyyy-MM-dd") + ".xml")
+            {
+                _logFileXML?.Close();
+
+                _logFileXML = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".xml", FileMode.Append);
+            }
         }
 
         /// <summary>
@@ -48,21 +73,29 @@ namespace EasySave
         /// <param name="transfer_time">Temps de transfer millisecondes</param>
         public void Log(string save_name, string source, string target, int size, float transfer_time)
         {
-            // get current date hour
-            DateTime date = DateTime.Now;
+            OpenFile();
 
-            // get filename of Logfile to check if the date has changed
-            string filename = Logfile.Name;
-            if (filename != "log_" + date.ToString("yyyy-MM-dd") + ".txt")
-            {
-                // close the current log file
-                Logfile.Close();
-                // create a new log file with the current date
-                Logfile = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".txt", FileMode.Append);
-            }
+            /* Enregistrer les logs au format JSON */
+            string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + ",\n \"Time\": \"" + DateTime.Now + "\",\n},";
 
-            string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + ",\n \"Time\": \"" + date + "\",\n},";
+            Logfile = _logFileJSON;
+
             log(log_json);
+
+            /* Enregistrer les logs au format XML */
+            XElement log_xml = 
+                new XElement("log",
+                    new XElement("Name", save_name),
+                    new XElement("FileSource", source),
+                    new XElement("FileTarget", target),
+                    new XElement("FileSize", size),
+                    new XElement("FileTransferTime", transfer_time),
+                    new XElement("Time", DateTime.Now)
+                );
+
+            Logfile = _logFileXML;
+
+            log(log_xml.ToString());
         }
     }
 
@@ -73,14 +106,14 @@ namespace EasySave
         public LoggerEtat()
         {
             // create a new log file with the current date
-            reopenFile();
+            ReopenFile();
         }
         ~LoggerEtat()
         {
             Logfile.Close();
         }
 
-        private void reopenFile()
+        private void ReopenFile()
         {
             if (Logfile != null)
             {
@@ -135,10 +168,41 @@ namespace EasySave
 
             log(StatesJSON.ToString());
 
-            reopenFile();
+            ReopenFile();
         }
 
     }
 
+    class LoggerConfiguration : Logger
+    {
+        private readonly SaveConfiguration _saveConfiguration = SaveConfiguration.GetInstance();
+
+        public LoggerConfiguration()
+        {
+            ReopenFile();
+        }
+
+        ~LoggerConfiguration()
+        {
+            Logfile.Close();
+        }
+
+        private void ReopenFile()
+        {
+            if (Logfile != null)
+            {
+                Logfile.Close();
+            }
+
+            Logfile = new FileStream("config.txt", FileMode.OpenOrCreate);
+        }
+
+        public void WriteConfigToFile()
+        {
+            string config_json = JsonSerializer.Serialize(_saveConfiguration.GetConfiguration());
+
+            log(config_json);
+        }
+    }
 }
 

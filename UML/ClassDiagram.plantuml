@@ -6,7 +6,10 @@ abstract class Logger {
 
 Logger <|-- LoggerJournalier
 class LoggerJournalier {
+	-_logFileJSON : FileStream
+	-_logFileXML : FileStream
     +LoggerJournalier()
+	-OpenFile() : void
     +Log(save_name: string, source: string, target: string, size: int, transfer_time: float) : void
 }
 
@@ -15,8 +18,17 @@ LoggerEtat *-- Save
 class LoggerEtat {
     -_saveConfiguration : SaveConfiguration
     +LoggerEtat()
+	-ReopenFile() : void
     +AddSave(save: Save) : void
     +WriteStatesToFile() : void
+}
+
+Logger <|-- LoggerConfiguration 
+class LoggerConfiguration {
+	-_saveConfiguration : SaveConfiguration
+	+LoggerConfiguration()
+	-ReopenFile() : void
+	+WriteConfigToFile() : void
 }
 
 EasySave *-- SaveConfiguration

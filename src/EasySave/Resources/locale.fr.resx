@@ -148,6 +148,7 @@
   <data name="LaunchSave" xml:space="preserve">
     <value>"run" ("r"): Permet de lancer un travail de sauvegarde existant. Un id de sauvegarde ou une liste d'id est attendu en paramètre. Si le paramètre all est renseigné, toutes les sauvegardes seront lancées.
    -id : Id des sauvegardes à lancer.
+   -logFormat: Format sous lequel enregistrer les logs (par défaut JSON, actuellement JSON et XML sont supportés)
 Exemple :
    - run -id "1-3" : Lance la sauvegarde 1 à 3
    - r -id "1-3" : Lance la sauvegarde 1 à 3

@@ -60,8 +60,6 @@ namespace EasySave
                     case "remove":
                         SupprimerConfiguration(args);
                         break;
-                    case "lang":
-                        break;
                     case "help":
                     case "h":
                         AfficherAide();
@@ -192,7 +190,7 @@ namespace EasySave
         /// Ajouter une configuration de sauvegarde
         /// </summary>
         /// <param name="args">Arguments de la commande</param>
-        /// <exception cref="ArgumentException">Il manque des parametres</exception>""
+        /// <exception cref="ArgumentException">Il manque des parametres</exception>
         private static void AjouterConfiguration(string args)
         {
             if (_regexParam().IsMatch(args))
@@ -216,7 +214,7 @@ namespace EasySave
         /// Modifier une configuration de sauvegarde
         /// </summary>
         /// <param name="args">Arguments de la commande</param>
-        /// <exception cref="ArgumentException">Il manque des parametres</exception>"
+        /// <exception cref="ArgumentException">Il manque des parametres</exception>
         private static void ModifierConfiguration(string args)
         {
             if (_regexParam().IsMatch(args))
@@ -237,7 +235,7 @@ namespace EasySave
         /// Supprimer une configuration de sauvegarde
         /// </summary>
         /// <param name="args">Arguments de la commande</param>
-        /// <exception cref="ArgumentException">L'id de la sauvegarde a supprimer n'est pas renseignee</exception>"
+        /// <exception cref="ArgumentException">L'id de la sauvegarde a supprimer n'est pas renseignee</exception>
         private static void SupprimerConfiguration(string args)
         {
             if (_regexIds().IsMatch(args))
@@ -260,7 +258,7 @@ namespace EasySave
         /// Changer la langue de l'application
         /// </summary>
         /// <param name="args">Arguments de la commande</param>
-        /// <exception cref="ArgumentException">La langue n'est pas renseignee</exception>""
+        /// <exception cref="ArgumentException">La langue n'est pas renseignee</exception>
         private static void ChangerLangue(string args)
         {
             if (args != null)
