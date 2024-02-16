@@ -453,7 +453,8 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-**/Properties/launchSettings.json
+# MAUI require this file
+#**/Properties/launchSettings.json
 
 *_i.c
 *_p.c
