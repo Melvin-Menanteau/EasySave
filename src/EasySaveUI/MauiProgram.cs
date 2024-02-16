@@ -20,8 +20,6 @@ namespace EasySaveUI
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<MainPage>();
 
-            builder.Services.AddTransient<NewPage1>();
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
