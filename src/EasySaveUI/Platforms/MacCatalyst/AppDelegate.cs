@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace EasySave
+namespace EasySaveUI
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

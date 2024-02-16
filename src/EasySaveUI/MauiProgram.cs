@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
-namespace EasySave
+namespace EasySaveUI
 {
     public static class MauiProgram
     {
@@ -19,6 +19,8 @@ namespace EasySave
 
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<MainPage>();
+
+            builder.Services.AddTransient<NewPage1>();
 
 #if DEBUG
             builder.Logging.AddDebug();

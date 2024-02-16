@@ -1,4 +1,6 @@
-﻿namespace EasySave
+﻿using EasySaveUI.View;
+
+namespace EasySaveUI
 {
     public partial class AppShell : Shell
     {
@@ -7,6 +9,8 @@
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+
+            Routing.RegisterRoute(nameof(NewPage1), typeof(NewPage1));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace EasySave
+﻿namespace EasySaveUI
 {
     public partial class App : Application
     {
