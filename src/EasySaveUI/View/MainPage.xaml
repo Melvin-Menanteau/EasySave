@@ -59,18 +59,18 @@
                         <DataTemplate x:DataType="model:Save">
                             <Border Style="{StaticResource BorderRadius}" 
                                     StrokeThickness="1"
-                                    Padding="10">
+                                    Stroke="Red">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
                                                  Value="False">
-                                        <Setter Property="Background"
+                                        <Setter Property="Stroke"
                                                 Value="White"/>
                                     </DataTrigger>
                                     <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
                                                  Value="True">
-                                        <Setter Property="Background"
+                                        <Setter Property="Stroke"
                                                 Value="{StaticResource Primary}"/>
                                     </DataTrigger>
                                 </Border.Triggers>
@@ -78,7 +78,6 @@
                                 <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
-                                                     Spacing="10"
                                                      WidthRequest="380">
                                     <FlexLayout Direction="Row"
                                                 JustifyContent="SpaceBetween">
@@ -127,11 +126,24 @@
                     Grid.Row="0"
                     BackgroundColor="White"
                     JustifyContent="Center"
-                    AlignContent="Center">
+                    Direction="Column">
 
-            <Image Source="logo.png"
-                   WidthRequest="400"/>
+            <Label Text="Configuration"
+                   FontSize="Large"/>
+            
+            <Label Text="Nom de la sauvegarde"/>
+            <Entry x:Name="EntrySaveName"/>
 
+            <Label Text="Dossier source"/>
+            <Entry x:Name="EntrySaveInputFolder"/>
+
+            <Label Text="Dossier Cible"/>
+            <Entry x:Name="EntrySaveOutputFolder"/>
+            
+            <Label Text="Type de sauvegarde"/>
+            <Entry x:Name="EntrySaveType"/>
+
+            <Entry x:Name="EntrySaveIsSelected"/>
         </FlexLayout>
     </Grid>
 
