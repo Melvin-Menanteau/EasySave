@@ -1,4 +1,4 @@
-namespace EasySaveUI.View;
+ï»¿namespace EasySaveUI.View;
 
 public partial class ParametersPage : ContentPage
 {
@@ -25,7 +25,7 @@ public partial class ParametersPage : ContentPage
                     {
                         if (innerChild is Button button)
                         {
-                            // Réinitialiser le style des boutons autres que celui cliqué
+                            // RÃ©initialiser le style des boutons autres que celui cliquÃ©
                             if (button != clickedButton)
                             {
                                 button.FontAttributes = FontAttributes.None;
@@ -35,10 +35,10 @@ public partial class ParametersPage : ContentPage
                 }
             }
 
-            // Appliquer le style au bouton cliqué
+            // Appliquer le style au bouton cliquÃ©
             clickedButton.FontAttributes = FontAttributes.Bold;
 
-            // Afficher le carré bleu uniquement pour le bouton cliqué
+            // Afficher le carrÃ© bleu uniquement pour le bouton cliquÃ©
             foreach (var childView in ParametersFlexLayout.Children)
             {
                 if (childView is StackLayout stackLayout && stackLayout.Children.Count > 0 && stackLayout.Children[0] is BoxView boxView)

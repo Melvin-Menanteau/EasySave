@@ -10,6 +10,7 @@ namespace EasySaveUI
 
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
 
+            Routing.RegisterRoute(nameof(ParametersPage), typeof(ParametersPage));
         }
     }
 }
