@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -24,8 +24,8 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="550"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -34,7 +34,8 @@
                 <!-- Header menu -->
                 <FlexLayout Grid.Column="0"
                             Grid.Row="0"
-                            JustifyContent="SpaceBetween">
+                            JustifyContent="SpaceBetween"
+                            VerticalOptions="Start">
                     <Image Source="logo.png" 
                            WidthRequest="100"
                            Margin="10"/>
@@ -57,14 +58,25 @@
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
+<<<<<<< HEAD
                             <Border Style="{StaticResource BorderRadius}"
                                     StrokeThickness="0">
+=======
+                            <Border Style="{StaticResource BorderRadius}" 
+                                    StrokeThickness="0"
+                                    Margin="10">
+>>>>>>> fc3b35b41bdfc54958c4ddbec425701be95bc164
                                 <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
                                                      Spacing="10"
+<<<<<<< HEAD
                                                      WidthRequest="350">
                                     <FlexLayout Direction="Row"
+=======
+                                                     WidthRequest="380">
+                                    <FlexLayout Direction="Row" 
+>>>>>>> fc3b35b41bdfc54958c4ddbec425701be95bc164
                                                 JustifyContent="SpaceBetween">
                                         <Label Text="{Binding Name}"
                                                FontAttributes="Bold"/>
@@ -91,11 +103,12 @@
                 <!-- Footer menu (Ajouter / lancer sauvegarde) -->
                 <FlexLayout Grid.Column="0"
                             Grid.Row="2"
-                            JustifyContent="SpaceBetween">
+                            JustifyContent="SpaceBetween"
+                            Margin="20">
 
                     <ImageButton Source="plus.png"
                                  WidthRequest="60"
-                                 CornerRadius="30"/>
+                                 BackgroundColor="Transparent"/>
 
                     <Button Text="Lancer Sauvegarde"
                             CornerRadius="15"
