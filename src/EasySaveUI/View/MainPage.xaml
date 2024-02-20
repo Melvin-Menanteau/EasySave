@@ -24,7 +24,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -90,8 +90,16 @@
                 <FlexLayout Grid.Column="0"
                             Grid.Row="2"
                             JustifyContent="SpaceBetween">
+
+                    <ImageButton Source="plus.png"
+                                 BackgroundColor="{Binding Source={StaticResource Secondary}}"
+                                 WidthRequest="60"
+                                 CornerRadius="30"/>
+
                     <Button Text="Lancer Sauvegarde"
-                            CornerRadius="25"/>
+                            CornerRadius="15"
+                            BackgroundColor="{Binding Source={StaticResource Primary}}"/>
+                    
                 </FlexLayout>
 
             </Grid>
