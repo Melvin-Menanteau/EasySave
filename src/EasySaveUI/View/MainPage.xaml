@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
@@ -58,25 +57,30 @@
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
-<<<<<<< HEAD
-                            <Border Style="{StaticResource BorderRadius}"
-                                    StrokeThickness="0">
-=======
                             <Border Style="{StaticResource BorderRadius}" 
-                                    StrokeThickness="0"
-                                    Margin="10">
->>>>>>> fc3b35b41bdfc54958c4ddbec425701be95bc164
+                                    StrokeThickness="1"
+                                    Padding="10">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border"
+                                                 Binding="{Binding IsSelected}"
+                                                 Value="False">
+                                        <Setter Property="Background"
+                                                Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border"
+                                                 Binding="{Binding IsSelected}"
+                                                 Value="True">
+                                        <Setter Property="Background"
+                                                Value="{StaticResource Primary}"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                
                                 <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
                                                      Spacing="10"
-<<<<<<< HEAD
-                                                     WidthRequest="350">
-                                    <FlexLayout Direction="Row"
-=======
                                                      WidthRequest="380">
-                                    <FlexLayout Direction="Row" 
->>>>>>> fc3b35b41bdfc54958c4ddbec425701be95bc164
+                                    <FlexLayout Direction="Row"
                                                 JustifyContent="SpaceBetween">
                                         <Label Text="{Binding Name}"
                                                FontAttributes="Bold"/>

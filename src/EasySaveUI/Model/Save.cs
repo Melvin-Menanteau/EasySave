@@ -37,7 +37,6 @@ namespace EasySaveUI.Model
         public int NbFilesLeftToDo { get; set; }
         [JsonIgnore]
         public SaveState State { get; set; }
-        [JsonIgnore]
         public bool IsSelected = false;
 
         /// <summary>
