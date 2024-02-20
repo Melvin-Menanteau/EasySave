@@ -20,8 +20,20 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
     }
 
-    private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        
+        Save save = (Save)e.CurrentSelection.FirstOrDefault();
+
+        if (save == null)
+        {
+            await DisplayAlert("Attention Problème", "attention", "Ok");
+        }
+        else
+        {
+            EntrySaveName.Text = save.Name;
+            EntrySaveInputFolder.Text = save.InputFolder;
+            EntrySaveOutputFolder.Text = save.OutputFolder;
+            EntrySaveType.Text = save.SaveType.ToString();
+        }
     }
 }

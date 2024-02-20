@@ -114,10 +114,22 @@
                     Grid.Row="0"
                     BackgroundColor="White"
                     JustifyContent="Center"
-                    AlignContent="Center">
+                    Direction="Column">
 
-            <Image Source="logo.png"
-                   WidthRequest="400"/>
+            <Label Text="Configuration"
+                   FontSize="Large"/>
+            
+            <Label Text="Nom de la sauvegarde"/>
+            <Entry x:Name="EntrySaveName"/>
+
+            <Label Text="Dossier source"/>
+            <Entry x:Name="EntrySaveInputFolder"/>
+
+            <Label Text="Dossier Cible"/>
+            <Entry x:Name="EntrySaveOutputFolder"/>
+            
+            <Label Text="Type de sauvegarde"/>
+            <Entry x:Name="EntrySaveType"/>
 
         </FlexLayout>
     </Grid>
