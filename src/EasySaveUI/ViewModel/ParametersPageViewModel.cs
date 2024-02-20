@@ -2,8 +2,9 @@
 
 namespace EasySaveUI.ViewModel
 {
-    public class ParametersPageViewModel
+    public partial class ParametersPageViewModel : BaseViewModel
     {
 
+        public ParametersPageViewModel() { }
     }
 }

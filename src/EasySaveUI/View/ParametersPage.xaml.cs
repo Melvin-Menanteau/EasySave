@@ -2,10 +2,15 @@
 
 public partial class ParametersPage : ContentPage
 {
-	public ParametersPage()
-	{
-		InitializeComponent();
-	}
+    ParametersPageViewModel viewModel;
+    public ParametersPage(ParametersPageViewModel viewModel)
+    {
+        InitializeComponent();
+        this.viewModel = viewModel;
+        titlePage.Text = "Général";
+        GeneralBoxView.IsVisible = true;
+        GeneralButton.FontAttributes = FontAttributes.Bold;
+    }
 
     private void OnImageTapped(object sender, EventArgs e)
     {
@@ -34,7 +39,7 @@ public partial class ParametersPage : ContentPage
                     }
                 }
             }
-
+            titlePage.Text = clickedButton.Text;
             // Appliquer le style au bouton cliqué
             clickedButton.FontAttributes = FontAttributes.Bold;
 
