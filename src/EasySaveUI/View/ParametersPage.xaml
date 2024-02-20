@@ -81,15 +81,16 @@
             </Grid>
         </VerticalStackLayout>
         <FlexLayout Grid.Column="1"
-                Grid.Row="0"
-                BackgroundColor="White"
-                JustifyContent="Center"
-                AlignContent="Center">
+                    Grid.Row="0"
+                    BackgroundColor="White"
+                    AlignContent="Center">
             <Label x:Name="titlePage"
                 FontAttributes="Bold"
                 FontSize="Large"
                 HorizontalOptions="Start"
-                HorizontalTextAlignment="Start"/>
+                HorizontalTextAlignment="Start"
+                Margin="10,5,0,0"/>
+            
         </FlexLayout>
     </Grid>
 </ContentPage>
