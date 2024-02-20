@@ -23,6 +23,6 @@ public partial class MainPage : ContentPage
 
     private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        
+        viewModel.SetSelectedSave((Save)e.CurrentSelection.FirstOrDefault());
     }
 }

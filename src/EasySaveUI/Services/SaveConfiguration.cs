@@ -163,5 +163,13 @@ namespace EasySaveUI.Services
             writer.Close();
             file.Close();
         }
+
+        public void SetSelectedSave(int id)
+        {
+            foreach (Save save in ListeConfiguration)
+            {
+                save.IsSelected = save.Id == id;
+            }
+        }
     }
 }

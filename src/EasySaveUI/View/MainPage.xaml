@@ -57,15 +57,16 @@
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
-                            <Border Style="{StaticResource BorderRadius}" StrokeThickness="0">
+                            <Border Style="{StaticResource BorderRadius}"
+                                    StrokeThickness="0">
                                 <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
                                                      Spacing="10"
                                                      WidthRequest="350">
-                                    <FlexLayout Direction="Row" 
+                                    <FlexLayout Direction="Row"
                                                 JustifyContent="SpaceBetween">
-                                        <Label Text="{Binding Name}" 
+                                        <Label Text="{Binding Name}"
                                                FontAttributes="Bold"/>
                                         <HorizontalStackLayout>
                                             <Label Text="170"/>
@@ -77,10 +78,9 @@
                                         <Label Text="{Binding SaveType}"/>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout>
-                                        <ProgressBar
-                                             HeightRequest="10"
-                                             Progress="0.5"
-                                             WidthRequest="200"/>
+                                        <ProgressBar HeightRequest="10"
+                                                     Progress="0.5"
+                                                     WidthRequest="200"/>
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
                             </Border>
