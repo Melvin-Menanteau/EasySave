@@ -2,11 +2,8 @@
 
 public partial class MainPage : ContentPage
 {
-    MainPageViewModel viewModel;
-
-    public MainPage(MainPageViewModel viewModel)
+    public MainPage()
     {
         InitializeComponent();
-        this.viewModel = viewModel;
     }
 }
