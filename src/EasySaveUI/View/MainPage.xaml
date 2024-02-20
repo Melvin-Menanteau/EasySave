@@ -4,8 +4,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
              x:Class="EasySaveUI.View.MainPage"
-             x:DataType="viewmodel:MainPageViewModel"
-             Title="{Binding Title}">
+             x:DataType="viewmodel:MainPageViewModel">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -24,6 +23,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="120"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -41,17 +41,26 @@
                            Margin="10"/>
                 </FlexLayout>
 
+                <FlexLayout Grid.Column="0"
+                            Grid.Row="2"
+                            JustifyContent="SpaceBetween">
+                    <Button Text="Lancer Sauvegarde"
+                            CornerRadius="25"/>
+                </FlexLayout>
+
             </Grid>
         </VerticalStackLayout>
+        
         <FlexLayout Grid.Column="1"
                     Grid.Row="0"
                     BackgroundColor="White"
                     JustifyContent="Center"
                     AlignContent="Center">
-            
+
             <Image Source="logo.png"
                    WidthRequest="400"/>
-            
+
         </FlexLayout>
     </Grid>
+
 </ContentPage>
