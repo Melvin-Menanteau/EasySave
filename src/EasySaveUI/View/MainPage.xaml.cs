@@ -1,4 +1,6 @@
 ﻿
+using Windows.UI.ViewManagement;
+
 namespace EasySaveUI.View;
 
 public partial class MainPage : ContentPage
