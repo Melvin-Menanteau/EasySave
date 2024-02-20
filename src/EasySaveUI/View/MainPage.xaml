@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
+             xmlns:model="clr-namespace:EasySaveUI.Model"
              x:Class="EasySaveUI.View.MainPage"
              x:DataType="viewmodel:MainPageViewModel">
 
-    <Grid>
+    <Grid Margin="10, 10" ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -29,6 +30,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Header menu -->
                 <FlexLayout Grid.Column="0"
                             Grid.Row="0"
                             JustifyContent="SpaceBetween">
@@ -40,7 +42,51 @@
                            WidthRequest="50"
                            Margin="10"/>
                 </FlexLayout>
+                
+                <!-- Liste des sauvegardes -->
+                <CollectionView
+                    Grid.Column="10"
+                    Grid.Row="1"
+                    SelectionMode="Single"
+                    SelectionChanged="CollectionView_SelectionChanged"                    
+                 >
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Save">
+                            <Border Style="{StaticResource BorderRadius}" StrokeThickness="0">
+                                <VerticalStackLayout
+                                     BackgroundColor="White"
+                                     Padding="10"
+                                     Shadow="{StaticResource CommonShadow}"
+                                     Spacing="10"
+                                     WidthRequest="350">
+                                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                                        <HorizontalStackLayout>
+                                            <Label Text="170"/>
+                                        </HorizontalStackLayout>
+                                    </FlexLayout>
+                                    <VerticalStackLayout>
+                                        <Label Text="Source folder"/>
+                                        <Label Text="Destination folder"/>
+                                        <Label Text="Type"/>
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout>
+                                        <ProgressBar
+                                             HeightRequest="10"
+                                             Progress="0.5"
+                                             WidthRequest="200"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
+                <!-- Footer menu (Ajouter / lancer sauvegarde) -->
                 <FlexLayout Grid.Column="0"
                             Grid.Row="2"
                             JustifyContent="SpaceBetween">

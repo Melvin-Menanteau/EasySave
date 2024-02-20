@@ -6,4 +6,9 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
     }
+
+    private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
 }
