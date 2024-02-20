@@ -7,7 +7,8 @@
              x:Class="EasySaveUI.View.MainPage"
              x:DataType="viewmodel:MainPageViewModel">
 
-    <Grid Margin="10, 10" ColumnSpacing="15">
+    <Grid Padding="10" 
+          ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -44,12 +45,12 @@
                 </FlexLayout>
                 
                 <!-- Liste des sauvegardes -->
-                <CollectionView
-                    Grid.Column="10"
-                    Grid.Row="1"
-                    SelectionMode="Single"
-                    SelectionChanged="CollectionView_SelectionChanged"                    
-                 >
+                <CollectionView x:Name="SavesCollection"
+                                Grid.Column="10"
+                                Grid.Row="1"
+                                SelectionMode="Single"
+                                SelectionChanged="CollectionView_SelectionChanged">
+                    
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
                     </CollectionView.ItemsLayout>
@@ -57,22 +58,23 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
                             <Border Style="{StaticResource BorderRadius}" StrokeThickness="0">
-                                <VerticalStackLayout
-                                     BackgroundColor="White"
-                                     Padding="10"
-                                     Shadow="{StaticResource CommonShadow}"
-                                     Spacing="10"
-                                     WidthRequest="350">
-                                    <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
-                                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                                <VerticalStackLayout BackgroundColor="White"
+                                                     Padding="10"
+                                                     Shadow="{StaticResource CommonShadow}"
+                                                     Spacing="10"
+                                                     WidthRequest="350">
+                                    <FlexLayout Direction="Row" 
+                                                JustifyContent="SpaceBetween">
+                                        <Label Text="{Binding Name}" 
+                                               FontAttributes="Bold"/>
                                         <HorizontalStackLayout>
                                             <Label Text="170"/>
                                         </HorizontalStackLayout>
                                     </FlexLayout>
                                     <VerticalStackLayout>
-                                        <Label Text="Source folder"/>
-                                        <Label Text="Destination folder"/>
-                                        <Label Text="Type"/>
+                                        <Label Text="{Binding InputFolder}"/>
+                                        <Label Text="{Binding OutputFolder}"/>
+                                        <Label Text="{Binding SaveType}"/>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout>
                                         <ProgressBar
@@ -92,7 +94,6 @@
                             JustifyContent="SpaceBetween">
 
                     <ImageButton Source="plus.png"
-                                 BackgroundColor="{Binding Source={StaticResource Secondary}}"
                                  WidthRequest="60"
                                  CornerRadius="30"/>
 
