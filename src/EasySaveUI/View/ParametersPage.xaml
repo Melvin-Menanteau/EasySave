@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
+             x:Class="EasySaveUI.View.ParametersPage"
+             x:DataType="viewmodel:ParametersPageViewModel">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout Grid.Column="0"
+                             Grid.Row="0"
+                             BackgroundColor="#e3e5e8">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Header menu -->
+                <FlexLayout Grid.Column="0"
+                    Grid.Row="0"
+                    JustifyContent="SpaceBetween"
+                    AlignContent="Center">
+                    <Image Source="logo.png" 
+                        WidthRequest="100"
+                        Margin="10"/>
+                    <ImageButton Source="black_back_arrow.png"
+                        BackgroundColor="Transparent"
+                        HeightRequest="10"
+                        Margin="0,15,5,0"
+                        Clicked="OnImageTapped">
+                        <ImageButton.Triggers>
+                            <Trigger TargetType="ImageButton" Property="IsPressed" Value="True">
+                                <Setter Property="Scale" Value="1.2" />
+                            </Trigger>
+                        </ImageButton.Triggers>
+
+                    </ImageButton>
+                </FlexLayout>
+
+                <BoxView HeightRequest="1" Color="DarkGray" Margin="10,0,10,0"/>
+
+                <!--Liste des paramètres-->
+                <FlexLayout x:Name="ParametersFlexLayout"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Margin="50,0,0,0"
+                    Direction="Column">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView x:Name="GeneralBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <Button x:Name="GeneralButton" Text="Général" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView x:Name="ChiffrementBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <Button x:Name="ChiffrementButton" Text="Chiffrement" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView x:Name="LanguesBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <Button x:Name="LanguesButton" Text="Langues" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView x:Name="ThemesBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <Button x:Name="ThemesButton" Text="Thèmes" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
+                    </StackLayout>
+                </FlexLayout>
+
+
+
+
+            </Grid>
+
+        </VerticalStackLayout>
+        <FlexLayout Grid.Column="1"
+                    Grid.Row="0"
+                    BackgroundColor="White"
+                    JustifyContent="Center"
+                    AlignContent="Center">
+
+            <Image Source="logo.png"
+                   WidthRequest="400"/>
+
+        </FlexLayout>
+    </Grid>
+</ContentPage>
