@@ -423,4 +423,14 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+    <Style x:Key="BorderRadius" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+    </Style>
+
+    <Shadow x:Key="CommonShadow"
+         Brush="Black"
+         Offset="0, 4"
+         Radius="4"
+         Opacity="0.03"
+     />
 </ResourceDictionary>
