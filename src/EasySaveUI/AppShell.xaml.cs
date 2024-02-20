@@ -9,7 +9,10 @@ namespace EasySaveUI
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         }
     }
 }
