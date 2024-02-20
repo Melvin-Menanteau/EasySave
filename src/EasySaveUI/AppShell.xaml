@@ -10,4 +10,9 @@
         ContentTemplate="{DataTemplate view:MainPage}"
         Route="MainPage" />
 
+    <ShellContent
+        Title="RunSaves"
+        ContentTemplate="{DataTemplate view:RunSavesPage}"
+        Route="RunSave" />
+
 </Shell>
