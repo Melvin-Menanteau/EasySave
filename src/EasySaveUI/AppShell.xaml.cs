@@ -9,7 +9,6 @@ namespace EasySaveUI
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
-
         }
     }
 }
