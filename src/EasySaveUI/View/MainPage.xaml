@@ -1,18 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
+             xmlns:model="clr-namespace:EasySaveUI.Model"
              x:Class="EasySaveUI.View.MainPage"
-             x:DataType="viewmodel:MainPageViewModel"
-             Title="{Binding Title}">
+             x:DataType="viewmodel:MainPageViewModel">
 
-    <Grid>
+    <Grid Padding="10" 
+          ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -23,35 +23,144 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="550"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Header menu -->
                 <FlexLayout Grid.Column="0"
                             Grid.Row="0"
-                            JustifyContent="SpaceBetween">
-                    <Image Source="logo.png" 
-                           WidthRequest="100"
-                           Margin="10"/>
+                            JustifyContent="SpaceBetween"
+                            VerticalOptions="Start">
+                    <ImageButton Source="logo.png"
+                                 WidthRequest="100"
+                                 Margin="10"
+                                 BackgroundColor="Transparent"
+                                 Clicked="ReturnHome_Clicked"/>
 
-                    <Image Source="gear.png" 
-                           WidthRequest="50"
-                           Margin="10"/>
+                    <ImageButton Source="gear.png"
+                                 WidthRequest="50"
+                                 Margin="10"
+                                 BackgroundColor="Transparent"
+                                 Clicked="ParametersButton_Clicked"/>
+                </FlexLayout>
+                
+                <!-- Liste des sauvegardes -->
+                <CollectionView x:Name="SavesCollection"
+                                Grid.Column="10"
+                                Grid.Row="1"
+                                SelectionMode="Single"
+                                SelectionChanged="CollectionView_SelectionChanged">
+                    
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Save">
+                            <Border Style="{StaticResource BorderRadius}" 
+                                    StrokeThickness="1">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border"
+                                                 Binding="{Binding IsSelected}"
+                                                 Value="False">
+                                        <Setter Property="Stroke"
+                                                Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border"
+                                                 Binding="{Binding IsSelected}"
+                                                 Value="True">
+                                        <Setter Property="Stroke"
+                                                Value="{StaticResource Primary}"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                
+                                <VerticalStackLayout BackgroundColor="White"
+                                                     Padding="10"
+                                                     Shadow="{StaticResource CommonShadow}"
+                                                     WidthRequest="380">
+                                    <FlexLayout Direction="Row"
+                                                JustifyContent="SpaceBetween">
+                                        <Label Text="{Binding Name}"
+                                               FontAttributes="Bold"/>
+                                        <HorizontalStackLayout>
+                                            <Label Text="170"/>
+                                        </HorizontalStackLayout>
+                                    </FlexLayout>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding InputFolder}"/>
+                                        <Label Text="{Binding OutputFolder}"/>
+                                        <Label Text="{Binding SaveType}"/>
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout>
+                                        <ProgressBar HeightRequest="10"
+                                                     Progress="0.5"
+                                                     WidthRequest="200"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Footer menu (Ajouter / lancer sauvegarde) -->
+                <FlexLayout Grid.Column="0"
+                            Grid.Row="2"
+                            JustifyContent="SpaceBetween"
+                            Margin="20">
+
+                    <ImageButton Source="plus.png"
+                                 WidthRequest="60"
+                                 BackgroundColor="Transparent"
+                                 Clicked="AddSaveButton_Clicked"/>
+
+                    <Button Text="Lancer Sauvegarde"
+                            CornerRadius="15"
+                            BackgroundColor="{Binding Source={StaticResource Primary}}"/>
+                    
                 </FlexLayout>
 
             </Grid>
         </VerticalStackLayout>
+        
         <FlexLayout Grid.Column="1"
                     Grid.Row="0"
                     BackgroundColor="White"
                     JustifyContent="Center"
-                    AlignContent="Center">
+                    Direction="Column">
+
+            <Label Text="Configuration"
+                   x:Name="TitleConfiguration"
+                   FontSize="Large"/>
             
-            <Image Source="logo.png"
-                   WidthRequest="400"/>
+            <Label Text="Nom de la sauvegarde"/>
+            <Entry x:Name="EntrySaveName"/>
+
+            <Label Text="Dossier source"/>
+            <Entry x:Name="EntrySaveInputFolder"/>
+
+            <Label Text="Dossier Cible"/>
+            <Entry x:Name="EntrySaveOutputFolder"/>
             
+            <Label Text="Type de sauvegarde"/>
+
+            <Picker x:Name="EntrySaveType"/>
+
+            <Button x:Name="SaveButton" 
+                    Text="Enregistrer"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="15"
+                    Clicked="SaveButton_Clicked"/>
+
+            <Button x:Name="DeleteButton"
+                    Text="Supprimer"
+                    BackgroundColor="{StaticResource Red}"
+                    CornerRadius="15"
+                    Clicked="DeleteButton_Clicked"/>
         </FlexLayout>
     </Grid>
+
 </ContentPage>

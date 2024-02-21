@@ -9,7 +9,9 @@
     <Color x:Key="Primary">#2688E3</Color>
     <Color x:Key="GrayBlue">#ECF1FE</Color>
     <Color x:Key="LightGray">#E9E9E9</Color>
-    
+    <Color x:Key="Red">#FB6565</Color>
+    <Color x:Key="Gray">#D0D0D0</Color>
+
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
