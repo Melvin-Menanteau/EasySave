@@ -29,6 +29,10 @@ public partial class MainPageViewModel : BaseViewModel
     public void AddSave(string name, string inputFolder, string outputFolder, SaveType saveType)
     {
         _saveConfiguration.AddConfiguration(name, inputFolder, outputFolder, saveType);
-        GetSauvegardes();
+    }
+
+    public void UpdateSave(string name, string inputFolder, string outputFolder, SaveType saveType)
+    {
+        _saveConfiguration.UpdateConfiguration(SelectedSave.Id, name, inputFolder, outputFolder, saveType);
     }
 }
