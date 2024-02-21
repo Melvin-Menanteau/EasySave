@@ -141,9 +141,7 @@
             <Entry x:Name="EntrySaveOutputFolder"/>
             
             <Label Text="Type de sauvegarde"/>
-            <Entry x:Name="EntrySaveType"/>
-
-            <Entry x:Name="EntrySaveIsSelected"/>
+            <Picker x:Name="EntrySaveType"/>
         </FlexLayout>
     </Grid>
 
