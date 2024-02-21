@@ -27,6 +27,14 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
     }
 
+    private void resetInput()
+    {
+        EntrySaveName.Text = string.Empty;
+        EntrySaveInputFolder.Text = string.Empty;
+        EntrySaveOutputFolder.Text = string.Empty;
+        EntrySaveType.SelectedItem = null;
+    }
+
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IsNew = false;
@@ -50,14 +58,15 @@ public partial class MainPage : ContentPage
     {
         IsNew = false;
 
-        EntrySaveName.Text = string.Empty;
-        EntrySaveInputFolder.Text = string.Empty;
-        EntrySaveOutputFolder.Text = string.Empty;
-        EntrySaveType.Text = string.Empty;
+        resetInput();
     }
 
     private async void SaveButton_Clicked(object sender, EventArgs e)
     {
+        viewModel.AddSave(EntrySaveName.Text, EntrySaveInputFolder.Text, EntrySaveOutputFolder.Text, (SaveType)Enum.Parse(typeof(SaveType), EntrySaveType.SelectedItem.ToString()));
+        viewModel.GetSauvegardes();
+        SavesCollection.ItemsSource = viewModel.Saves;
+
         if (IsNew)
         {
             await DisplayAlert("Sauvegarde créée", "Nom : " + EntrySaveName, "Ok");
@@ -73,10 +82,7 @@ public partial class MainPage : ContentPage
     {
         IsNew = true;
 
-        EntrySaveName.Text = string.Empty;
-        EntrySaveInputFolder.Text = string.Empty;
-        EntrySaveOutputFolder.Text = string.Empty;
-        EntrySaveType.Text = string.Empty;
+        resetInput();
     }
 
     private void ParametersButton_Clicked(object sender, EventArgs e)
