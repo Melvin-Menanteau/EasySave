@@ -44,6 +44,7 @@
                     <ImageButton Source="gear.png"
                                  WidthRequest="50"
                                  Margin="10"
+                                 BackgroundColor="Transparent"
                                  Clicked="ParametersButton_Clicked"/>
                 </FlexLayout>
                 
