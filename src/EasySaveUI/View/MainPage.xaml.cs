@@ -27,7 +27,7 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
     }
 
-    private void resetInput()
+    private void ResetInput()
     {
         EntrySaveName.Text = string.Empty;
         EntrySaveInputFolder.Text = string.Empty;
@@ -58,7 +58,7 @@ public partial class MainPage : ContentPage
     {
         IsNew = false;
 
-        resetInput();
+        ResetInput();
     }
 
     private async void SaveButton_Clicked(object sender, EventArgs e)
@@ -82,7 +82,7 @@ public partial class MainPage : ContentPage
     {
         IsNew = true;
 
-        resetInput();
+        ResetInput();
     }
 
     private void ParametersButton_Clicked(object sender, EventArgs e)
