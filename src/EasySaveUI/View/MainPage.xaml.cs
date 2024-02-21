@@ -10,6 +10,11 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         this.viewModel = viewModel;
+
+        foreach (var saveType in Enum.GetValues(typeof(SaveType)))
+        {
+            EntrySaveType.Items.Add(saveType.ToString());
+        }
     }
 
     protected override void OnAppearing()
@@ -37,7 +42,7 @@ public partial class MainPage : ContentPage
             EntrySaveName.Text = viewModel.SelectedSave.Name;
             EntrySaveInputFolder.Text = viewModel.SelectedSave.InputFolder;
             EntrySaveOutputFolder.Text = viewModel.SelectedSave.OutputFolder;
-            EntrySaveType.Text = viewModel.SelectedSave.SaveType.ToString();
+            EntrySaveType.SelectedItem = viewModel.SelectedSave.SaveType.ToString();
         }
     }
 

@@ -144,14 +144,14 @@
             <Entry x:Name="EntrySaveOutputFolder"/>
             
             <Label Text="Type de sauvegarde"/>
-            <Entry x:Name="EntrySaveType"/>
+
+            <Picker x:Name="EntrySaveType"/>
 
             <Button x:Name="SaveButton" 
                     Text="Enregistrer"
                     BackgroundColor="{StaticResource Primary}"
                     CornerRadius="15"
                     Clicked="SaveButton_Clicked"/>
-
         </FlexLayout>
     </Grid>
 
