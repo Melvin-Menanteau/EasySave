@@ -99,11 +99,6 @@ namespace EasySaveUI.Services
         /// <exception cref="Exception">Il existe deja 5 configurations enregistr�es</exception>
         public void AddConfiguration(string nom, string inputFolder, string outputFolder, SaveType saveType)
         {
-            if (ListeConfiguration.Count >= 5)
-            {
-                throw new NotSupportedException("Le nombre maximum de sauvegardes est atteint");
-            }
-
             ListeConfiguration.Add(new Save(null, nom, inputFolder, outputFolder, saveType));
 
             SaveConfigToFile();
@@ -156,7 +151,7 @@ namespace EasySaveUI.Services
         private void SaveConfigToFile()
         {
             string save_json = JsonSerializer.Serialize(ListeConfiguration);
-            FileStream file = new FileStream("config.json", FileMode.Create);
+            FileStream file = new FileStream(_configFilePath, FileMode.Create);
             StreamWriter writer = new StreamWriter(file);
 
             writer.Write(save_json);

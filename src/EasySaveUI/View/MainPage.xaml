@@ -35,13 +35,16 @@
                             Grid.Row="0"
                             JustifyContent="SpaceBetween"
                             VerticalOptions="Start">
-                    <Image Source="logo.png" 
-                           WidthRequest="100"
-                           Margin="10"/>
+                    <ImageButton Source="logo.png"
+                                 WidthRequest="100"
+                                 Margin="10"
+                                 BackgroundColor="Transparent"
+                                 Clicked="ReturnHome_Clicked"/>
 
-                    <Image Source="gear.png" 
-                           WidthRequest="50"
-                           Margin="10"/>
+                    <ImageButton Source="gear.png"
+                                 WidthRequest="50"
+                                 Margin="10"
+                                 Clicked="ParametersButton_Clicked"/>
                 </FlexLayout>
                 
                 <!-- Liste des sauvegardes -->
@@ -58,8 +61,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
                             <Border Style="{StaticResource BorderRadius}" 
-                                    StrokeThickness="1"
-                                    Stroke="Red">
+                                    StrokeThickness="1">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
@@ -111,7 +113,8 @@
 
                     <ImageButton Source="plus.png"
                                  WidthRequest="60"
-                                 BackgroundColor="Transparent"/>
+                                 BackgroundColor="Transparent"
+                                 Clicked="AddSaveButton_Clicked"/>
 
                     <Button Text="Lancer Sauvegarde"
                             CornerRadius="15"
@@ -143,7 +146,12 @@
             <Label Text="Type de sauvegarde"/>
             <Entry x:Name="EntrySaveType"/>
 
-            <Entry x:Name="EntrySaveIsSelected"/>
+            <Button x:Name="SaveButton" 
+                    Text="Enregistrer"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="15"
+                    Clicked="SaveButton_Clicked"/>
+
         </FlexLayout>
     </Grid>
 
