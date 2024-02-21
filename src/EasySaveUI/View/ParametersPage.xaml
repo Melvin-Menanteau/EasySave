@@ -81,16 +81,24 @@
             </Grid>
         </VerticalStackLayout>
         <FlexLayout Grid.Column="1"
-                Grid.Row="0"
-                BackgroundColor="White"
-                AlignContent="Center">
+            Grid.Row="0"
+            BackgroundColor="White"
+            AlignContent="Center"
+            Direction="Column">
             <Label x:Name="titlePage"
-                FontAttributes="Bold"
-                FontSize="Large"
-                HorizontalOptions="Start"
-                HorizontalTextAlignment="Start"
-                Margin="10,5,0,0"/>
-            
+            FontAttributes="Bold"
+            FontSize="Large"
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Start"
+            Margin="10,5,0,0"/>
+            <BoxView HeightRequest="1" Color="DarkGray" Margin="10,0,10,0"/>
+            <FlexLayout x:Name="ReglagesFlexLayout"
+                Direction="Column"
+                AlignContent="Center"
+                FlexLayout.Grow="1">
+                <!-- Utilisation de FlexLayout.Grow pour occuper tout l'espace disponible -->
+                <!-- Vos éléments à modifier dynamiquement -->
+            </FlexLayout>
         </FlexLayout>
     </Grid>
 </ContentPage>

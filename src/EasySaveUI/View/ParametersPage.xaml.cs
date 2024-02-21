@@ -1,4 +1,6 @@
-﻿namespace EasySaveUI.View;
+﻿using Microsoft.Maui.Controls;
+
+namespace EasySaveUI.View;
 
 public partial class ParametersPage : ContentPage
 {
@@ -10,11 +12,18 @@ public partial class ParametersPage : ContentPage
         titlePage.Text = "Général";
         GeneralBoxView.IsVisible = true;
         GeneralButton.FontAttributes = FontAttributes.Bold;
+
+        Label label = new Label();
+        label.Text = "Text";
+        label.FontSize = 50;
+
+        ReglagesFlexLayout.Children.Add(label);
     }
 
-    private void OnImageTapped(object sender, EventArgs e)
+    private async void OnImageTapped(object sender, EventArgs e)
     {
-        DisplayAlert("Retour", "Vous allez retourner sur la page principal", "OK");
+        await DisplayAlert("Retour", "Vous allez retourner sur la page principal", "OK");
+        await Shell.Current.GoToAsync(nameof(MainPage), false);
     }
 
     private void OnParameterClicked(object sender, EventArgs e)
@@ -50,6 +59,65 @@ public partial class ParametersPage : ContentPage
                 {
                     boxView.IsVisible = stackLayout.Children[1] == clickedButton;
                 }
+            }
+
+            switch (clickedButton.Text)
+            {
+                case "Général":
+                    ReglagesFlexLayout.Children.Clear();
+
+                    Label label = new Label();
+                    label.Text = "Général";
+                    label.FontSize = 50;
+
+                    ReglagesFlexLayout.Children.Add(label);
+                    this.InvalidateMeasure();
+
+                    break;
+                case "Chiffrement":
+                    ReglagesFlexLayout.Children.Clear();
+
+                    Label label1 = new Label();
+                    label1.Text = "Chiffrement";
+                    label1.FontSize = 50;
+
+                    ReglagesFlexLayout.Children.Add(label1);
+                    this.ForceLayout();
+                    break;
+                case "Langues":
+                    ReglagesFlexLayout.Children.Clear();
+
+                    Picker picker = new Picker
+                    {
+                        Title = "Sélectionner une langue",
+                        Items = { "Anglais", "Français" }
+                    };
+                    ReglagesFlexLayout.Children.Add(picker);
+
+                    Button button = new Button
+                    {
+                        Text = "Valider"
+                    };
+                    button.Clicked += (s, args) =>
+                    {
+                        // Code de validation ici
+                    };
+                    ReglagesFlexLayout.Children.Add(button);
+                    this.ForceLayout();
+
+                    break;
+                case "Thèmes":
+                    ReglagesFlexLayout.Children.Clear();
+
+                    Label label3 = new Label();
+                    label3.Text = "Thèmes";
+                    label3.FontSize = 50;
+
+                    ReglagesFlexLayout.Children.Add(label3);
+                    this.ForceLayout();
+                    break;
+                default:
+                    break;
             }
         }
     }
