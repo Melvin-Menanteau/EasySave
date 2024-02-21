@@ -22,8 +22,9 @@
             <Button Grid.Row="0" Grid.Column="0" Text="Settings" HorizontalOptions="End" VerticalOptions="Center" />
             
             <!-- Liste Sauvgegardes -->
-            <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="Green" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <CollectionView Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <BoxView  Grid.Row="1" Grid.Column="0" BackgroundColor="Green" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <CollectionView Grid.Row="1" Grid.Column="0" HeightRequest="500" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -44,7 +45,7 @@
                 <CollectionView.EmptyView>
                     <StackLayout VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand">
-                        <BoxView BackgroundColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                        <BoxView BackgroundColor="Gray" HorizontalOptions="Center" VerticalOptions="Center"/>
                         <Label Text="Aucun élément disponible" HorizontalOptions="StartAndExpand" VerticalOptions="EndAndExpand" />
                         <!-- Ajoutez d'autres éléments de votre choix ici -->
                     </StackLayout>
@@ -82,6 +83,7 @@
                 <Label Grid.Row="7" Text="Type" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" />
                 <Entry Grid.Row="8" Text="{Binding Path}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
             </Grid>
+
 
             <Grid Grid.Row="2" Grid.Column="2">
                 <Grid.ColumnDefinitions>
