@@ -27,7 +27,7 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
     }
 
-    private void resetInput()
+    private void ResetInput()
     {
         EntrySaveName.Text = string.Empty;
         EntrySaveInputFolder.Text = string.Empty;
@@ -38,6 +38,7 @@ public partial class MainPage : ContentPage
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IsNew = false;
+        TitleConfiguration.Text = "Configuration";
 
         viewModel.SetSelectedSave((Save)e.CurrentSelection.FirstOrDefault());
 
@@ -58,31 +59,33 @@ public partial class MainPage : ContentPage
     {
         IsNew = false;
 
-        resetInput();
+        ResetInput();
     }
 
-    private async void SaveButton_Clicked(object sender, EventArgs e)
+    private void SaveButton_Clicked(object sender, EventArgs e)
     {
-        viewModel.AddSave(EntrySaveName.Text, EntrySaveInputFolder.Text, EntrySaveOutputFolder.Text, (SaveType)Enum.Parse(typeof(SaveType), EntrySaveType.SelectedItem.ToString()));
-        viewModel.GetSauvegardes();
-        SavesCollection.ItemsSource = viewModel.Saves;
-
         if (IsNew)
         {
-            await DisplayAlert("Sauvegarde créée", "Nom : " + EntrySaveName, "Ok");
+            viewModel.AddSave(EntrySaveName.Text, EntrySaveInputFolder.Text, EntrySaveOutputFolder.Text, (SaveType)Enum.Parse(typeof(SaveType), EntrySaveType.SelectedItem.ToString()));
+
             IsNew = false;
+            TitleConfiguration.Text = "Configuration";
         }
         else
         {
-            await DisplayAlert("Sauvegarde Modifié", "Nom : " + EntrySaveName, "Ok");
+            viewModel.UpdateSave(EntrySaveName.Text, EntrySaveInputFolder.Text, EntrySaveOutputFolder.Text, (SaveType)Enum.Parse(typeof(SaveType), EntrySaveType.SelectedItem.ToString()));
         }
+        viewModel.GetSauvegardes();
+        SavesCollection.ItemsSource = viewModel.Saves;
     }
 
     private void AddSaveButton_Clicked(object sender, EventArgs e)
     {
         IsNew = true;
 
-        resetInput();
+        TitleConfiguration.Text = "Nouvelle Configuration";
+
+        ResetInput();
     }
 
     private void ParametersButton_Clicked(object sender, EventArgs e)

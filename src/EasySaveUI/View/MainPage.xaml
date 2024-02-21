@@ -132,6 +132,7 @@
                     Direction="Column">
 
             <Label Text="Configuration"
+                   x:Name="TitleConfiguration"
                    FontSize="Large"/>
             
             <Label Text="Nom de la sauvegarde"/>
