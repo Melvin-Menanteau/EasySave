@@ -153,6 +153,12 @@
                     BackgroundColor="{StaticResource Primary}"
                     CornerRadius="15"
                     Clicked="SaveButton_Clicked"/>
+
+            <Button x:Name="DeleteButton"
+                    Text="Supprimer"
+                    BackgroundColor="{StaticResource Red}"
+                    CornerRadius="15"
+                    Clicked="DeleteButton_Clicked"/>
         </FlexLayout>
     </Grid>
 

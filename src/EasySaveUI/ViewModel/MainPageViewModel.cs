@@ -35,4 +35,9 @@ public partial class MainPageViewModel : BaseViewModel
     {
         _saveConfiguration.UpdateConfiguration(SelectedSave.Id, name, inputFolder, outputFolder, saveType);
     }
+
+    public void RemoveSave()
+    {
+        _saveConfiguration.RemoveConfiguration(SelectedSave.Id);
+    }
 }

@@ -23,6 +23,8 @@ public partial class MainPage : ContentPage
 
         SavesCollection.ItemsSource = viewModel.Saves;
 
+        DeleteButton.IsVisible = false;
+
         // Fait apparaitre la page principale
         base.OnAppearing();
     }
@@ -52,12 +54,15 @@ public partial class MainPage : ContentPage
             EntrySaveInputFolder.Text = viewModel.SelectedSave.InputFolder;
             EntrySaveOutputFolder.Text = viewModel.SelectedSave.OutputFolder;
             EntrySaveType.SelectedItem = viewModel.SelectedSave.SaveType.ToString();
+
+            DeleteButton.IsVisible = true;
         }
     }
 
     private void ReturnHome_Clicked(object sender, EventArgs e)
     {
         IsNew = false;
+        DeleteButton.IsVisible = false;
 
         ResetInput();
     }
@@ -69,6 +74,7 @@ public partial class MainPage : ContentPage
             viewModel.AddSave(EntrySaveName.Text, EntrySaveInputFolder.Text, EntrySaveOutputFolder.Text, (SaveType)Enum.Parse(typeof(SaveType), EntrySaveType.SelectedItem.ToString()));
 
             IsNew = false;
+            DeleteButton.IsVisible = true;
             TitleConfiguration.Text = "Configuration";
         }
         else
@@ -82,6 +88,7 @@ public partial class MainPage : ContentPage
     private void AddSaveButton_Clicked(object sender, EventArgs e)
     {
         IsNew = true;
+        DeleteButton.IsVisible= false;
 
         TitleConfiguration.Text = "Nouvelle Configuration";
 
@@ -91,5 +98,13 @@ public partial class MainPage : ContentPage
     private void ParametersButton_Clicked(object sender, EventArgs e)
     {
 
+    }
+
+    private void DeleteButton_Clicked(object sender, EventArgs e)
+    {
+        viewModel.RemoveSave();
+        ResetInput();
+        viewModel.GetSauvegardes();
+        SavesCollection.ItemsSource = viewModel.Saves;
     }
 }
