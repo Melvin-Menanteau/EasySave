@@ -92,13 +92,9 @@
             HorizontalTextAlignment="Start"
             Margin="10,5,0,0"/>
             <BoxView HeightRequest="1" Color="DarkGray" Margin="10,0,10,0"/>
-            <FlexLayout x:Name="ReglagesFlexLayout"
-                Direction="Column"
-                AlignContent="Center"
-                FlexLayout.Grow="1">
-                <!-- Utilisation de FlexLayout.Grow pour occuper tout l'espace disponible -->
-                <!-- Vos éléments à modifier dynamiquement -->
-            </FlexLayout>
+            <ContentView x:Name="ParametersView">
+                
+            </ContentView>
         </FlexLayout>
     </Grid>
 </ContentPage>
