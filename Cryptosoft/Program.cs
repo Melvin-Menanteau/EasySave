@@ -14,7 +14,7 @@ class Program
 
             string InputFilePath = args[0];
             string OutputFilePath = args[1];
-            string KeyFile = "C:\\Users\\pierr\\source\\repos\\Prosit5\\Prosit5\\Key\\key.txt";
+            string KeyFile = "C:\\Users\\pierr\\Documents\\GitHub\\projet-programmation-syst-me-groupe-4\\Cryptosoft\\bin\\Release\\net8.0\\win-x64\\publish\\EncryptionKey.txt";
 
             byte[] message = FileReader.ReadFile(InputFilePath); // Message à chiffrer
             byte[] key = FileReader.ReadFile(KeyFile); // Clé de chiffrement
