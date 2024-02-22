@@ -40,7 +40,6 @@
                                  Margin="10"
                                  BackgroundColor="Transparent"
                                  Clicked="ReturnHome_Clicked"/>
-
                     <ImageButton Source="gear.png"
                                  WidthRequest="50"
                                  Margin="10"
@@ -119,7 +118,8 @@
 
                     <Button Text="Lancer Sauvegarde"
                             CornerRadius="15"
-                            BackgroundColor="{Binding Source={StaticResource Primary}}"/>
+                            BackgroundColor="{Binding Source={StaticResource Primary}}"
+                            Clicked="ButtonNavigation_Clicked"/>
                     
                 </FlexLayout>
 

@@ -106,5 +106,11 @@ public partial class MainPage : ContentPage
         ResetInput();
         viewModel.GetSauvegardes();
         SavesCollection.ItemsSource = viewModel.Saves;
+
+    }
+
+    private async void ButtonNavigation_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(RunSavesPage), false);
     }
 }

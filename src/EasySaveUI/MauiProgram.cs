@@ -22,6 +22,7 @@ namespace EasySaveUI
 
             builder.Services.AddTransient<ParametersPageViewModel>();
             builder.Services.AddTransient<ParametersPage>();
+            builder.Services.AddTransient<RunSavesPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
