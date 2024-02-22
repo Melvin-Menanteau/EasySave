@@ -17,14 +17,21 @@
             </Grid.RowDefinitions>
             
             <!-- Header -->
-            <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <Label Grid.Row="0" Grid.Column="0" Text="Easy Save" FontSize="Large" HorizontalOptions="Start" VerticalOptions="Center" />
-            <Button Grid.Row="0" Grid.Column="0" Text="Settings" HorizontalOptions="End" VerticalOptions="Center" />
+            <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Gray}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <Image Grid.Row="0" Grid.Column="0" Source="logo.png" WidthRequest="100"  HorizontalOptions="Start" VerticalOptions="Center" />
+            <ImageButton 
+                Grid.Row="0" 
+                Grid.Column="0"
+                Source="gear.png"
+                WidthRequest="50"
+                Margin="10"
+                BackgroundColor="Transparent"
+                HorizontalOptions="End"/>
             
             <!-- Liste Sauvgegardes -->
 
-            <BoxView  Grid.Row="1" Grid.Column="0" BackgroundColor="Green" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <CollectionView Grid.Row="1" Grid.Column="0" HeightRequest="500" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+            <BoxView  Grid.Row="1" Grid.Column="0" BackgroundColor="{StaticResource Gray}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <CollectionView Grid.Row="1" Grid.Column="0" HeightRequest="670" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -45,7 +52,7 @@
                 <CollectionView.EmptyView>
                     <StackLayout VerticalOptions="CenterAndExpand"
                                  HorizontalOptions="CenterAndExpand">
-                        <BoxView BackgroundColor="Gray" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <BoxView BackgroundColor="{StaticResource Gray}" HorizontalOptions="Center" VerticalOptions="Center"/>
                         <Label Text="Aucun élément disponible" HorizontalOptions="StartAndExpand" VerticalOptions="EndAndExpand" />
                         <!-- Ajoutez d'autres éléments de votre choix ici -->
                     </StackLayout>
@@ -53,7 +60,7 @@
             </CollectionView>
 
             <!-- Lancer les sauvegardes -->
-            <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Gray}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
             <Button Grid.Row="2" Grid.Column="0" Text="Lancer sauvegarde" HorizontalOptions="Center" VerticalOptions="End" />
             
             <!-- Panneau de droite -->
