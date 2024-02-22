@@ -5,7 +5,9 @@
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
              x:Class="EasySaveUI.View.ParametersPage"
              x:DataType="viewmodel:ParametersPageViewModel">
-
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -56,7 +58,7 @@
                 <FlexLayout x:Name="ParametersFlexLayout"
                     Grid.Column="0"
                     Grid.Row="1"
-                    Margin="50,0,0,0"
+                    Margin="10,0,0,0"
                     Direction="Column">
                     <StackLayout Orientation="Horizontal">
                         <BoxView x:Name="GeneralBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>

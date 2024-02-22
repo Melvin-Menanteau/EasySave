@@ -23,15 +23,22 @@ public partial class ParametersPage : ContentPage
         {
             case "Général":
             default:
+                // Paramétrer les logiciel métier
+                // Taille des fichiers
+                // Fichiers prioritaires
                 ParametersView.Content = new GeneralSettingsView();
                 break;
             case "Chiffrement":
+                // Types de fichiers devant être cryptés
+                // Choix de la clé de chiffrement
                 ParametersView.Content = new ChiffrementSettingsView();
                 break;
             case "Langues":
+                // Choix de la langue
                 ParametersView.Content = new LanguesSettingsView();
                 break;
             case "Thèmes":
+                // Choix du thèmes
                 ParametersView.Content = new ThemesSettingsView();
                 break;
         }
@@ -74,7 +81,6 @@ public partial class ParametersPage : ContentPage
 
     private async void OnImageTapped(object sender, EventArgs e)
     {
-        await DisplayAlert("Retour", "Vous allez retourner sur la page principal", "OK");
-        await Shell.Current.GoToAsync(nameof(MainPage), false);
+        await Shell.Current.GoToAsync("../", false);
     }
 }
