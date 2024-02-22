@@ -95,9 +95,9 @@ public partial class MainPage : ContentPage
         ResetInput();
     }
 
-    private void ParametersButton_Clicked(object sender, EventArgs e)
+    private async void ParametersButton_Clicked(object sender, EventArgs e)
     {
-
+        await Shell.Current.GoToAsync(nameof(ParametersPage), false);
     }
 
     private void DeleteButton_Clicked(object sender, EventArgs e)
