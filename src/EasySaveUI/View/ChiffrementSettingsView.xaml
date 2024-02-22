@@ -5,9 +5,28 @@
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
              x:Class="EasySaveUI.View.ChiffrementSettingsView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <FlexLayout Direction="Column">
+            <Label Text="Liste des types à chiffrer :"
+                Margin="10,10,0,0"/>
+            <Editor x:Name="editor"
+                Placeholder="Un type par ligne"
+                HeightRequest="70"
+                TextChanged="OnEditorTextChanged"
+                Completed="OnEditorCompleted"
+                Margin="10,5,10,0"/>
+            <Button Text="Valider"
+                HorizontalOptions="End"
+                Margin="10,5,10,0"/>
+        </FlexLayout>
+        <FlexLayout Direction="Column">
+            <Label Text="Clé de chiffrement :"
+                   Margin="10,10,0,0"/>
+            <Entry 
+                Margin="10,5,10,0"/>
+            <Button Text="Valider"
+                HorizontalOptions="End"
+                Margin="10,5,10,0"/>
+        </FlexLayout>
+            
     </VerticalStackLayout>
 </ContentView>

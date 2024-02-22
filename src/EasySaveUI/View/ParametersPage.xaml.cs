@@ -29,7 +29,7 @@ public partial class ParametersPage : ContentPage
                 ParametersView.Content = new GeneralSettingsView();
                 break;
             case "Chiffrement":
-                // Types de fichiers devant être cryptés
+                // Types de fichiers devant être chiffrés
                 // Choix de la clé de chiffrement
                 ParametersView.Content = new ChiffrementSettingsView();
                 break;

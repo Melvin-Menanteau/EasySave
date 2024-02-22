@@ -3,30 +3,28 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
              x:Class="EasySaveUI.View.GeneralSettingsView">
-    <FlexLayout Direction="Column"
-                BackgroundColor="White"
-                Padding="20"
-                Margin="10"
-                AlignContent="Start">
+    <VerticalStackLayout>
+        <!-- Première ligne -->
+        <Label Text="Taille maximum des fichiers :"
+               Margin="20,10,0,0"/>
+        <FlexLayout Direction="Row">
+            <Entry x:Name="TailleFichiersEntry"
+                   Placeholder="Taille des fichiers"
+                   Margin="10,5,10,0"/>
+        </FlexLayout>
 
-        <!-- Champs d'entrée pour les paramètres -->
-        <Entry x:Name="LogicielMetierEntry"
-               Placeholder="Paramétrer les logiciels métier"
-               Margin="0,10"
-               HorizontalOptions="Start"/>
-
-        <Entry x:Name="TailleFichiersEntry"
-               Placeholder="Taille des fichiers"
-               Margin="0,10"
-               HorizontalOptions="Start"/>
-
-        <Entry x:Name="FichiersPrioritairesEntry"
-               Placeholder="Fichiers prioritaires"
-               Margin="0,10"
-               HorizontalOptions="Start"/>
-
-        <Button Text="Général"
-                Margin="0,10,0,0"
-                HorizontalOptions="Start"/>
-    </FlexLayout>
+        <FlexLayout Direction="Column">
+            <Label Text="Ajouter des types :"
+                   Margin="10,10,0,0"/>
+            <Editor x:Name="editor"
+                Placeholder="Un type par ligne"
+                HeightRequest="70"
+                TextChanged="OnEditorTextChanged"
+                Completed="OnEditorCompleted"
+                    Margin="10,5,10,0"/>
+            <Button Text="Valider"
+                HorizontalOptions="End"
+                Margin="10,5,10,0"/>
+        </FlexLayout>
+    </VerticalStackLayout>
 </ContentView>
