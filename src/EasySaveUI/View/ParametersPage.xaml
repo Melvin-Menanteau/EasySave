@@ -61,28 +61,35 @@
                     Margin="10,0,0,0"
                     Direction="Column">
                     <StackLayout Orientation="Horizontal">
-                        <BoxView x:Name="GeneralBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <BoxView x:Name="GeneralBoxView" WidthRequest="5" HeightRequest="20" BackgroundColor="{StaticResource Primary}" VerticalOptions="Center" IsVisible="False"/>
                         <Button x:Name="GeneralButton" Text="Général" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <BoxView x:Name="ChiffrementBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <BoxView x:Name="ChiffrementBoxView" WidthRequest="5" HeightRequest="20" BackgroundColor="{StaticResource Primary}" VerticalOptions="Center" IsVisible="False"/>
                         <Button x:Name="ChiffrementButton" Text="Chiffrement" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <BoxView x:Name="LanguesBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <BoxView x:Name="LanguesBoxView" WidthRequest="5" HeightRequest="20" BackgroundColor="{StaticResource Primary}" VerticalOptions="Center" IsVisible="False"/>
                         <Button x:Name="LanguesButton" Text="Langues" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <BoxView x:Name="JournauxBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <BoxView x:Name="JournauxBoxView" WidthRequest="5" HeightRequest="20" BackgroundColor="{StaticResource Primary}" VerticalOptions="Center" IsVisible="False"/>
                         <Button x:Name="JournauxButton" Text="Journaux d'activités" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <BoxView x:Name="ThemesBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
-                        <Button x:Name="ThemesButton" Text="Thèmes" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
+                        <BoxView x:Name="ThemesBoxView" WidthRequest="5" HeightRequest="20" BackgroundColor="{StaticResource Primary}" VerticalOptions="Center" IsVisible="False"/>
+                        <Button x:Name="ThemesButton" Text="Thèmes" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" IsEnabled="False">
+                            <Button.Triggers>
+                                <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="Gray" />
+                                </Trigger>
+                            </Button.Triggers>
+                        </Button>
                     </StackLayout>
                 </FlexLayout>
             </Grid>

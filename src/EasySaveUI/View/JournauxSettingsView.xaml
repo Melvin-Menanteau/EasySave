@@ -7,7 +7,8 @@
     <StackLayout Margin="20,10,0,0">
         <!-- Journalier au format XML -->
         <Label Text="Journalier (XML)" FontSize="Medium" FontAttributes="Bold" />
-        <ListView ItemsSource="{Binding XmlLogEntries}">
+        <ListView ItemsSource="{Binding XmlLogEntries}"
+                  HorizontalOptions="Center">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding}" />
@@ -17,7 +18,8 @@
 
         <!-- Journalier au format JSON -->
         <Label Text="Journalier (JSON)" FontSize="Medium" FontAttributes="Bold" />
-        <ListView ItemsSource="{Binding JsonLogEntries}">
+        <ListView ItemsSource="{Binding JsonLogEntries}"
+                  HorizontalOptions="Center">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding}" />
@@ -27,7 +29,8 @@
 
         <!-- Log d'état au format JSON -->
         <Label Text="Log d'état (JSON)" FontSize="Medium" FontAttributes="Bold" />
-        <ListView ItemsSource="{Binding StatusLogEntries}">
+        <ListView ItemsSource="{Binding StatusLogEntries}"
+                  HorizontalOptions="Center">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding}" />
