@@ -5,26 +5,39 @@
              x:Class="EasySaveUI.View.GeneralSettingsView">
     <VerticalStackLayout>
         <!-- Première ligne -->
-        <Label Text="Taille maximum des fichiers :"
-               Margin="20,10,0,0"/>
-        <FlexLayout Direction="Row">
+        <FlexLayout Direction="Column">
+            <Label Text="Taille maximum des fichiers :"
+                    Margin="10,10,0,0"/>
             <Entry x:Name="TailleFichiersEntry"
                    Placeholder="Taille des fichiers"
                    Margin="10,5,10,0"/>
         </FlexLayout>
 
+        <!-- Deuxième ligne-->
         <FlexLayout Direction="Column">
-            <Label Text="Ajouter des types :"
+            <Label Text="Ajouter les types des fichiers prioritaires :"
                    Margin="10,10,0,0"/>
-            <Editor x:Name="editor"
+            <Editor x:Name="editorPriority"
                 Placeholder="Un type par ligne"
                 HeightRequest="70"
-                TextChanged="OnEditorTextChanged"
-                Completed="OnEditorCompleted"
+                TextChanged="OnEditorPriorityTextChanged"
+                Completed="OnEditorPriorityCompleted"
                     Margin="10,5,10,0"/>
-            <Button Text="Valider"
-                HorizontalOptions="End"
+        </FlexLayout>
+        
+        <!--Troisième ligne-->
+        <FlexLayout Direction="Column">
+            <Label Text="Applications métiers :"
+                   Margin="10,10,0,0"/>
+            <Editor x:Name="editorMetiers"
+                Placeholder="Une application par ligne"
+                HeightRequest="70"
+                TextChanged="OnEditorMetiersTextChanged"
+                Completed="OnEditorMetiersCompleted"
                 Margin="10,5,10,0"/>
         </FlexLayout>
+        <Button Text="Valider"
+                HorizontalOptions="End"
+                Margin="10,5,10,0"/>
     </VerticalStackLayout>
 </ContentView>

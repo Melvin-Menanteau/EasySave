@@ -76,6 +76,11 @@
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
+                        <BoxView x:Name="JournauxBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
+                        <Button x:Name="JournauxButton" Text="Journaux d'activités" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
                         <BoxView x:Name="ThemesBoxView" WidthRequest="10" HeightRequest="20" BackgroundColor="LightBlue" VerticalOptions="Center" IsVisible="False"/>
                         <Button x:Name="ThemesButton" Text="Thèmes" Clicked="OnParameterClicked" BackgroundColor="Transparent" TextColor="Black" />
                     </StackLayout>
