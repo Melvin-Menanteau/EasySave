@@ -1,5 +1,8 @@
 namespace EasySaveUI.View;
 
+using CommunityToolkit.Maui.Storage;
+using System.Diagnostics;
+
 public partial class MainPage : ContentPage
 {
     MainPageViewModel viewModel;
@@ -106,5 +109,36 @@ public partial class MainPage : ContentPage
         ResetInput();
         viewModel.GetSauvegardes();
         SavesCollection.ItemsSource = viewModel.Saves;
+    }
+
+    private async void PickInputFolder(object sender, EventArgs e)
+    {
+        PickFolder(true);
+    }
+
+    private async void PickOutputFolder(object sender, EventArgs e)
+    {
+        PickFolder(false);
+    }
+
+    private async void PickFolder(bool IsInput)
+    {
+        try
+        {
+            FolderPickerResult folder = await FolderPicker.PickAsync(default);
+
+            if (IsInput)
+            {
+                EntrySaveInputFolder.Text = folder.Folder.Path;
+            }
+            else
+            {
+                EntrySaveOutputFolder.Text = folder.Folder.Path;
+            }
+        }
+        catch (Exception excp)
+        {
+            Debug.WriteLine(excp.Message);
+        }
     }
 }
