@@ -17,14 +17,13 @@
         </Grid.ColumnDefinitions>
 
         <VerticalStackLayout Grid.Column="0"
-                             Grid.Row="0"
-                             BackgroundColor="#e3e5e8">
+                             Grid.Row="0">
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="120"/>
-                    <RowDefinition Height="550"/>
-                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -36,21 +35,19 @@
                             JustifyContent="SpaceBetween"
                             VerticalOptions="Start">
                     <ImageButton Source="logo.png"
-                                 WidthRequest="100"
-                                 Margin="10"
+                                 WidthRequest="75"
                                  BackgroundColor="Transparent"
                                  Clicked="ReturnHome_Clicked"/>
 
-                    <ImageButton Source="gear.png"
-                                 WidthRequest="50"
-                                 Margin="10"
+                    <ImageButton Source="setting.png"
+                                 WidthRequest="25"
                                  BackgroundColor="Transparent"
                                  Clicked="ParametersButton_Clicked"/>
                 </FlexLayout>
                 
                 <!-- Liste des sauvegardes -->
                 <CollectionView x:Name="SavesCollection"
-                                Grid.Column="10"
+                                Grid.Column="1"
                                 Grid.Row="1"
                                 SelectionMode="Single"
                                 SelectionChanged="CollectionView_SelectionChanged">
@@ -61,8 +58,7 @@
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
-                            <Border Style="{StaticResource BorderRadius}" 
-                                    StrokeThickness="1">
+                            <Border Style="{StaticResource BorderRadius}" Shadow="{StaticResource CommonShadow}">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
@@ -81,22 +77,23 @@
                                 <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
-                                                     WidthRequest="380">
+                                                     Spacing="10">
                                     <FlexLayout Direction="Row"
                                                 JustifyContent="SpaceBetween">
                                         <Label Text="{Binding Name}"
                                                FontAttributes="Bold"/>
-                                        <HorizontalStackLayout>
-                                            <Label Text="170"/>
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label x:Name="SaveNbFile" Text="170"/>
+                                            <!--<Image Source="file_icon.png" HeightRequest="20" WidthRequest="20"/>-->
                                         </HorizontalStackLayout>
                                     </FlexLayout>
                                     <VerticalStackLayout>
-                                        <Label Text="{Binding InputFolder}"/>
-                                        <Label Text="{Binding OutputFolder}"/>
-                                        <Label Text="{Binding SaveType}"/>
+                                        <Label Text="{Binding InputFolder}" FontSize="12"/>
+                                        <Label Text="{Binding OutputFolder}" FontSize="12"/>
+                                        <Label Text="{Binding SaveType}" FontSize="12"/>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout>
-                                        <ProgressBar HeightRequest="10"
+                                        <ProgressBar ScaleY="2"
                                                      Progress="0.5"
                                                      WidthRequest="200"/>
                                     </HorizontalStackLayout>
@@ -107,60 +104,120 @@
                 </CollectionView>
 
                 <!-- Footer menu (Ajouter / lancer sauvegarde) -->
-                <FlexLayout Grid.Column="0"
-                            Grid.Row="2"
-                            JustifyContent="SpaceBetween"
-                            Margin="20">
+                <Grid ColumnSpacing="10" Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <ImageButton Source="plus.png"
-                                 WidthRequest="60"
-                                 BackgroundColor="Transparent"
-                                 Clicked="AddSaveButton_Clicked"/>
+                    <Border Stroke="{StaticResource Primary}"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            Style="{StaticResource BorderRadius}" 
+                            StrokeThickness="1"
+                            Grid.Column="0">
+                                    <Button BackgroundColor="Transparent"
+                                            Clicked="AddSaveButton_Clicked"
+                                            FontSize="Large"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"
+                                            Text="+"
+                                            TextColor="{StaticResource Primary}"
+                                            VerticalOptions="Center"/>
+                    </Border>
 
-                    <Button Text="Lancer Sauvegarde"
-                            CornerRadius="15"
-                            BackgroundColor="{Binding Source={StaticResource Primary}}"/>
-                    
-                </FlexLayout>
-
+                    <Border BackgroundColor="{StaticResource Primary}"
+                            Stroke="{StaticResource Primary}"
+                            Style="{StaticResource BorderRadius}"
+                            StrokeThickness="1"
+                            Grid.Column="1">
+                                    <Label FontAttributes="Bold"
+                                            HorizontalOptions="Center"
+                                            Text="LANCER SAUVEGARDE"
+                                            TextColor="{StaticResource White}"
+                                            VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
             </Grid>
         </VerticalStackLayout>
-        
-        <FlexLayout Grid.Column="1"
-                    Grid.Row="0"
-                    BackgroundColor="White"
-                    JustifyContent="Center"
-                    Direction="Column">
 
-            <Label Text="Configuration"
-                   x:Name="TitleConfiguration"
-                   FontSize="Large"/>
-            
-            <Label Text="Nom de la sauvegarde"/>
-            <Entry x:Name="EntrySaveName"/>
+        <Border BackgroundColor="White"
+                Grid.Column="1"
+                Grid.Row="0"
+                Padding="20, 10"
+                Style="{StaticResource BorderRadius}"
+                Shadow="{StaticResource CommonShadow}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <Label Text="Configuration"
+                       x:Name="TitleConfiguration"
+                       FontSize="Header"
+                       FontAttributes="Bold"
+                       Grid.Row="0"/>
 
-            <Label Text="Dossier source"/>
-            <Entry x:Name="EntrySaveInputFolder"/>
+                <FlexLayout Direction="Column"
+                            JustifyContent="Center"
+                            HorizontalOptions="FillAndExpand"
+                            Grid.Row="1">
+                    <Label Text="Nom de la sauvegarde"/>
+                    <Entry x:Name="EntrySaveName"/>
 
-            <Label Text="Dossier Cible"/>
-            <Entry x:Name="EntrySaveOutputFolder"/>
-            
-            <Label Text="Type de sauvegarde"/>
+                    <Label Text="Dossier source"/>
+                    <Grid ColumnSpacing="15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Entry Grid.Column="0"
+                               x:Name="EntrySaveInputFolder"/>
+                        <Button Grid.Column="1"
+                                Clicked="PickInputFolder"
+                                Text="..."/>
+                    </Grid>
 
-            <Picker x:Name="EntrySaveType"/>
+                    <Label Text="Dossier Cible"/>
+                        <Grid ColumnSpacing="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-            <Button x:Name="SaveButton" 
-                    Text="Enregistrer"
-                    BackgroundColor="{StaticResource Primary}"
-                    CornerRadius="15"
-                    Clicked="SaveButton_Clicked"/>
+                            <Entry Grid.Column="0"
+                                   x:Name="EntrySaveOutputFolder"/>
+                            <Button Grid.Column="1"
+                                    Clicked="PickInputFolder"
+                                    Text="..."/>
+                    </Grid>
 
-            <Button x:Name="DeleteButton"
-                    Text="Supprimer"
-                    BackgroundColor="{StaticResource Red}"
-                    CornerRadius="15"
-                    Clicked="DeleteButton_Clicked"/>
-        </FlexLayout>
+                    <Label Text="Type de sauvegarde"/>
+                    <Picker x:Name="EntrySaveType"/>
+                </FlexLayout>
+
+                <FlexLayout Direction="Row"
+                            JustifyContent="End"
+                            Grid.Row="2">
+                    <Border Style="{StaticResource BorderRadius}">
+                        <Button x:Name="SaveButton" 
+                                Text="Enregistrer"
+                                BackgroundColor="{StaticResource Primary}"
+                                Clicked="SaveButton_Clicked"/>
+                    </Border>
+
+                    <Border Style="{StaticResource BorderRadius}">
+                        <Button x:Name="DeleteButton"
+                                Text="Supprimer"
+                                BackgroundColor="{StaticResource Red}"
+                                Clicked="DeleteButton_Clicked"/>
+                    </Border>
+                </FlexLayout>
+            </Grid>
+        </Border>
     </Grid>
 
 </ContentPage>
