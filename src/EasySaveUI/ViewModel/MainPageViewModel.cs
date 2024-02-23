@@ -23,7 +23,6 @@ public partial class MainPageViewModel : BaseViewModel
     {
         SelectedSave = save;
         _saveConfiguration.SetSelectedSave(save.Id);
-        Debug.WriteLine($"Selected save: {save.Name}");
     }
 
     public void AddSave(string name, string inputFolder, string outputFolder, SaveType saveType)

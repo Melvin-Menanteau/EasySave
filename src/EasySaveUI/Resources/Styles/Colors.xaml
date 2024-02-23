@@ -11,6 +11,7 @@
     <Color x:Key="LightGray">#E9E9E9</Color>
     <Color x:Key="Red">#FB6565</Color>
     <Color x:Key="Gray">#D0D0D0</Color>
+    <Color x:Key="BackgroundColor">#FBFBFB</Color>
 
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
