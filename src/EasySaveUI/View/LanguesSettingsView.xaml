@@ -14,7 +14,6 @@
 
         <!-- Sélecteur de langue -->
         <Picker x:Name="LanguagePicker"
-                Title="Langue"
                 SelectedIndexChanged="OnLanguageSelectedIndexChanged">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
