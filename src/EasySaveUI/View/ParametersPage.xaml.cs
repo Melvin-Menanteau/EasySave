@@ -83,7 +83,7 @@ public partial class ParametersPage : ContentPage
         }
     }
 
-    private async void OnImageTapped(object sender, EventArgs e)
+    private async void ReturnHome_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("../", false);
     }

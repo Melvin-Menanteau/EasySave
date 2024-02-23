@@ -22,6 +22,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -45,10 +46,16 @@
                                  Clicked="ParametersButton_Clicked"/>
                 </FlexLayout>
 
+                <!-- Separator -->
+                <BoxView Grid.Row="1"
+                         Color="{StaticResource LightGray}"
+                         HeightRequest="1"
+                         Margin="10"/>
+
                 <!-- Liste des sauvegardes -->
                 <CollectionView x:Name="SavesCollection"
                                 Grid.Column="1"
-                                Grid.Row="1"
+                                Grid.Row="2"
                                 SelectionMode="Single"
                                 SelectionChanged="CollectionView_SelectionChanged">
 
@@ -92,11 +99,16 @@
                                         <Label Text="{Binding OutputFolder}" FontSize="12"/>
                                         <Label Text="{Binding SaveType}" FontSize="12"/>
                                     </VerticalStackLayout>
-                                    <HorizontalStackLayout>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
                                         <ProgressBar ScaleY="2"
-                                                     Progress="0.5"
-                                                     WidthRequest="200"/>
-                                    </HorizontalStackLayout>
+                                                     Progress="0.5"/>
+                                    </Grid>
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>
@@ -104,7 +116,8 @@
                 </CollectionView>
 
                 <!-- Footer menu (Ajouter / lancer sauvegarde) -->
-                <Grid ColumnSpacing="10" Grid.Row="2">
+                <Grid ColumnSpacing="10"
+                      Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
