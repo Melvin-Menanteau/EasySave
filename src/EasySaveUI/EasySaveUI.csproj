@@ -88,6 +88,8 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\ThemesSettingsView.xaml">
+	  	<Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\RunSavesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
