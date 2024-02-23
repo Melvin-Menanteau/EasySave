@@ -1,12 +1,20 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace EasySaveUI
 {
     public static class MauiProgram
-    {
+    {        
+
         public static MauiApp CreateMauiApp()
         {
+            var processes = Process.GetProcessesByName("EasySaveUI");
+            if (processes.Length > 1)
+            {
+                Process.GetCurrentProcess().Kill();
+            }
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
