@@ -1,3 +1,6 @@
+using CommunityToolkit.Maui.Storage;
+using System.Diagnostics;
+
 namespace EasySaveUI.View;
 
 public partial class MainPage : ContentPage
@@ -112,5 +115,39 @@ public partial class MainPage : ContentPage
     private async void ButtonNavigation_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(RunSavesPage), false);
+    }
+
+    private async void PickInputFolder(object sender, EventArgs e)
+    {
+        PickFolder(true);
+    }
+
+    private async void PickOutputFolder(object sender, EventArgs e)
+    {
+        PickFolder(false);
+    }
+
+    private async void PickFolder(bool IsInput)
+    {
+        try
+        {
+            FolderPickerResult folder = await FolderPicker.PickAsync(default);
+
+            if (!folder.IsSuccessful)
+                return;
+
+            if (IsInput)
+            {
+                EntrySaveInputFolder.Text = folder.Folder.Path;
+            }
+            else
+            {
+                EntrySaveOutputFolder.Text = folder.Folder.Path;
+            }
+        }
+        catch (Exception excp)
+        {
+            Debug.WriteLine(excp.Message);
+        }
     }
 }
