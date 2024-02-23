@@ -107,11 +107,6 @@
                                         <Label Text="{Binding OutputFolder}"/>
                                         <Label Text="{Binding SaveType}"/>
                                     </VerticalStackLayout>
-                                    <HorizontalStackLayout>
-                                        <ProgressBar HeightRequest="10"
-                                                 Progress="0.5"
-                                                 WidthRequest="200"/>
-                                    </HorizontalStackLayout>
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>
