@@ -2,110 +2,144 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="EasySaveUI.View.RunSavesPage">
-    <VerticalStackLayout>
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="70*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="8*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            
-            <!-- Header -->
-            <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Gray}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <Image Grid.Row="0" Grid.Column="0" Source="logo.png" WidthRequest="100"  HorizontalOptions="Start" VerticalOptions="Center" />
-            <ImageButton 
-                Grid.Row="0" 
-                Grid.Column="0"
-                Source="gear.png"
-                WidthRequest="50"
-                Margin="10"
-                BackgroundColor="Transparent"
-                HorizontalOptions="End"/>
-            
-            <!-- Liste Sauvgegardes -->
+             xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
+             xmlns:model="clr-namespace:EasySaveUI.Model"
+             x:Class="EasySaveUI.View.RunSavesPage"
+             x:DataType="viewmodel:RunSavesPageViewModel">
 
-            <BoxView  Grid.Row="1" Grid.Column="0" BackgroundColor="{StaticResource Gray}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <CollectionView Grid.Row="1" Grid.Column="0" HeightRequest="670" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="Large" HorizontalOptions="Start" VerticalOptions="Center" />
-                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Path}" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center" />
-                            <Button Grid.Row="0" Grid.Column="2" Text="Lancer" HorizontalOptions="End" VerticalOptions="Center" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <StackLayout VerticalOptions="CenterAndExpand"
-                                 HorizontalOptions="CenterAndExpand">
-                        <BoxView BackgroundColor="{StaticResource Gray}" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        <Label Text="Aucun élément disponible" HorizontalOptions="StartAndExpand" VerticalOptions="EndAndExpand" />
-                        <!-- Ajoutez d'autres éléments de votre choix ici -->
-                    </StackLayout>
-                </CollectionView.EmptyView>
-            </CollectionView>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
 
-            <!-- Lancer les sauvegardes -->
-            <BoxView Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Gray}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <Button Grid.Row="2" Grid.Column="0" Text="Lancer sauvegarde" HorizontalOptions="Center" VerticalOptions="End" />
-            
-            <!-- Panneau de droite -->
-            <Label Grid.Row="0" Grid.Column="2" Text="Configuration" FontSize="Large" HorizontalOptions="Start" VerticalOptions="Center" />
-            
-            <!-- Liste des Paramètres -->
-            <Grid Grid.Row="1" Grid.Column="2">
+    <Grid Padding="10" 
+      ColumnSpacing="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout Grid.Column="0"
+                         Grid.Row="0"
+                         BackgroundColor="#e3e5e8">
+
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
-                <Label Grid.Row="0" Text="Nom" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" />
-                <Entry Grid.Row="1" Text="{Binding Name}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                <Label Grid.Row="2" Text="Chemin 1" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" />
-                <Entry Grid.Row="3" Text="{Binding Path}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                <Label Grid.Row="5" Text="Chemin 1" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" />
-                <Entry Grid.Row="6" Text="{Binding Path}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-                <Label Grid.Row="7" Text="Type" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" />
-                <Entry Grid.Row="8" Text="{Binding Path}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
-            </Grid>
-
-
-            <Grid Grid.Row="2" Grid.Column="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="6*" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Text="Lancer" HorizontalOptions="End" VerticalOptions="End" />
-                <Button Grid.Column="2" Text="Enregistrer" HorizontalOptions="End" VerticalOptions="End" />
+                <!-- Header menu -->
+                <FlexLayout Grid.Column="0"
+                            Grid.Row="0"
+                            JustifyContent="SpaceBetween"
+                            VerticalOptions="Start"
+                            AlignContent="Center">
+                    <ImageButton Source="logo.png"
+                             WidthRequest="100"
+                             Margin="10"
+                             BackgroundColor="Transparent"/>
 
+                    <ImageButton Source="black_back_arrow.png"
+                                 BackgroundColor="Transparent"
+                                 HeightRequest="10"
+                                 Margin="0,15,5,0"
+                                 Clicked="OnImageTapped">
+                        <ImageButton.Triggers>
+                            <Trigger TargetType="ImageButton" 
+                                     Property="IsPressed" 
+                                     Value="True">
+                                <Setter Property="Scale" Value="1.2" />
+                            </Trigger>
+                        </ImageButton.Triggers>
+
+                    </ImageButton>
+                </FlexLayout>
+
+                <!-- Liste des sauvegardes -->
+                <CollectionView x:Name="SavesSelectedCollection"
+                            Grid.Column="10"
+                            Grid.Row="1">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Save">
+                            <Border Style="{StaticResource BorderRadius}" 
+                                StrokeThickness="1">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border"
+                                             Binding="{Binding IsSelected}"
+                                             Value="False">
+                                        <Setter Property="Stroke"
+                                            Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border"
+                                             Binding="{Binding IsSelected}"
+                                             Value="True">
+                                        <Setter Property="Stroke"
+                                            Value="{StaticResource Primary}"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <VerticalStackLayout BackgroundColor="White"
+                                                 Padding="10"
+                                                 Shadow="{StaticResource CommonShadow}"
+                                                 WidthRequest="380">
+                                    <FlexLayout Direction="Row"
+                                            JustifyContent="SpaceBetween">
+                                        <CheckBox CheckedChanged="CheckBox_CheckedChanged"/>
+                                        <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"/>
+                                        <HorizontalStackLayout>
+                                            <Label Text="170"/>
+                                        </HorizontalStackLayout>
+                                    </FlexLayout>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding InputFolder}"/>
+                                        <Label Text="{Binding OutputFolder}"/>
+                                        <Label Text="{Binding SaveType}"/>
+                                    </VerticalStackLayout>
+                                    <HorizontalStackLayout>
+                                        <ProgressBar HeightRequest="10"
+                                                 Progress="0.5"
+                                                 WidthRequest="200"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </Grid>
+        </VerticalStackLayout>
 
-            
+        <FlexLayout Grid.Column="1"
+                Grid.Row="0"
+                BackgroundColor="White"
+                JustifyContent="Center"
+                Direction="Column">
 
-        </Grid>
-    </VerticalStackLayout>
+            <Label Text="Lancement des sauvegarde"
+                   x:Name="TitreLancementSauvegarde"
+                   FontSize="Large"/>
+
+            <Label Text="Sauvegardes à lancer"/>
+            <Editor x:Name="SavesEditor"
+                    IsReadOnly="True"
+                    IsEnabled="False"/>
+
+            <Button x:Name="RunSavesButton"
+                    Text="Lancer sauvegardes"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="15"
+                    Clicked="RunSavesButton_Clicked"/>
+        </FlexLayout>
+    </Grid>
 </ContentPage>

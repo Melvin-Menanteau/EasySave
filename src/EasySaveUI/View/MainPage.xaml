@@ -6,7 +6,7 @@
              x:Class="EasySaveUI.View.MainPage"
              x:DataType="viewmodel:MainPageViewModel">
 
-    <Grid Padding="10" 
+    <Grid Padding="10"
           ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
