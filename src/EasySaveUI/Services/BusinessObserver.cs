@@ -9,7 +9,9 @@ namespace EasySaveUI.Services
 {
     internal class BusinessObserver
     {
-        void Observer(string business)
+        public BusinessObserver() { }
+
+        public static void Observer(string business)
         {
             var processes = Process.GetProcessesByName(business);
             while (true)
@@ -29,5 +31,6 @@ namespace EasySaveUI.Services
                 }
             }
         }
+
     }
 }
