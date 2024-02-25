@@ -22,9 +22,14 @@ public partial class RunSavesPage : ContentPage
         base.OnAppearing();
     }
 
+    bool returnPressed = false;
     private async void OnImageTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("../", false);
+        if (!returnPressed)
+        {
+            await Shell.Current.GoToAsync("../", false);
+        }
+        returnPressed = true;
     }
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)

@@ -4,6 +4,7 @@ namespace EasySaveUI.View;
 
 public partial class ParametersPage : ContentPage
 {
+
     ParametersPageViewModel viewModel;
     string choice = "";
     public ParametersPage(ParametersPageViewModel viewModel)
@@ -83,8 +84,14 @@ public partial class ParametersPage : ContentPage
         }
     }
 
+    bool returnPressed = false;
+
     private async void OnImageTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("../", false);
+        if (!returnPressed)
+        {
+            await Shell.Current.GoToAsync("../", false);
+        }
+        returnPressed = true;
     }
 }
