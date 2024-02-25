@@ -18,6 +18,10 @@ namespace EasySaveUI
                 Process.GetCurrentProcess().Kill();
             }
 
+            Broker broker = new Broker();
+            new Thread(broker.Brok).Start();
+
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
