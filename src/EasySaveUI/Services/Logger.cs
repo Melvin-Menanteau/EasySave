@@ -75,12 +75,25 @@ namespace EasySaveUI.Services
         /// <param name="target">Fichier de destination</param>
         /// <param name="size">Taille du fichier en octets</param>
         /// <param name="transfer_time">Temps de transfer millisecondes</param>
-        public void Log(string save_name, string source, string target, int size, float transfer_time)
+        public void Log(string save_name, string source, string target, int size, float transfer_time , float? encryption_time = null)
         {
             OpenFile();
 
             /* Enregistrer les logs au format JSON */
-            string log_json = "{\n \"Name\": \"" + save_name + "\",\n \"FileSource\": \"" + source + "\",\n \"FileTarget\": \"" + target + "\",\n \"FileSize\": " + size + ",\n \"FileTransferTime\": " + transfer_time + ",\n \"Time\": \"" + DateTime.Now + "\",\n},";
+            string log_json = "{\n \"Name\": \"" + save_name +
+                                "\",\n \"FileSource\": \"" + source +
+                                "\",\n \"FileTarget\": \"" + target +
+                                "\",\n \"FileSize\": " + size;
+                                
+                                
+
+            if (encryption_time != null) 
+            {
+                log_json += ",\n \"Encryption_Time\": " + encryption_time;
+            };
+
+            log_json += ",\n \"FileTransferTime\": " + transfer_time +
+                        ",\n \"Time\": \"" + DateTime.Now + "\",\n},";
 
             Logfile = _logFileJSON;
 
@@ -93,6 +106,7 @@ namespace EasySaveUI.Services
                     new XElement("FileSource", source),
                     new XElement("FileTarget", target),
                     new XElement("FileSize", size),
+                    encryption_time != null ? new XElement("Encryption_Time", encryption_time) : null,
                     new XElement("FileTransferTime", transfer_time),
                     new XElement("Time", DateTime.Now)
                 );
