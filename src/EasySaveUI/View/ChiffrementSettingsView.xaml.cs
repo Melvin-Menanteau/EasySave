@@ -1,40 +1,41 @@
-using System.Diagnostics;
-
 namespace EasySaveUI.View;
 
 public partial class ChiffrementSettingsView : ContentView
 {
-    List<string> ExtensionsList = new List<string>();
+    ParametersPageViewModel viewModel;
 
-	public ChiffrementSettingsView()
+    public List<string> ExtensionsList = [];
+
+	public ChiffrementSettingsView(ParametersPageViewModel viewModel)
 	{
 		InitializeComponent();
+        this.viewModel = viewModel;
+
+        OnPageAppearing();
 	}
+
+    public void OnPageAppearing()
+    {
+        ExtensionsList = viewModel.GetExtensionList();
+        if (ExtensionsList.Count > 0 )
+        {
+            foreach ( var extension in ExtensionsList )
+            {
+                editor.Text += "."+extension + "; ";
+            }
+        }
+    }
+
 
     private void OnEditorTextChanged(object sender, TextChangedEventArgs e)
     {
-        string EditorText = editor.Text;
-
-        if (EditorText != null)
-        {
-            ExtensionsList = EditorText.Split(";").ToList();
-            ExtensionsList = ExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
-            ExtensionsList = ExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
-        }
-        
-    }
-
-    private void OnEditorCompleted(object sender, EventArgs e)
-    {
-
+        ExtensionsList = [.. editor.Text.Split(";")];
+        ExtensionsList = ExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
+        ExtensionsList = ExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
     }
 
     private void SaveEditorButton_Clicked(object sender, EventArgs e)
     {
-        foreach(string Extension in ExtensionsList)
-        {
-            Debug.WriteLine(Extension);
-        }
-        
+        viewModel.SaveExtension(ExtensionsList);
     }
 }

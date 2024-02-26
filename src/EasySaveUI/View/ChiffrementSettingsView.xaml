@@ -12,7 +12,6 @@
                     Placeholder="Un type par ligne"
                     HeightRequest="70"
                     TextChanged="OnEditorTextChanged"
-                    Completed="OnEditorCompleted"
                     Margin="10,5,10,0"/>
             <Button Text="Valider"
                     HorizontalOptions="End"
