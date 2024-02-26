@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BusinessAppLabelKey" xml:space="preserve">
+    <value>List of business applications:</value>
+  </data>
   <data name="ChiffrementKey" xml:space="preserve">
     <value>Encryption</value>
+  </data>
+  <data name="DailyJSONLabelKey" xml:space="preserve">
+    <value>Daily Log (JSON):</value>
+  </data>
+  <data name="DailyXMLLabelKey" xml:space="preserve">
+    <value>Daily Log (XML):</value>
+  </data>
+  <data name="FileSizeLabelKey" xml:space="preserve">
+    <value>Maximum file size (KB):</value>
   </data>
   <data name="GeneralKey" xml:space="preserve">
     <value>General</value>
@@ -126,11 +138,23 @@
   <data name="JournauxKey" xml:space="preserve">
     <value>Activity Logs</value>
   </data>
+  <data name="KeyLabelKey" xml:space="preserve">
+    <value>Encryption key:</value>
+  </data>
   <data name="LanguesKey" xml:space="preserve">
     <value>Languages</value>
   </data>
+  <data name="ListTypeLabelKey" xml:space="preserve">
+    <value>List of types that must be encrypted:</value>
+  </data>
+  <data name="PriorityExtensionsLabelKey" xml:space="preserve">
+    <value>List of priority types:</value>
+  </data>
   <data name="SelectLanguageKey" xml:space="preserve">
     <value>Select a language :</value>
+  </data>
+  <data name="StateLogJSONKey" xml:space="preserve">
+    <value>State Log (JSON):</value>
   </data>
   <data name="ThemesKey" xml:space="preserve">
     <value>Themes</value>

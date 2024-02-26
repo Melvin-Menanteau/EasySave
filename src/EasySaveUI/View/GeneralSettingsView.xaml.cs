@@ -1,8 +1,11 @@
+using System.Resources;
+
 namespace EasySaveUI.View;
 
 public partial class GeneralSettingsView : ContentView
 {
     ParametersPageViewModel viewModel;
+    private ResourceManager _resourceManager;
     public int MaxFileSize;
     public List<string> PriorityExtensionsList = [];
     public List<string> BusinessApplicationsList = [];
@@ -11,9 +14,23 @@ public partial class GeneralSettingsView : ContentView
         InitializeComponent();
         this.viewModel = viewModel;
 
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
+        MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
+        {
+            LoadLocalizedTexts();
+        });
+        LoadLocalizedTexts();
         OnPageAppearing();
     }
 
+    private void LoadLocalizedTexts()
+    {
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+        SaveButton.Text = _resourceManager.GetString("ValidateKey", cultureInfo);
+        FileSizeLabel.Text = _resourceManager.GetString("FileSizeLabelKey", cultureInfo);
+        PriorityExtensionsLabel.Text = _resourceManager.GetString("PriorityExtensionsLabelKey", cultureInfo);
+        BusinessAppLabel.Text = _resourceManager.GetString("BusinessAppLabelKey", cultureInfo);
+    }
     public void OnPageAppearing()
     {
         MaxFileSize = viewModel.GetMaxFileSize();
