@@ -19,15 +19,12 @@ namespace EasySaveUI.Services
                 processes = Process.GetProcessesByName(business);
                 if (processes.Length > 0)
                 {
-                    using (Mutex mutex = new Mutex(true, "EasySave", out bool createdNew))
+                    while(processes.Length > 0)
                     {
-                        mutex.WaitOne(); 
-                        while(processes.Length > 0)
-                        {
-                            processes = Process.GetProcessesByName(business);
-                            Debug.WriteLine("Process " + business + " is running");
-                        }
-                        mutex.ReleaseMutex();
+                        processes = Process.GetProcessesByName(business);
+                        Debug.WriteLine("Process " + business + " is running");
+                        SaveManager sm = SaveManager.GetInstance();
+                        sm.StopAllSaves();
                     }
                 }
             }
