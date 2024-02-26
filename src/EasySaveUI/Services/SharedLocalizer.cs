@@ -1,22 +1,36 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Resources;
-using System.Threading;
 
-namespace EasySaveUI.Services
+public class LanguageService
 {
-    public static class SharedLocalizer
+    private static LanguageService _instance;
+    private CultureInfo _currentLanguage;
+    private ResourceManager _resourceManager;
+
+    public CultureInfo CurrentLanguage => _currentLanguage;
+
+    private LanguageService(CultureInfo initialLanguage)
     {
-        private static readonly ResourceManager _resourceManager = new ResourceManager("EasySave.Resources.locale", typeof(MauiProgram).Assembly);
+        _currentLanguage = initialLanguage;
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(LanguageService).Assembly);
+    }
 
-        public static void SetCulture(string culture)
+    public static LanguageService GetInstance(CultureInfo initialLanguage)
+    {
+        if (_instance == null)
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+            _instance = new LanguageService(initialLanguage);
         }
+        return _instance;
+    }
 
-        public static string GetLocalizedString(string key)
-        {
-            return _resourceManager.GetString(key);
-        }
+    public void SetLanguage(CultureInfo culture)
+    {
+        _currentLanguage = culture;
+    }
+
+    public string GetString(string key)
+    {
+        return _resourceManager.GetString(key, _currentLanguage);
     }
 }
