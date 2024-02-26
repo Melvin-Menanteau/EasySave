@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace EasySave
 {
@@ -41,23 +42,14 @@ namespace EasySave
         /// <param name="inputFolder">Dossier source</param>
         /// <param name="outputFolder">Dossier de destination</param>
         /// <param name="saveType">Type de sauvegarde</param>
-        public Save(int? id, string name, string inputFolder, string outputFolder, SaveType saveType = SaveType.COMPLETE)
+        public Save(int id, string name, string inputFolder, string outputFolder, SaveType saveType = SaveType.COMPLETE)
 		{
-            if (id == null)
-            {
-                _idCounter++;
-            }
-			else if (id > _idCounter)
-			{
-                _idCounter = (int)id;
-            }
-
-			Id = id ?? _idCounter;
-			Name = name ?? $"Save_{Id}";
-			InputFolder = inputFolder ?? "";
-			OutputFolder = outputFolder ?? "";
-			SaveType = saveType;
-		}
+            Id = id;
+            Name = name ?? $"Save_{Id}";
+            InputFolder = inputFolder ?? "";
+            OutputFolder = outputFolder ?? "";
+            SaveType = saveType;
+        }
 
         public Save()
         {

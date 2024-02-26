@@ -87,6 +87,26 @@ namespace EasySave
             return ListeConfiguration.Find(save => save.Name == name) ?? null;
         }
 
+        public static int GetMaximunIdFromSaves()
+        {
+            int maximunId = 0;
+
+            List<Save> saves = GetConfigurations();
+
+            if (saves.Count > 0)
+            {
+                foreach (Save save in saves)
+                {
+                    if (save.Id > maximunId)
+                    {
+                        maximunId = save.Id;
+                    }
+                }
+            }
+
+            return maximunId;
+        }
+
         /// <summary>
         /// Ajouter une configuration de sauvegarde
         /// </summary>
@@ -97,12 +117,9 @@ namespace EasySave
         /// <exception cref="Exception">Il existe deja 5 configurations enregistr�es</exception>
         public void AddConfiguration(string nom, string inputFolder, string outputFolder, SaveType saveType)
         {
-            if (ListeConfiguration.Count >= 5)
-            {
-                throw new NotSupportedException("Le nombre maximum de sauvegardes est atteint");
-            }
+            int id = GetMaximunIdFromSaves() + 1;
 
-            ListeConfiguration.Add(new Save(null, nom, inputFolder, outputFolder, saveType));
+            ListeConfiguration.Add(new Save(id, nom, inputFolder, outputFolder, saveType));
 
             SaveConfigToFile();
         }
