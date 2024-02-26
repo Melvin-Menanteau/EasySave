@@ -50,7 +50,7 @@ public partial class ParametersPage : ContentPage
                 // Paramétrer les logiciel métier
                 // Taille des fichiers
                 // Fichiers prioritaires
-                ParametersView.Content = new GeneralSettingsView();
+                ParametersView.Content = new GeneralSettingsView(viewModel);
                 break;
             case "Chiffrement":
             case "Encryption":

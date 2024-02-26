@@ -141,7 +141,7 @@ namespace EasySaveUI.Services
 
                     try
                     {
-                        if (_parameters.ExtensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
+                        if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
                             EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                         else
                             CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));

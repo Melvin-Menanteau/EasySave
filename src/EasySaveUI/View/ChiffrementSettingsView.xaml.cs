@@ -4,7 +4,8 @@ public partial class ChiffrementSettingsView : ContentView
 {
     ParametersPageViewModel viewModel;
 
-    public List<string> ExtensionsList = [];
+    public List<string> EncryptionExstensionsList = [];
+    public string EncryptionKey;
 
 	public ChiffrementSettingsView(ParametersPageViewModel viewModel)
 	{
@@ -16,26 +17,38 @@ public partial class ChiffrementSettingsView : ContentView
 
     public void OnPageAppearing()
     {
-        ExtensionsList = viewModel.GetExtensionList();
-        if (ExtensionsList.Count > 0 )
+        EncryptionExstensionsList = viewModel.GetEncryptionExtensionList();
+        EncryptionKey = viewModel.GetEncryptionKey();
+        if (EncryptionExstensionsList.Count > 0 )
         {
-            foreach ( var extension in ExtensionsList )
+            foreach ( var extension in EncryptionExstensionsList )
             {
                 editor.Text += "."+extension + "; ";
             }
         }
+        editorKey.Text = EncryptionKey;
+
     }
 
+    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        EncryptionKey = editorKey.Text;
+    }
+
+    private void SaveKeyButton_Clicked(object sender, EventArgs e)
+    {
+        viewModel.SaveEncryptionKey(EncryptionKey);
+    }
 
     private void OnEditorTextChanged(object sender, TextChangedEventArgs e)
     {
-        ExtensionsList = [.. editor.Text.Split(";")];
-        ExtensionsList = ExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
-        ExtensionsList = ExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
+        EncryptionExstensionsList = [.. editor.Text.Split(";")];
+        EncryptionExstensionsList = EncryptionExstensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
+        EncryptionExstensionsList = EncryptionExstensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
     }
 
     private void SaveEditorButton_Clicked(object sender, EventArgs e)
     {
-        viewModel.SaveExtension(ExtensionsList);
+        viewModel.SaveEncryptionExtension(EncryptionExstensionsList);
     }
 }
