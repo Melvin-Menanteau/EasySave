@@ -21,143 +21,140 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <VerticalStackLayout Grid.Column="0"
-                             Grid.Row="0">
+        <!-- Menu gauche -->
+        <Grid Grid.Column="0"
+              Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Header menu -->
-                <FlexLayout Grid.Column="0"
+            <!-- Header menu -->
+            <FlexLayout Grid.Column="0"
                             Grid.Row="0"
                             JustifyContent="SpaceBetween"
                             VerticalOptions="Start">
-                    <ImageButton Source="logo.png"
+                <ImageButton Source="logo.png"
                                  WidthRequest="75"
                                  BackgroundColor="Transparent"
                                  Clicked="ReturnHome_Clicked"/>
 
-                    <ImageButton Source="setting.png"
+                <ImageButton Source="setting.png"
                                  WidthRequest="25"
                                  BackgroundColor="Transparent"
                                  Clicked="ParametersButton_Clicked"/>
-                </FlexLayout>
+            </FlexLayout>
 
-                <!-- Separator -->
-                <BoxView Grid.Row="1"
+            <!-- Separator -->
+            <BoxView Grid.Column="0"
+                         Grid.Row="1"
                          Color="{StaticResource LightGray}"
                          HeightRequest="1"
                          Margin="10"/>
 
-                <!-- Liste des sauvegardes -->
-                <CollectionView x:Name="SavesCollection"
-                                Grid.Column="1"
+            <!-- Liste des sauvegardes -->
+            <CollectionView x:Name="SavesCollection"
+                                Grid.Column="0"
                                 Grid.Row="2"
                                 SelectionMode="Single"
-                                SelectionChanged="CollectionView_SelectionChanged">
-
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-                    </CollectionView.ItemsLayout>
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Save">
-                            <Border Style="{StaticResource BorderRadius}"
+                                SelectionChanged="CollectionView_SelectionChanged"
+                                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Save">
+                        <Border Style="{StaticResource BorderRadius}"
                                     Shadow="{StaticResource CommonShadow}"
                                     StrokeThickness="2">
-                                <Border.Triggers>
-                                    <DataTrigger TargetType="Border"
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
                                                  Value="False">
-                                        <Setter Property="Stroke"
+                                    <Setter Property="Stroke"
                                                 Value="White"/>
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Border"
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
                                                  Value="True">
-                                        <Setter Property="Stroke"
+                                    <Setter Property="Stroke"
                                                 Value="{StaticResource Primary}"/>
-                                    </DataTrigger>
-                                </Border.Triggers>
+                                </DataTrigger>
+                            </Border.Triggers>
 
-                                <VerticalStackLayout BackgroundColor="White"
+                            <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
                                                      Spacing="10">
-                                    <FlexLayout Direction="Row"
+                                <FlexLayout Direction="Row"
                                                 JustifyContent="SpaceBetween">
-                                        <Label Text="{Binding Name}"
+                                    <Label Text="{Binding Name}"
                                                FontAttributes="Bold"/>
-                                        <HorizontalStackLayout Spacing="5">
-                                            <Label x:Name="SaveNbFile" Text="{Binding TotalFilesToCopy}"/>
-                                            <!--<Image Source="file_icon.png" HeightRequest="20" WidthRequest="20"/>-->
-                                        </HorizontalStackLayout>
-                                    </FlexLayout>
-                                    <VerticalStackLayout>
-                                        <Label Text="{Binding InputFolder}" FontSize="12"/>
-                                        <Label Text="{Binding OutputFolder}" FontSize="12"/>
-                                        <Label Text="{Binding SaveType}" FontSize="12"/>
-                                    </VerticalStackLayout>
-                                    <Grid ColumnSpacing="2"
+                                    <HorizontalStackLayout Spacing="5">
+                                        <Label x:Name="SaveNbFile" Text="{Binding TotalFilesToCopy}"/>
+                                        <!--<Image Source="file_icon.png" HeightRequest="20" WidthRequest="20"/>-->
+                                    </HorizontalStackLayout>
+                                </FlexLayout>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding InputFolder}" FontSize="12"/>
+                                    <Label Text="{Binding OutputFolder}" FontSize="12"/>
+                                    <Label Text="{Binding SaveType}" FontSize="12"/>
+                                </VerticalStackLayout>
+                                <Grid ColumnSpacing="2"
                                           VerticalOptions="Center">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <ProgressBar Grid.Column="0"
+                                    <ProgressBar Grid.Column="0"
                                                      ScaleY="2"
                                                      Progress="{Binding Progress}"/>
-                                        <Label Grid.Column="1"
+                                    <Label Grid.Column="1"
                                                Text="{Binding Progress, Converter={StaticResource MathExpressionConverter}, ConverterParameter='x*100', StringFormat='{0:F2} %'}"/>
-                                        <Image Grid.Column="2"
+                                    <Image Grid.Column="2"
                                                Source="pause.png"
                                                WidthRequest="20"
                                                HeightRequest="20">
-                                            <Image.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="PauseButton_Clicked"/>
-                                            </Image.GestureRecognizers>
-                                        </Image>
-                                        <Image Grid.Column="3"
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="PauseButton_Clicked"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image Grid.Column="3"
                                                Source="stop.png"
                                                WidthRequest="20"
                                                HeightRequest="20">
-                                            <Image.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="StopButton_Clicked"/>
-                                            </Image.GestureRecognizers>
-                                        </Image>
-                                    </Grid>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="StopButton_Clicked"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                <!-- Footer menu (Ajouter / lancer sauvegarde) -->
-                <Grid ColumnSpacing="10"
+            <!-- Footer menu (Ajouter / lancer sauvegarde) -->
+            <Grid ColumnSpacing="10"
+                      Grid.Column="0"
                       Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <Border Stroke="{StaticResource Primary}"
+                <Border Stroke="{StaticResource Primary}"
                             WidthRequest="50"
                             HeightRequest="50"
                             Style="{StaticResource BorderRadius}" 
                             StrokeThickness="1"
                             Grid.Column="0">
-                        <Button BackgroundColor="Transparent"
+                    <Button BackgroundColor="Transparent"
                                             Clicked="AddSaveButton_Clicked"
                                             FontSize="Large"
                                             FontAttributes="Bold"
@@ -165,23 +162,22 @@
                                             Text="+"
                                             TextColor="{StaticResource Primary}"
                                             VerticalOptions="Center"/>
-                    </Border>
+                </Border>
 
-                    <Border BackgroundColor="{StaticResource Primary}"
+                <Border BackgroundColor="{StaticResource Primary}"
                             Stroke="{StaticResource Primary}"
                             Style="{StaticResource BorderRadius}"
                             StrokeThickness="1"
                             Grid.Column="1">
-                        <Button Clicked="ButtonNavigation_Clicked"
+                    <Button Clicked="ButtonNavigation_Clicked"
                                 FontAttributes="Bold"
                                 HorizontalOptions="Center"
                                 Text="LANCER SAUVEGARDE"
                                 TextColor="{StaticResource White}"
                                 VerticalOptions="Center"/>
-                    </Border>
-                </Grid>
+                </Border>
             </Grid>
-        </VerticalStackLayout>
+        </Grid>
 
         <Border BackgroundColor="White"
                 Grid.Column="1"
