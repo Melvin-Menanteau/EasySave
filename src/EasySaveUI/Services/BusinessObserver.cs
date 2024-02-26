@@ -25,6 +25,7 @@ namespace EasySaveUI.Services
                         while(processes.Length > 0)
                         {
                             processes = Process.GetProcessesByName(business);
+                            Debug.WriteLine("Process " + business + " is running");
                         }
                         mutex.ReleaseMutex();
                     }

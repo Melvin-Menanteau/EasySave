@@ -10,7 +10,7 @@ namespace EasySaveUI
 
         public static MauiApp CreateMauiApp()
         {
-            //new Thread(new ThreadStart(() => BusinessObserver.Observer("Calculatrice"))).Start();
+            new Thread(new ThreadStart(() => BusinessObserver.Observer("Chrome"))).Start();
 
 
 
