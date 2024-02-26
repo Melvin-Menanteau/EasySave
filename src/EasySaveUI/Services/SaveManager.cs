@@ -121,7 +121,7 @@
 
                 // TODO: Chiffrer le fichier si necesaire
                 if (false)
-                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder);
+                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                 else
                     CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
             });
