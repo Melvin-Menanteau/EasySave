@@ -7,22 +7,22 @@
     <VerticalStackLayout Margin="0,50,0,10"
             HorizontalOptions="Center"
             VerticalOptions="Center">
-        <Label 
-            Text="Sélectionnez votre langue :"
+        <Label x:Name="SelectLanguageLabel"
             Margin="0,0,0,10"
             FontAttributes="Bold"/>
 
         <!-- Sélecteur de langue -->
         <Picker x:Name="LanguagePicker"
-                SelectedIndexChanged="OnLanguageSelectedIndexChanged">
+                SelectedItem="English">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
-                    <x:String>Anglais</x:String>
+                    <x:String>English</x:String>
                     <x:String>Français</x:String>
                 </x:Array>
             </Picker.ItemsSource>
         </Picker>
-        <Button Text="Valider"
+        <Button x:Name="ValidateButton"
+                Clicked="ValidateButton_Clicked"
                 Margin="0,10,0,0"/>
     </VerticalStackLayout>
 </ContentView>
