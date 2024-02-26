@@ -3,10 +3,8 @@ namespace EasySaveUI.View;
 public partial class RunSavesPage : ContentPage
 {
     RunSavesPageViewModel viewModel;
-
     List<Save> SavesSelected = new List<Save>();
-
-    bool returnPressed = false;
+    private bool returnPressed = false;
 
     public RunSavesPage(RunSavesPageViewModel viewModel)
 	{
@@ -24,7 +22,6 @@ public partial class RunSavesPage : ContentPage
         base.OnAppearing();
     }
 
-    bool returnPressed = false;
     private async void OnImageTapped(object sender, EventArgs e)
     {
         if (!returnPressed)
