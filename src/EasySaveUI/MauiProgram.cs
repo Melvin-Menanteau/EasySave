@@ -1,12 +1,20 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace EasySaveUI
 {
     public static class MauiProgram
-    {
+    {        
+
         public static MauiApp CreateMauiApp()
         {
+            var processes = Process.GetProcessesByName("EasySaveUI");
+            if (processes.Length > 1)
+            {
+                Process.GetCurrentProcess().Kill();
+            }
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -19,6 +27,12 @@ namespace EasySaveUI
 
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<MainPage>();
+
+            builder.Services.AddTransient<ParametersPageViewModel>();
+            builder.Services.AddTransient<ParametersPage>();
+
+            builder.Services.AddTransient<RunSavesPageViewModel>();
+            builder.Services.AddTransient<RunSavesPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

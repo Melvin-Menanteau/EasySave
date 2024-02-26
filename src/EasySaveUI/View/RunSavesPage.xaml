@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
+             xmlns:model="clr-namespace:EasySaveUI.Model"
+             x:Class="EasySaveUI.View.RunSavesPage"
+             x:DataType="viewmodel:RunSavesPageViewModel">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+
+    <Grid Padding="10" 
+      ColumnSpacing="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout Grid.Column="0"
+                         Grid.Row="0"
+                         BackgroundColor="#e3e5e8">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Header menu -->
+                <FlexLayout Grid.Column="0"
+                            Grid.Row="0"
+                            JustifyContent="SpaceBetween"
+                            VerticalOptions="Start"
+                            AlignContent="Center">
+                    <ImageButton Source="logo.png"
+                             WidthRequest="100"
+                             Margin="10"
+                             BackgroundColor="Transparent"/>
+
+                    <ImageButton Source="black_back_arrow.png"
+                                 BackgroundColor="Transparent"
+                                 HeightRequest="10"
+                                 Margin="0,15,5,0"
+                                 Clicked="OnImageTapped">
+                        <ImageButton.Triggers>
+                            <Trigger TargetType="ImageButton" 
+                                     Property="IsPressed" 
+                                     Value="True">
+                                <Setter Property="Scale" Value="1.2" />
+                            </Trigger>
+                        </ImageButton.Triggers>
+
+                    </ImageButton>
+                </FlexLayout>
+
+                <!-- Liste des sauvegardes -->
+                <CollectionView x:Name="SavesSelectedCollection"
+                            Grid.Column="10"
+                            Grid.Row="1">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Save">
+                            <Border Style="{StaticResource BorderRadius}" 
+                                StrokeThickness="1">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border"
+                                             Binding="{Binding IsSelected}"
+                                             Value="False">
+                                        <Setter Property="Stroke"
+                                            Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border"
+                                             Binding="{Binding IsSelected}"
+                                             Value="True">
+                                        <Setter Property="Stroke"
+                                            Value="{StaticResource Primary}"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <VerticalStackLayout BackgroundColor="White"
+                                                 Padding="10"
+                                                 Shadow="{StaticResource CommonShadow}"
+                                                 WidthRequest="380">
+                                    <FlexLayout Direction="Row"
+                                            JustifyContent="SpaceBetween">
+                                        <CheckBox CheckedChanged="CheckBox_CheckedChanged"/>
+                                        <Label Text="{Binding Name}"
+                                           FontAttributes="Bold"/>
+                                        <HorizontalStackLayout>
+                                            <Label Text="170"/>
+                                        </HorizontalStackLayout>
+                                    </FlexLayout>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding InputFolder}"/>
+                                        <Label Text="{Binding OutputFolder}"/>
+                                        <Label Text="{Binding SaveType}"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </VerticalStackLayout>
+
+        <FlexLayout Grid.Column="1"
+                Grid.Row="0"
+                BackgroundColor="White"
+                JustifyContent="Center"
+                Direction="Column">
+
+            <Label Text="Lancement des sauvegarde"
+                   x:Name="TitreLancementSauvegarde"
+                   FontSize="Large"/>
+
+            <Label Text="Sauvegardes à lancer"/>
+            <Editor x:Name="SavesEditor"
+                    IsReadOnly="True"
+                    IsEnabled="False"/>
+
+            <Button x:Name="RunSavesButton"
+                    Text="Lancer sauvegardes"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="15"
+                    Clicked="RunSavesButton_Clicked"/>
+        </FlexLayout>
+    </Grid>
+</ContentPage>

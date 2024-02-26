@@ -1,0 +1,43 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
+             x:Class="EasySaveUI.View.GeneralSettingsView">
+    <VerticalStackLayout>
+        <!-- Première ligne -->
+        <FlexLayout Direction="Column">
+            <Label Text="Taille maximum des fichiers :"
+                    Margin="10,10,0,0"/>
+            <Entry x:Name="TailleFichiersEntry"
+                   Placeholder="Taille des fichiers"
+                   Margin="10,5,10,0"/>
+        </FlexLayout>
+
+        <!-- Deuxième ligne-->
+        <FlexLayout Direction="Column">
+            <Label Text="Ajouter les types des fichiers prioritaires :"
+                   Margin="10,10,0,0"/>
+            <Editor x:Name="editorPriority"
+                Placeholder="Un type par ligne"
+                HeightRequest="70"
+                TextChanged="OnEditorPriorityTextChanged"
+                Completed="OnEditorPriorityCompleted"
+                    Margin="10,5,10,0"/>
+        </FlexLayout>
+        
+        <!--Troisième ligne-->
+        <FlexLayout Direction="Column">
+            <Label Text="Applications métiers :"
+                   Margin="10,10,0,0"/>
+            <Editor x:Name="editorMetiers"
+                Placeholder="Une application par ligne"
+                HeightRequest="70"
+                TextChanged="OnEditorMetiersTextChanged"
+                Completed="OnEditorMetiersCompleted"
+                Margin="10,5,10,0"/>
+        </FlexLayout>
+        <Button Text="Valider"
+                HorizontalOptions="End"
+                Margin="10,5,10,0"/>
+    </VerticalStackLayout>
+</ContentView>

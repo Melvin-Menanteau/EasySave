@@ -98,9 +98,9 @@ public partial class MainPage : ContentPage
         ResetInput();
     }
 
-    private void ParametersButton_Clicked(object sender, EventArgs e)
+    private async void ParametersButton_Clicked(object sender, EventArgs e)
     {
-
+        await Shell.Current.GoToAsync(nameof(ParametersPage), false);
     }
 
     private void DeleteButton_Clicked(object sender, EventArgs e)
@@ -109,6 +109,12 @@ public partial class MainPage : ContentPage
         ResetInput();
         viewModel.GetSauvegardes();
         SavesCollection.ItemsSource = viewModel.Saves;
+
+    }
+
+    private async void ButtonNavigation_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(RunSavesPage), false);
     }
 
     private async void PickInputFolder(object sender, EventArgs e)
