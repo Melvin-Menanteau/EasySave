@@ -18,7 +18,7 @@ namespace DistantConsole
                 {
                     TcpClient client = new TcpClient(ip, int.Parse(port));
                     connected = true;
-                    Console.WriteLine("Connected to server");
+                    Console.Clear();
                     NetworkStream stream = client.GetStream();
                     StreamReader reader = new StreamReader(stream);
                     StreamWriter writer = new StreamWriter(stream) { AutoFlush = true };
@@ -27,6 +27,8 @@ namespace DistantConsole
                     {
                         string message = reader.ReadLine();
                         Console.WriteLine(message);
+                        // TODO: ajouter une methode pour mettre en forme le messag recu. 
+
                     }
                 }
                 catch (Exception e)
