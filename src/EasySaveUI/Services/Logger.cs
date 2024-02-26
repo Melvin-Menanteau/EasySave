@@ -12,16 +12,20 @@ namespace EasySaveUI.Services
 
         protected void log(string message)
         {
-            // write message to logfile in append mode
-            try
+            using (Mutex mutex = new Mutex(false, "Ecriture"))
             {
-                StreamWriter sw = new StreamWriter(Logfile);
-                sw.WriteLine(message);
-                sw.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error while writing to log file : " + e.Message);
+
+                // write message to logfile in append mode
+                try
+                {
+                    StreamWriter sw = new StreamWriter(Logfile);
+                    sw.WriteLine(message);
+                    sw.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error while writing to log file : " + e.Message);
+                }
             }
         }
     }
