@@ -22,9 +22,12 @@
             <Label Text="Clé de chiffrement :"
                    Margin="10,10,0,0"/>
             <Entry 
+                x:Name="editorKey"
+                TextChanged="OnTextChanged"
                 Margin="10,5,10,0"/>
             <Button Text="Valider"
                 HorizontalOptions="End"
+                    Clicked="SaveKeyButton_Clicked"
                 Margin="10,5,10,0"/>
         </FlexLayout>
             
