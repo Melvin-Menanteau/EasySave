@@ -29,28 +29,7 @@ namespace EasySave
         /// <param name="listeId">Liste des identifiants des sauvegardes a lancer, Si aucun id n'est specifie, lance toutes les sauvegardes.</param>
         public void LancerSauvegarde(List<int> listeId)
         {
-            /* Passer le statut des sauvegardes a NOT_STARTED */
-            foreach (int id in listeId)
-            {
-                UpdateSaveState(_saveConfiguration.GetConfiguration(id), SaveState.NOT_STARTED);
-            }
-
-            /* Lancer les sauvegardes une par une */
-            foreach (int id in listeId)
-            {
-                Console.WriteLine($"Lancement de la sauvegarde \"{_saveConfiguration.GetConfiguration(id).Name}\"...");
-
-                Save save = _saveConfiguration.GetConfiguration(id) ?? throw new ArgumentException($"Il n'existe pas de configuration de sauvegarde pour cet identifiant: {id}");
-
-                if (save.SaveType == SaveType.COMPLETE)
-                {
-                    EffectuerSauvegardeComplete(save);
-                }
-                else if (save.SaveType == SaveType.DIFFERENTIAL)
-                {
-                    EffectuerSauvegardeDifferentielle(save);
-                }
-            }
+            listeId.ForEach(id => SaveManager.GetInstance().RunSave(_saveConfiguration.GetConfiguration(id)));
         }
 
         /// <summary>

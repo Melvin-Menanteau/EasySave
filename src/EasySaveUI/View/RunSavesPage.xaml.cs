@@ -3,10 +3,10 @@ namespace EasySaveUI.View;
 public partial class RunSavesPage : ContentPage
 {
     RunSavesPageViewModel viewModel;
-
     List<Save> SavesSelected = new List<Save>();
+    private bool returnPressed = false;
 
-	public RunSavesPage(RunSavesPageViewModel viewModel)
+    public RunSavesPage(RunSavesPageViewModel viewModel)
 	{
 		InitializeComponent();
         this.viewModel = viewModel;
@@ -24,7 +24,11 @@ public partial class RunSavesPage : ContentPage
 
     private async void OnImageTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("../", false);
+        if (!returnPressed)
+        {
+            await Shell.Current.GoToAsync("../", false);
+        }
+        returnPressed = true;
     }
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -40,6 +44,16 @@ public partial class RunSavesPage : ContentPage
         else
         {
             SavesSelected.Remove(Save);
+        }
+        EditorSaveEditor();
+    }
+
+    private void EditorSaveEditor()
+    {
+        SavesEditor.Text = string.Empty;
+        foreach (var save in SavesSelected)
+        {
+            SavesEditor.Text += save.Id + "; ";
         }
     }
 

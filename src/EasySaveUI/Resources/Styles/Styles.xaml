@@ -394,7 +394,7 @@
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BackgroundColor}, Dark={StaticResource OffBlack}}" />
     </Style>
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
@@ -425,12 +425,18 @@
 
     <Style x:Key="BorderRadius" TargetType="Border">
         <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="Stroke" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="CommonBoxSizing" TargetType="Button">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="10"/>
     </Style>
 
     <Shadow x:Key="CommonShadow"
          Brush="Black"
          Offset="0, 4"
          Radius="4"
-         Opacity="0.03"
+         Opacity="0.05"
      />
 </ResourceDictionary>
