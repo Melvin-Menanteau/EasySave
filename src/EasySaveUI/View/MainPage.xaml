@@ -100,15 +100,32 @@
                                         <Label Text="{Binding OutputFolder}" FontSize="12"/>
                                         <Label Text="{Binding SaveType}" FontSize="12"/>
                                     </VerticalStackLayout>
-                                    <Grid>
+                                    <Grid ColumnSpacing="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <ProgressBar ScaleY="2"
+                                        <ProgressBar Grid.Column="0"
+                                                     ScaleY="2"
                                                      Progress="{Binding Progress}"/>
+                                        <Image Grid.Column="1"
+                                               Source="pause.png"
+                                               WidthRequest="20"
+                                               HeightRequest="20">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="PauseButton_Clicked"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                        <Image Grid.Column="2"
+                                               Source="stop.png"
+                                               WidthRequest="20"
+                                               HeightRequest="20">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="StopButton_Clicked"/>
+                                            </Image.GestureRecognizers>
+                                        </Image>
                                     </Grid>
                                 </VerticalStackLayout>
                             </Border>

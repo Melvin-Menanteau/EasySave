@@ -153,4 +153,28 @@ public partial class MainPage : ContentPage
             Debug.WriteLine(excp.Message);
         }
     }
+
+    private void PauseButton_Clicked(object sender, EventArgs e)
+    {
+        Save save = (Save)((Image)sender).BindingContext;
+
+        viewModel.TogglePauseSave(save);
+
+        // TODO: Vérifier qu'il n'y ait pas eu d'erreur lors de la mise en pause
+        if (save.State == SaveState.PAUSED)
+        {
+            ((Image)sender).Source = "play.png";
+        }
+        else
+        {
+            ((Image)sender).Source = "pause.png";
+        }
+    }
+
+    private void StopButton_Clicked(object sender, EventArgs e)
+    {
+        Save save = (Save)((Image)sender).BindingContext;
+
+        viewModel.StopSave(save);
+    }
 }

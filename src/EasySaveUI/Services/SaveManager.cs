@@ -75,6 +75,9 @@ namespace EasySaveUI.Services
                     _runningSaves.Remove(save.Id);
                     _runningSavesState.Remove(save.Id);
                     _runningSavesCancellation.Remove(save.Id);
+
+                    save.NbFilesLeftToDo = save.TotalFilesToCopy;
+                    save.Progress = 0;
                 }
             }
         }
@@ -273,7 +276,7 @@ namespace EasySaveUI.Services
         /// Met en pause une sauvegarde
         /// </summary>
         /// <param name="save">La sauvegarde a mettre en pause</param>
-        private void PauseSave(Save save)
+        public void PauseSave(Save save)
         {
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
@@ -286,7 +289,7 @@ namespace EasySaveUI.Services
         /// Relance une sauvegarde en pause
         /// </summary>
         /// <param name="save">La sauvegarde a relancer</param>
-        private void ResumeSave(Save save)
+        public void ResumeSave(Save save)
         {
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
