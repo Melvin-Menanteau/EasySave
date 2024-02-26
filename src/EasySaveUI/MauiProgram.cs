@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace EasySaveUI
 {
@@ -33,6 +34,7 @@ namespace EasySaveUI
 
             builder.Services.AddTransient<RunSavesPageViewModel>();
             builder.Services.AddTransient<RunSavesPage>();
+
 
 #if DEBUG
             builder.Logging.AddDebug();
