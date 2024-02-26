@@ -1,25 +1,25 @@
 ﻿using System.Globalization;
 using System.Resources;
 
-public class LanguageService
+public class SharedLocalizer
 {
-    private static LanguageService _instance;
+    private static SharedLocalizer _instance;
     private CultureInfo _currentLanguage;
     private ResourceManager _resourceManager;
 
     public CultureInfo CurrentLanguage => _currentLanguage;
 
-    private LanguageService(CultureInfo initialLanguage)
+    private SharedLocalizer(CultureInfo initialLanguage)
     {
         _currentLanguage = initialLanguage;
-        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(LanguageService).Assembly);
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
     }
 
-    public static LanguageService GetInstance(CultureInfo initialLanguage)
+    public static SharedLocalizer GetInstance(CultureInfo initialLanguage)
     {
         if (_instance == null)
         {
-            _instance = new LanguageService(initialLanguage);
+            _instance = new SharedLocalizer(initialLanguage);
         }
         return _instance;
     }

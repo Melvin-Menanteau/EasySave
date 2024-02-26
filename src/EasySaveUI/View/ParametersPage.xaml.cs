@@ -15,7 +15,7 @@ public partial class ParametersPage : ContentPage
     {
         InitializeComponent();
 
-        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(LanguageService).Assembly);
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
 
         this.viewModel = viewModel;
         titlePage.Text = "Général";

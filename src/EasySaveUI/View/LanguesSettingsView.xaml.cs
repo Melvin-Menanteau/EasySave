@@ -15,7 +15,7 @@ namespace EasySaveUI.View
             InitializeComponent();
 
             // Initialize the ResourceManager with your resources
-            _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(LanguageService).Assembly);
+            _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
 
             // Initialize the picker with the default language (English)
             LanguagePicker.SelectedIndex = 0; // Assuming English is the first language in the list
@@ -38,7 +38,7 @@ namespace EasySaveUI.View
         {
             var selectedLanguageIndex = LanguagePicker.SelectedIndex;
 
-            var languageService = LanguageService.GetInstance(new CultureInfo("en")); // Use the initial language
+            var languageService = SharedLocalizer.GetInstance(new CultureInfo("en")); // Use the initial language
 
             if (selectedLanguageIndex == 0) // English
             {
