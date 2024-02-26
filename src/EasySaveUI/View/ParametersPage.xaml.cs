@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using System.Resources;
 
 namespace EasySaveUI.View;
 
@@ -7,24 +8,44 @@ public partial class ParametersPage : ContentPage
 
     ParametersPageViewModel viewModel;
     string choice = "";
+    private ResourceManager _resourceManager;
     private bool returnPressed = false;
 
     public ParametersPage(ParametersPageViewModel viewModel)
     {
         InitializeComponent();
+
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(LanguageService).Assembly);
+
         this.viewModel = viewModel;
         titlePage.Text = "Général";
         GeneralBoxView.IsVisible = true;
         GeneralButton.FontAttributes = FontAttributes.Bold;
 
         UpdateParametersView(choice);
+        MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
+        {
+            LoadLocalizedTexts();
+        });
+        LoadLocalizedTexts();
     }
 
+    private void LoadLocalizedTexts()
+    {
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+
+        GeneralButton.Text = _resourceManager.GetString("GeneralKey", cultureInfo);
+        ChiffrementButton.Text = _resourceManager.GetString("ChiffrementKey", cultureInfo);
+        LanguesButton.Text = _resourceManager.GetString("LanguesKey", cultureInfo);
+        JournauxButton.Text = _resourceManager.GetString("JournauxKey", cultureInfo);
+        ThemesButton.Text = _resourceManager.GetString("ThemesKey", cultureInfo);
+    }
     private void UpdateParametersView(string choice)
     {
         switch (choice)
         {
             case "Général":
+            case "General":
             default:
                 // Paramétrer les logiciel métier
                 // Taille des fichiers
@@ -32,19 +53,23 @@ public partial class ParametersPage : ContentPage
                 ParametersView.Content = new GeneralSettingsView();
                 break;
             case "Chiffrement":
+            case "Encryption":
                 // Types de fichiers devant être chiffrés
                 // Choix de la clé de chiffrement
-                ParametersView.Content = new ChiffrementSettingsView();
+                ParametersView.Content = new ChiffrementSettingsView(viewModel);
                 break;
             case "Langues":
+            case "Languages":
                 // Choix de la langue
                 ParametersView.Content = new LanguesSettingsView();
                 break;
             case "Journaux d'activités":
+            case "Activity logs":
                 // Affichage des journaux de logs
                 ParametersView.Content = new JournauxSettingsView();
                 break;
             case "Thèmes":
+            case "Themes":
                 // Choix du thèmes
                 ParametersView.Content = new ThemesSettingsView();
                 break;
@@ -93,5 +118,12 @@ public partial class ParametersPage : ContentPage
             await Shell.Current.GoToAsync("../", false);
         }
         returnPressed = true;
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        MessagingCenter.Unsubscribe<LanguesSettingsView>(this, "LanguageChanged");
     }
 }

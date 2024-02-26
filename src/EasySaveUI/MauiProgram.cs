@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace EasySaveUI
 {
@@ -9,6 +10,10 @@ namespace EasySaveUI
 
         public static MauiApp CreateMauiApp()
         {
+            new Thread(new ThreadStart(() => BusinessObserver.Observer("Chrome"))).Start();
+
+
+
             var processes = Process.GetProcessesByName("EasySaveUI");
             if (processes.Length > 1)
             {
@@ -33,6 +38,7 @@ namespace EasySaveUI
 
             builder.Services.AddTransient<RunSavesPageViewModel>();
             builder.Services.AddTransient<RunSavesPage>();
+
 
 #if DEBUG
             builder.Logging.AddDebug();
