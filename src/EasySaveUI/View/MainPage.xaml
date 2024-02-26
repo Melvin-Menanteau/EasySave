@@ -144,11 +144,12 @@
                             Style="{StaticResource BorderRadius}"
                             StrokeThickness="1"
                             Grid.Column="1">
-                        <Label FontAttributes="Bold"
-                                            HorizontalOptions="Center"
-                                            Text="LANCER SAUVEGARDE"
-                                            TextColor="{StaticResource White}"
-                                            VerticalOptions="Center"/>
+                        <Button Clicked="ButtonNavigation_Clicked"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Text="LANCER SAUVEGARDE"
+                                TextColor="{StaticResource White}"
+                                VerticalOptions="Center"/>
                     </Border>
                 </Grid>
             </Grid>
