@@ -1,4 +1,6 @@
-﻿namespace EasySaveUI.Services
+﻿using System.Diagnostics;
+
+namespace EasySaveUI.Services
 {
     public class SaveManager
     {
@@ -38,12 +40,13 @@
             {
                 if (_runningSaves.ContainsKey(save.Id))
                 {
-                    Console.WriteLine($"La sauvegarde \"{save.Name}\" est déjà en cours d'exécution");
+                    Debug.WriteLine($"La sauvegarde \"{save.Name}\" est déjà en cours d'exécution");
                     // TODO: Throw exception ?
 
                     return;
                 }
 
+                Debug.WriteLine($"La sauvegarde {save.Name} à été lancée");
                 _runningSaves.Add(save.Id, new Thread(() => SaveThread(save)));
                 _runningSaves[save.Id].Start();
             }
@@ -85,41 +88,37 @@
         /// <param name="save">La sauvegarde à effectuer</param>
         private void SaveThread(Save save)
         {
-            Console.WriteLine($"Starting save {save.Name}");
+            Debug.WriteLine($"Starting save {save.Name}");
 
             UpdateSaveState(save, SaveState.IN_PROGRESS);
 
             List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
 
-            // TODO: Trier les fichiers par priorité
-            // TODO: Trier les fichiers par taille
+            // Trier les fichiers par taille dans l'ordre croissant
+            filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
-            //List<string> ext = new List<string>() { "js", "txt" };
+            // Trier les fichiers par priorité
+            List<string> ext = new List<string>() { "vue", "txt" };
 
-            //filesToCopy.Sort((string a, string b) =>
-            //{
-            //    string extA = Path.GetExtension(a).TrimStart('.');
-            //    string extB = Path.GetExtension(b).TrimStart('.');
+            filesToCopy.Sort((string a, string b) =>
+            {
+                string extA = Path.GetExtension(a).TrimStart('.');
+                string extB = Path.GetExtension(b).TrimStart('.');
 
-            //    if (ext.Contains(extA) && !ext.Contains(extB))
-            //    {
-            //        return -1;
-            //    }
-            //    else if (!ext.Contains(extA) && ext.Contains(extB))
-            //    {
-            //        return 1;
-            //    }
-            //    else
-            //    {
-            //        return 0;
-            //    }
-            //});
+                if (ext.Contains(extA) && !ext.Contains(extB))
+                    return -1;
+                else if (!ext.Contains(extA) && ext.Contains(extB))
+                    return 1;
+                else
+                    return 0;
+            });
 
             filesToCopy.ForEach((file) =>
             {
-                Console.WriteLine($"[{save.Name}] - Copying: {file}");
+                if (save.Name == "Sauvegarde 2")
+                    Debug.WriteLine($"[{save.Name}] - EXT: {Path.GetExtension(file).TrimStart('.')} - SIZE: {new FileInfo(file).Length} - Copying: {file}");
 
-                // TODO: Chiffrer le fichier si necesaire
+                // TODO: Chiffrer le fichier si nécesaire
                 if (false)
                     EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                 else
@@ -182,7 +181,7 @@
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error while copying file {inputFullPath} to {outputFullPath}: {e.Message}");
+                Debug.WriteLine($"Error while copying file {inputFullPath} to {outputFullPath}: {e.Message}");
             }
         }
 
