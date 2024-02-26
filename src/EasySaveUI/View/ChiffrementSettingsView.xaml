@@ -9,14 +9,15 @@
             <Label Text="Liste des types à chiffrer :"
                 Margin="10,10,0,0"/>
             <Editor x:Name="editor"
-                Placeholder="Un type par ligne"
-                HeightRequest="70"
-                TextChanged="OnEditorTextChanged"
-                Completed="OnEditorCompleted"
-                Margin="10,5,10,0"/>
+                    Placeholder="Un type par ligne"
+                    HeightRequest="70"
+                    TextChanged="OnEditorTextChanged"
+                    Completed="OnEditorCompleted"
+                    Margin="10,5,10,0"/>
             <Button Text="Valider"
-                HorizontalOptions="End"
-                Margin="10,5,10,0"/>
+                    HorizontalOptions="End"
+                    Margin="10,5,10,0"
+                    Clicked="SaveEditorButton_Clicked"/>
         </FlexLayout>
         <FlexLayout Direction="Column">
             <Label Text="Clé de chiffrement :"
