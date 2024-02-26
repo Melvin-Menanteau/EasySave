@@ -57,12 +57,14 @@ public partial class RunSavesPage : ContentPage
         }
     }
 
-    private void RunSavesButton_Clicked(object sender, EventArgs e)
+    private async void RunSavesButton_Clicked(object sender, EventArgs e)
     {
         SaveManager saveManager = SaveManager.GetInstance();
 
         SavesSelected.ForEach(saveManager.RunSave);
 
         SavesSelected.Clear();
+
+        await Shell.Current.GoToAsync("../", false);
     }
 }
