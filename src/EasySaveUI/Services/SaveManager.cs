@@ -6,6 +6,8 @@ namespace EasySaveUI.Services
     {
         private static SaveManager _instance;
         private readonly Dictionary<int, Thread> _runningSaves;
+        private readonly Dictionary<int, ManualResetEvent> _runningSavesState;
+        private readonly Dictionary<int, CancellationTokenSource> _runningSavesCancellation;
         private readonly object _lockRunningSave = new object();
         private readonly object _lockLargeFile = new object();
         private readonly Parameters _parameters = Parameters.GetInstance();
@@ -15,8 +17,9 @@ namespace EasySaveUI.Services
         private SaveManager()
         {
             _runningSaves = new Dictionary<int, Thread>();
+            _runningSavesState = new Dictionary<int, ManualResetEvent>();
+            _runningSavesCancellation = new Dictionary<int, CancellationTokenSource>();
         }
-
 
         /// <summary>
         /// Récupère l'instance de la classe
@@ -47,7 +50,11 @@ namespace EasySaveUI.Services
                     return;
                 }
 
-                _runningSaves.Add(save.Id, new Thread(() => SaveThread(save)));
+                CancellationTokenSource cancellationToken = new CancellationTokenSource();
+
+                _runningSaves.Add(save.Id, new Thread(() => SaveThread(save, cancellationToken.Token)));
+                _runningSavesState.Add(save.Id, new ManualResetEvent(true));
+                _runningSavesCancellation.Add(save.Id, cancellationToken);
                 _runningSaves[save.Id].Start();
             }
         }
@@ -60,9 +67,14 @@ namespace EasySaveUI.Services
         {
             lock (_lockRunningSave)
             {
-                if (_runningSaves.ContainsKey(save.Id))
+                if (_runningSavesCancellation.TryGetValue(save.Id, out CancellationTokenSource c))
                 {
+                    c.Cancel();
+                    c.Dispose();
+
                     _runningSaves.Remove(save.Id);
+                    _runningSavesState.Remove(save.Id);
+                    _runningSavesCancellation.Remove(save.Id);
                 }
             }
         }
@@ -74,11 +86,14 @@ namespace EasySaveUI.Services
         {
             lock (_lockRunningSave)
             {
-                foreach (var save in _runningSaves)
-                {
-                    save.Value.Abort();
-                }
+                _runningSavesCancellation.Values.ToList().ForEach(c => {
+                    c.Cancel();
+                    c.Dispose();
+                 });
+
                 _runningSaves.Clear();
+                _runningSavesState.Clear();
+                _runningSavesCancellation.Clear();
             }
         }
 
@@ -86,61 +101,68 @@ namespace EasySaveUI.Services
         /// Fonction exécutée par un thread pour effectuer une sauvegarde
         /// </summary>
         /// <param name="save">La sauvegarde à effectuer</param>
-        private void SaveThread(Save save)
+        private void SaveThread(Save save, CancellationToken cancellationToken)
         {
             UpdateSaveState(save, SaveState.IN_PROGRESS);
 
-            List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
-
-            // Trier les fichiers par taille dans l'ordre croissant
-            filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
-
-            // Trier les fichiers par priorité
-            List<string> ext = new List<string>() { "vue", "txt" };
-
-            filesToCopy.Sort((string a, string b) =>
+            while (!cancellationToken.IsCancellationRequested)
             {
-                string extA = Path.GetExtension(a).TrimStart('.');
-                string extB = Path.GetExtension(b).TrimStart('.');
+                List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
 
-                if (ext.Contains(extA) && !ext.Contains(extB))
-                    return -1;
-                else if (!ext.Contains(extA) && ext.Contains(extB))
-                    return 1;
-                else
-                    return 0;
-            });
+                // Trier les fichiers par taille dans l'ordre croissant
+                filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
-            filesToCopy.ForEach((file) =>
-            {
-                bool islargeFile = new FileInfo(file).Length > 500_000;
+                // Trier les fichiers par priorité
+                List<string> ext = new List<string>() { "vue", "txt" };
 
-                if (islargeFile)
+                filesToCopy.Sort((string a, string b) =>
                 {
-                    Monitor.Enter(_lockLargeFile);
-                }
+                    string extA = Path.GetExtension(a).TrimStart('.');
+                    string extB = Path.GetExtension(b).TrimStart('.');
 
-                try
-                {
-                    if (_parameters.ExtensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
-                        EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    if (ext.Contains(extA) && !ext.Contains(extB))
+                        return -1;
+                    else if (!ext.Contains(extA) && ext.Contains(extB))
+                        return 1;
                     else
-                        CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-                } catch (Exception e)
+                        return 0;
+                });
+
+                foreach (string file in filesToCopy)
                 {
-                    Debug.WriteLine($"Error while copying file {file}: {e.Message}");
-                }
-                finally {
-                    // Liberer le lock si c'est un gros fichier
+                    _runningSavesState[save.Id].WaitOne();
+
+                    bool islargeFile = new FileInfo(file).Length > 500_000;
+
                     if (islargeFile)
                     {
-                        Monitor.PulseAll(_lockLargeFile);
-                        Monitor.Exit(_lockLargeFile);
+                        Monitor.Enter(_lockLargeFile);
+                    }
+
+                    try
+                    {
+                        if (_parameters.ExtensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
+                            EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                        else
+                            CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"Error while copying file {file}: {e.Message}");
+                    }
+                    finally
+                    {
+                        // Liberer le lock si c'est un gros fichier
+                        if (islargeFile)
+                        {
+                            Monitor.PulseAll(_lockLargeFile);
+                            Monitor.Exit(_lockLargeFile);
+                        }
                     }
                 }
-            });
 
-            StopSave(save);
+                StopSave(save);
+            }
         }
 
         /// <summary>
@@ -239,6 +261,32 @@ namespace EasySaveUI.Services
             save.State = state;
 
             //_loggerEtat.WriteStatesToFile();
+        }
+
+        /// <summary>
+        /// Met en pause une sauvegarde
+        /// </summary>
+        /// <param name="save">La sauvegarde a mettre en pause</param>
+        private void PauseSave(Save save)
+        {
+            if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
+            {
+                mre.Reset();
+                UpdateSaveState(save, SaveState.PAUSED);
+            }
+        }
+
+        /// <summary>
+        /// Relance une sauvegarde en pause
+        /// </summary>
+        /// <param name="save">La sauvegarde a relancer</param>
+        private void ResumeSave(Save save)
+        {
+            if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
+            {
+                mre.Set();
+                UpdateSaveState(save, SaveState.IN_PROGRESS);
+            }
         }
     }
 }

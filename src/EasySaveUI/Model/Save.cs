@@ -18,7 +18,9 @@ namespace EasySaveUI.Model
         ERROR = -1,
         NOT_STARTED = 0,
         IN_PROGRESS = 1,
-        FINISHED = 2
+        FINISHED = 2,
+        STOPPED = 3,
+        PAUSED = 4
     }
 
     public class Save

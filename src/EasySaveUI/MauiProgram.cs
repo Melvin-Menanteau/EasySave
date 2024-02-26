@@ -10,9 +10,7 @@ namespace EasySaveUI
 
         public static MauiApp CreateMauiApp()
         {
-            new Thread(new ThreadStart(() => BusinessObserver.Observer("Chrome"))).Start();
-
-
+            new Thread(new ThreadStart(() => BusinessObserver.Observer("CalculatorApp"))).Start();
 
             var processes = Process.GetProcessesByName("EasySaveUI");
             if (processes.Length > 1)
