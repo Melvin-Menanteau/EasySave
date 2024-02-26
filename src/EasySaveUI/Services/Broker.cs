@@ -35,6 +35,7 @@ namespace EasySaveUI.Services
                 Debug.WriteLine("Client connected");
                 // send message to client
                 writer.WriteLine("Server connected");
+                SendProgressToClient("test", 1, 2);
             }
         }
 
@@ -42,6 +43,21 @@ namespace EasySaveUI.Services
         {
             using (Mutex mutex = new Mutex(false, "EasySaveUIBrokerMutex"))
             {
+                mutex.WaitOne();
+                if (client != null)
+                {
+                    writer.WriteLine(message);
+                }
+                mutex.ReleaseMutex();
+            }
+        }
+
+
+        public void SendProgressToClient(string name ,int files_processed  ,int nb_total)
+        {
+            using (Mutex mutex = new Mutex(false, "EasySaveUIBrokerMutex"))
+            {
+                string message = "prog_message" + files_processed + " " + nb_total + " " + name;
                 mutex.WaitOne();
                 if (client != null)
                 {
