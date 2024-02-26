@@ -64,9 +64,9 @@ public partial class ParametersPage : ContentPage
                 ParametersView.Content = new LanguesSettingsView();
                 break;
             case "Journaux d'activités":
-            case "Activity logs":
+            case "Activity Logs":
                 // Affichage des journaux de logs
-                ParametersView.Content = new JournauxSettingsView();
+                ParametersView.Content = new JournauxSettingsView(viewModel);
                 break;
             case "Thèmes":
             case "Themes":
