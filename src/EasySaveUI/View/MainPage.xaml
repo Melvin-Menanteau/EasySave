@@ -217,17 +217,17 @@
                             JustifyContent="End"
                             Grid.Row="2">
                     <Border Style="{StaticResource BorderRadius}">
-                        <Button x:Name="SaveButton" 
-                                Text="Enregistrer"
-                                BackgroundColor="{StaticResource Primary}"
-                                Clicked="SaveButton_Clicked"/>
-                    </Border>
-
-                    <Border Style="{StaticResource BorderRadius}">
                         <Button x:Name="DeleteButton"
                                 Text="Supprimer"
                                 BackgroundColor="{StaticResource Red}"
                                 Clicked="DeleteButton_Clicked"/>
+                    </Border>
+
+                    <Border Style="{StaticResource BorderRadius}">
+                        <Button x:Name="SaveButton" 
+                                Text="Enregistrer"
+                                BackgroundColor="{StaticResource Primary}"
+                                Clicked="SaveButton_Clicked"/>
                     </Border>
                 </FlexLayout>
             </Grid>
