@@ -38,7 +38,8 @@ namespace EasySaveUI.Model
         private double _progress { get; set; }
         [JsonIgnore]
         public SaveState State { get; set; }
-        public bool IsSelected = false;
+        [JsonIgnore]
+        private bool _isSelected = false;
 
         /// <summary>
         /// Constructeur de la classe Save
@@ -80,6 +81,12 @@ namespace EasySaveUI.Model
         {
             get => _progress;
             set => SetProperty(_progress, value, this, (save, val) => save._progress = val);
+        }
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(_isSelected, value, this, (save, val) => save._isSelected = val);
         }
 
         public override string ToString()

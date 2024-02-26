@@ -71,7 +71,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
                             <Border Style="{StaticResource BorderRadius}"
-                                    Shadow="{StaticResource CommonShadow}">
+                                    Shadow="{StaticResource CommonShadow}"
+                                    StrokeThickness="2">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border"
                                                  Binding="{Binding IsSelected}"
