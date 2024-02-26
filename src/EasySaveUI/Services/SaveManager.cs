@@ -109,6 +109,9 @@ namespace EasySaveUI.Services
             {
                 List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
 
+                save.TotalFilesToCopy = filesToCopy.Count;
+                save.NbFilesLeftToDo = filesToCopy.Count;
+
                 // Trier les fichiers par taille dans l'ordre croissant
                 filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
@@ -145,6 +148,9 @@ namespace EasySaveUI.Services
                             EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                         else
                             CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+
+                        save.NbFilesLeftToDo--;
+                        save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
                     }
                     catch (Exception e)
                     {
@@ -234,7 +240,7 @@ namespace EasySaveUI.Services
 
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "C:\\Users\\pierr\\source\\repos\\Prosit5\\Prosit5\\Cryptosoft\\bin\\Debug\\net8.0\\Cryptosoft.exe",
+                FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cryptosoft", "cryptosoft.exe"),
                 Arguments = $"{inputFullPath} {outputFullPath}", // Commande à exécuter
                 RedirectStandardOutput = true,
                 UseShellExecute = false

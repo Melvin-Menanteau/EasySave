@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace EasySaveUI.Model
 {
@@ -23,7 +19,7 @@ namespace EasySaveUI.Model
         PAUSED = 4
     }
 
-    public class Save
+    public class Save : ObservableObject
     {
         private static int _idCounter = 0;
         public int Id { get; set; }
@@ -32,11 +28,14 @@ namespace EasySaveUI.Model
         public string OutputFolder { get; set; }
         public SaveType SaveType { get; set; }
         [JsonIgnore]
-        public int TotalFilesToCopy { get; set; }
+        private int _TotalFilesToCopy { get; set; } = 0;
         [JsonIgnore]
         public int TotalFilesSize { get; set; }
         [JsonIgnore]
         public int NbFilesLeftToDo { get; set; }
+        // Progression comprise entre 0 et 1
+        [JsonIgnore]
+        private float _progress { get; set; }
         [JsonIgnore]
         public SaveState State { get; set; }
         public bool IsSelected = false;
@@ -61,6 +60,26 @@ namespace EasySaveUI.Model
 
         public Save()
         {
+        }
+
+        /// <summary>
+        /// Getter et Setter de l'attribut _totalFilesToCopy
+        /// Permet également de notifier le changement de valeur de l'attribut à la vue
+        /// </summary>
+        public int TotalFilesToCopy
+        {
+            get => _TotalFilesToCopy;
+            set => SetProperty(_TotalFilesToCopy, value, this, (save, val) => save._TotalFilesToCopy = val);
+        }
+
+        /// <summary>
+        /// Getter et Setter de l'attribut _progress
+        /// Permet également de notifier le changement de valeur de l'attribut à la vue
+        /// </summary>
+        public float Progress
+        {
+            get => _progress;
+            set => SetProperty(_progress, value, this, (save, val) => save._progress = val);
         }
 
         public override string ToString()
