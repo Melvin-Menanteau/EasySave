@@ -202,12 +202,12 @@
                         </Grid.ColumnDefinitions>
 
                         <Entry Grid.Column="0"
-                            x:Name="EntrySaveOutputFolder"/>
+                                x:Name="EntrySaveOutputFolder"/>
                         <Button Grid.Column="1"
-                            Clicked="PickInputFolder"
-                            Text="..."/>
+                                Clicked="PickInputFolder"
+                                Text="..."/>
                     </Grid>
-                    
+
                     <Label Text="Type de sauvegarde"/>
                     <Picker x:Name="EntrySaveType"/>
                 </FlexLayout>

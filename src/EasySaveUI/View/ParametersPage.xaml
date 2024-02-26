@@ -38,12 +38,12 @@
                     <ImageButton Source="logo.png"
                                  WidthRequest="75"
                                  BackgroundColor="Transparent"
-                                 Clicked="OnImageTapped"/>
+                                 Clicked="ReturnHome_Clicked"/>
 
                     <ImageButton Source="black_back_arrow.png"
                                  WidthRequest="25"
                                  BackgroundColor="Transparent"
-                                 Clicked="OnImageTapped"/>
+                                 Clicked="ReturnHome_Clicked"/>
                 </FlexLayout>
 
                 <!-- Separator -->
