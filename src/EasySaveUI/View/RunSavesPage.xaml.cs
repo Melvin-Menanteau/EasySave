@@ -6,7 +6,9 @@ public partial class RunSavesPage : ContentPage
 
     List<Save> SavesSelected = new List<Save>();
 
-	public RunSavesPage(RunSavesPageViewModel viewModel)
+    bool returnPressed = false;
+
+    public RunSavesPage(RunSavesPageViewModel viewModel)
 	{
 		InitializeComponent();
         this.viewModel = viewModel;
@@ -45,6 +47,16 @@ public partial class RunSavesPage : ContentPage
         else
         {
             SavesSelected.Remove(Save);
+        }
+        EditorSaveEditor();
+    }
+
+    private void EditorSaveEditor()
+    {
+        SavesEditor.Text = string.Empty;
+        foreach (var save in SavesSelected)
+        {
+            SavesEditor.Text += save.Id + "; ";
         }
     }
 
