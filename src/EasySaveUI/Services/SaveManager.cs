@@ -46,7 +46,6 @@ namespace EasySaveUI.Services
                     return;
                 }
 
-                Debug.WriteLine($"La sauvegarde {save.Name} à été lancée");
                 _runningSaves.Add(save.Id, new Thread(() => SaveThread(save)));
                 _runningSaves[save.Id].Start();
             }
@@ -88,8 +87,6 @@ namespace EasySaveUI.Services
         /// <param name="save">La sauvegarde à effectuer</param>
         private void SaveThread(Save save)
         {
-            Debug.WriteLine($"Starting save {save.Name}");
-
             UpdateSaveState(save, SaveState.IN_PROGRESS);
 
             List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
@@ -115,14 +112,32 @@ namespace EasySaveUI.Services
 
             filesToCopy.ForEach((file) =>
             {
-                if (save.Name == "Sauvegarde 2")
-                    Debug.WriteLine($"[{save.Name}] - EXT: {Path.GetExtension(file).TrimStart('.')} - SIZE: {new FileInfo(file).Length} - Copying: {file}");
+                bool islargeFile = new FileInfo(file).Length > 500_000;
 
-                // TODO: Chiffrer le fichier si nécesaire
-                if (false)
-                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-                else
-                    CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                if (islargeFile)
+                {
+                    Monitor.Enter(_lockLargeFile);
+                }
+
+                try
+                {
+                    // TODO: Chiffrer le fichier si nécessaire
+                    if (false)
+                        EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    else
+                        CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                } catch (Exception e)
+                {
+                    Debug.WriteLine($"Error while copying file {file}: {e.Message}");
+                }
+                finally {
+                    // Liberer le lock si c'est un gros fichier
+                    if (islargeFile)
+                    {
+                        Monitor.PulseAll(_lockLargeFile);
+                        Monitor.Exit(_lockLargeFile);
+                    }
+                }
             });
 
             StopSave(save);
@@ -136,7 +151,7 @@ namespace EasySaveUI.Services
         /// <param name="outputFolder">Le dossier de destination</param>
         private List<string> GetFilesToCopy(SaveType saveType, string inputFolder, string? outputFolder)
         {
-            List<string> filesToCopy = new List<string>();
+            List<string> filesToCopy = [];
 
             if (saveType == SaveType.COMPLETE)
             {
