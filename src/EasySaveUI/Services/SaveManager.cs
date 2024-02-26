@@ -174,6 +174,12 @@ namespace EasySaveUI.Services
                     }
                 }
 
+                // Si la sauvegarde est différentielle et qu'il n'y a pas de fichier à copier, la sauvegarde est terminée
+                if (filesToCopy.Count == 0 && save.SaveType == SaveType.DIFFERENTIAL)
+                {
+                    save.Progress = 1;
+                }
+
                 StopSave(save, false);
             }
         }
