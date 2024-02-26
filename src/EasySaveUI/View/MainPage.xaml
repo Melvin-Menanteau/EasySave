@@ -5,8 +5,13 @@
              xmlns:model="clr-namespace:EasySaveUI.Model"
              x:Class="EasySaveUI.View.MainPage"
              x:DataType="viewmodel:MainPageViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:MathExpressionConverter x:Key="MathExpressionConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-    <Grid Padding="10"
+        <Grid Padding="10"
           ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -100,9 +105,11 @@
                                         <Label Text="{Binding OutputFolder}" FontSize="12"/>
                                         <Label Text="{Binding SaveType}" FontSize="12"/>
                                     </VerticalStackLayout>
-                                    <Grid ColumnSpacing="2">
+                                    <Grid ColumnSpacing="2"
+                                          VerticalOptions="Center">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
@@ -110,7 +117,9 @@
                                         <ProgressBar Grid.Column="0"
                                                      ScaleY="2"
                                                      Progress="{Binding Progress}"/>
-                                        <Image Grid.Column="1"
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Progress, Converter={StaticResource MathExpressionConverter}, ConverterParameter='x*100', StringFormat='{0:F2} %'}"/>
+                                        <Image Grid.Column="2"
                                                Source="pause.png"
                                                WidthRequest="20"
                                                HeightRequest="20">
@@ -118,7 +127,7 @@
                                                 <TapGestureRecognizer Tapped="PauseButton_Clicked"/>
                                             </Image.GestureRecognizers>
                                         </Image>
-                                        <Image Grid.Column="2"
+                                        <Image Grid.Column="3"
                                                Source="stop.png"
                                                WidthRequest="20"
                                                HeightRequest="20">

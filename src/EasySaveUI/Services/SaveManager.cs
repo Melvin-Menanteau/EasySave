@@ -63,7 +63,8 @@ namespace EasySaveUI.Services
         /// Arrête une sauvegarde et supprime le thread associé
         /// </summary>
         /// <param name="save">La sauvegarde à arrêter</param>
-        public void StopSave(Save save)
+        /// <param name="resetProgress">Indique si la progression de la sauvegarde doit être réinitialisée</param>
+        public void StopSave(Save save, bool resetProgress = true)
         {
             lock (_lockRunningSave)
             {
@@ -76,8 +77,11 @@ namespace EasySaveUI.Services
                     _runningSavesState.Remove(save.Id);
                     _runningSavesCancellation.Remove(save.Id);
 
-                    save.NbFilesLeftToDo = save.TotalFilesToCopy;
-                    save.Progress = 0;
+                    if (resetProgress)
+                    {
+                        save.NbFilesLeftToDo = save.TotalFilesToCopy;
+                        save.Progress = 0;
+                    }
                 }
             }
         }
@@ -170,7 +174,7 @@ namespace EasySaveUI.Services
                     }
                 }
 
-                StopSave(save);
+                StopSave(save, false);
             }
         }
 

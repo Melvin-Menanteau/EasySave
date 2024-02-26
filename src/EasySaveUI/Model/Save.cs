@@ -35,7 +35,7 @@ namespace EasySaveUI.Model
         public int NbFilesLeftToDo { get; set; }
         // Progression comprise entre 0 et 1
         [JsonIgnore]
-        private float _progress { get; set; }
+        private double _progress { get; set; }
         [JsonIgnore]
         public SaveState State { get; set; }
         public bool IsSelected = false;
@@ -76,7 +76,7 @@ namespace EasySaveUI.Model
         /// Getter et Setter de l'attribut _progress
         /// Permet également de notifier le changement de valeur de l'attribut à la vue
         /// </summary>
-        public float Progress
+        public double Progress
         {
             get => _progress;
             set => SetProperty(_progress, value, this, (save, val) => save._progress = val);
