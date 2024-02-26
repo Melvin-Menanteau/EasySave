@@ -14,18 +14,24 @@ namespace EasySaveUI.Services
         {
             using (Mutex mutex = new Mutex(false, "Ecriture"))
             {
-
+                mutex.WaitOne();
                 // write message to logfile in append mode
                 try
                 {
-                    StreamWriter sw = new StreamWriter(Logfile);
-                    sw.WriteLine(message);
-                    sw.Close();
+                    using (Mutex mutex_lect = new Mutex(false, "Lecture"))
+                    {
+                        mutex_lect.WaitOne();
+                        StreamWriter sw = new StreamWriter(Logfile);
+                        sw.WriteLine(message);
+                        sw.Close();
+                        mutex_lect.ReleaseMutex();
+                    }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Error while writing to log file : " + e.Message);
                 }
+                mutex.ReleaseMutex();
             }
         }
     }
