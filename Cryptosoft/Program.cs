@@ -10,7 +10,7 @@ class Program
         }
         else
         {
-            DateTime StartDateTime = DateTime.Now;
+            DateTime StartTime = DateTime.Now;
 
             string InputFilePath = args[0];
             string OutputFilePath = args[1];
@@ -23,18 +23,20 @@ class Program
             {
                 byte[] EncryptDecryptMessage = XorEncrypt.EncryptDecrypt(message, key);
 
+                DateTime EndTimeEncryption = DateTime.Now;
+
+                TimeSpan DurationEncrypt = EndTimeEncryption - StartTime;
+
                 FileReader.WriteFile(OutputFilePath, EncryptDecryptMessage);
-            }
 
-            TimeSpan Duration = DateTime.Now - StartDateTime;
-
-            if (Duration > TimeSpan.Zero)
-            {
-                Console.WriteLine(Duration.ToString());
-            }
-            else
-            {
-                Console.WriteLine("ECHEC");
+                if (DurationEncrypt > TimeSpan.Zero)
+                {
+                    Console.WriteLine(DurationEncrypt.ToString());
+                }
+                else
+                {
+                    Console.WriteLine("ECHEC");
+                }
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace EasySaveUI.Services
+﻿using System.Diagnostics;
+
+namespace EasySaveUI.Services
 {
     public class SaveManager
     {
@@ -6,6 +8,7 @@
         private readonly Dictionary<int, Thread> _runningSaves;
         private readonly object _lockRunningSave = new object();
         private readonly object _lockLargeFile = new object();
+        private readonly Parameters _parameters = Parameters.GetInstance();
         //private readonly LoggerJournalier _loggerJournalier = new();
         //private readonly LoggerEtat _loggerEtat = new();
 
@@ -120,7 +123,8 @@
                 Console.WriteLine($"[{save.Name}] - Copying: {file}");
 
                 // TODO: Chiffrer le fichier si necesaire
-                if (false)
+                _parameters.ReadJsonExtensionFile();
+                if (_parameters.ExtensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
                     EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                 else
                     CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
@@ -194,11 +198,24 @@
         /// <param name="outputFullPath">Le chemin complet du fichier de destination</param>
         private void EncryptFile(string inputFullPath, string outputFullPath)
         {
-            DateTime startTime = DateTime.Now;
+            DateTime StartTime = DateTime.Now;
 
-            // float encryptTime = appel cryptosoft
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "C:\\Users\\pierr\\source\\repos\\Prosit5\\Prosit5\\Cryptosoft\\bin\\Debug\\net8.0\\Cryptosoft.exe",
+                Arguments = $"{inputFullPath} {outputFullPath}", // Commande à exécuter
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
 
-            DateTime endTime = DateTime.Now;
+            Process process = Process.Start(startInfo);
+
+            string DurationEncryption = process.StandardOutput.ReadToEnd();
+
+            process.WaitForExit();
+            process.Close();
+
+            TimeSpan DurationTotal = DateTime.Now - StartTime;
         }
 
         /// <summary>
