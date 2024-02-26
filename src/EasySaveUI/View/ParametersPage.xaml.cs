@@ -56,7 +56,7 @@ public partial class ParametersPage : ContentPage
             case "Encryption":
                 // Types de fichiers devant être chiffrés
                 // Choix de la clé de chiffrement
-                ParametersView.Content = new ChiffrementSettingsView();
+                ParametersView.Content = new ChiffrementSettingsView(viewModel);
                 break;
             case "Langues":
             case "Languages":
