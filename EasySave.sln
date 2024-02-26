@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySaveTest", "test\EasySa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySaveUI", "src\EasySaveUI\EasySaveUI.csproj", "{2F2ABDC3-6AB9-4E97-87B8-D97F4F81E3A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptosoft", "Cryptosoft\Cryptosoft.csproj", "{F567D513-0350-48D8-934C-CF0260CA1CB5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DistantConsole", "DistantConsole\DistantConsole.csproj", "{97229775-172F-4B51-AAAD-6C2337CB5FD5}"
 EndProject
 Global
