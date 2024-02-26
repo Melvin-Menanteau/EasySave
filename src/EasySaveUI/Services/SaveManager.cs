@@ -41,7 +41,7 @@ namespace EasySaveUI.Services
             {
                 if (_runningSaves.ContainsKey(save.Id))
                 {
-                    Console.WriteLine($"La sauvegarde \"{save.Name}\" est déjà en cours d'exécution");
+                    Debug.WriteLine($"La sauvegarde \"{save.Name}\" est déjà en cours d'exécution");
                     // TODO: Throw exception ?
 
                     return;
@@ -88,46 +88,56 @@ namespace EasySaveUI.Services
         /// <param name="save">La sauvegarde à effectuer</param>
         private void SaveThread(Save save)
         {
-            Console.WriteLine($"Starting save {save.Name}");
-
             UpdateSaveState(save, SaveState.IN_PROGRESS);
 
             List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
 
-            // TODO: Trier les fichiers par priorité
-            // TODO: Trier les fichiers par taille
+            // Trier les fichiers par taille dans l'ordre croissant
+            filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
-            //List<string> ext = new List<string>() { "js", "txt" };
+            // Trier les fichiers par priorité
+            List<string> ext = new List<string>() { "vue", "txt" };
 
-            //filesToCopy.Sort((string a, string b) =>
-            //{
-            //    string extA = Path.GetExtension(a).TrimStart('.');
-            //    string extB = Path.GetExtension(b).TrimStart('.');
+            filesToCopy.Sort((string a, string b) =>
+            {
+                string extA = Path.GetExtension(a).TrimStart('.');
+                string extB = Path.GetExtension(b).TrimStart('.');
 
-            //    if (ext.Contains(extA) && !ext.Contains(extB))
-            //    {
-            //        return -1;
-            //    }
-            //    else if (!ext.Contains(extA) && ext.Contains(extB))
-            //    {
-            //        return 1;
-            //    }
-            //    else
-            //    {
-            //        return 0;
-            //    }
-            //});
+                if (ext.Contains(extA) && !ext.Contains(extB))
+                    return -1;
+                else if (!ext.Contains(extA) && ext.Contains(extB))
+                    return 1;
+                else
+                    return 0;
+            });
 
             filesToCopy.ForEach((file) =>
             {
-                Console.WriteLine($"[{save.Name}] - Copying: {file}");
+                bool islargeFile = new FileInfo(file).Length > 500_000;
 
-                // TODO: Chiffrer le fichier si necesaire
-                _parameters.ReadJsonExtensionFile();
-                if (_parameters.ExtensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
-                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-                else
-                    CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                if (islargeFile)
+                {
+                    Monitor.Enter(_lockLargeFile);
+                }
+
+                try
+                {
+                    if (_parameters.ExtensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
+                        EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    else
+                        CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                } catch (Exception e)
+                {
+                    Debug.WriteLine($"Error while copying file {file}: {e.Message}");
+                }
+                finally {
+                    // Liberer le lock si c'est un gros fichier
+                    if (islargeFile)
+                    {
+                        Monitor.PulseAll(_lockLargeFile);
+                        Monitor.Exit(_lockLargeFile);
+                    }
+                }
             });
 
             StopSave(save);
@@ -141,7 +151,7 @@ namespace EasySaveUI.Services
         /// <param name="outputFolder">Le dossier de destination</param>
         private List<string> GetFilesToCopy(SaveType saveType, string inputFolder, string? outputFolder)
         {
-            List<string> filesToCopy = new List<string>();
+            List<string> filesToCopy = [];
 
             if (saveType == SaveType.COMPLETE)
             {
@@ -186,7 +196,7 @@ namespace EasySaveUI.Services
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error while copying file {inputFullPath} to {outputFullPath}: {e.Message}");
+                Debug.WriteLine($"Error while copying file {inputFullPath} to {outputFullPath}: {e.Message}");
             }
         }
 

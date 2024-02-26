@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -9,7 +10,7 @@ namespace EasySave
     public class SaveManager
     {
         private static SaveManager _instance;
-        private readonly Dictionary<int , Thread> _runningSaves;
+        private readonly Dictionary<int, Thread> _runningSaves;
         private readonly object _lockRunningSave = new object();
         private readonly object _lockLargeFile = new object();
         //private readonly LoggerJournalier _loggerJournalier = new();
@@ -91,45 +92,59 @@ namespace EasySave
         /// <param name="save">La sauvegarde à effectuer</param>
         private void SaveThread(Save save)
         {
-            Console.WriteLine($"Starting save {save.Name}");
-
-            // TODO: Update statut save
+            UpdateSaveState(save, SaveState.IN_PROGRESS);
 
             List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
 
-            // TODO: Trier les fichiers par priorité
-            // TODO: Trier les fichiers par taille
+            // Trier les fichiers par taille dans l'ordre croissant
+            filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
-            //List<string> ext = new List<string>() { "js", "txt" };
+            // Trier les fichiers par priorité
+            List<string> ext = new List<string>() { "vue", "txt" };
 
-            //filesToCopy.Sort((string a, string b) =>
-            //{
-            //    string extA = Path.GetExtension(a).TrimStart('.');
-            //    string extB = Path.GetExtension(b).TrimStart('.');
+            filesToCopy.Sort((string a, string b) =>
+            {
+                string extA = Path.GetExtension(a).TrimStart('.');
+                string extB = Path.GetExtension(b).TrimStart('.');
 
-            //    if (ext.Contains(extA) && !ext.Contains(extB))
-            //    {
-            //        return -1;
-            //    }
-            //    else if (!ext.Contains(extA) && ext.Contains(extB))
-            //    {
-            //        return 1;
-            //    }
-            //    else
-            //    {
-            //        return 0;
-            //    }
-            //});
+                if (ext.Contains(extA) && !ext.Contains(extB))
+                    return -1;
+                else if (!ext.Contains(extA) && ext.Contains(extB))
+                    return 1;
+                else
+                    return 0;
+            });
 
             filesToCopy.ForEach((file) =>
             {
-                Console.WriteLine($"[{save.Name}] - Copying: {file}");
+                bool islargeFile = new FileInfo(file).Length > 500_000;
 
-                // TODO: Chiffrer le fichier si necesaire
-                if (false)
-                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-                else
-                    CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                if (islargeFile)
+                {
+                    Monitor.Enter(_lockLargeFile);
+                }
+
+                try
+                {
+                    // TODO: Chiffrer le fichier si nécessaire
+                    if (false)
+                        EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    else
+                        CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error while copying file {file}: {e.Message}");
+                }
+                finally
+                {
+                    // Liberer le lock si c'est un gros fichier
+                    if (islargeFile)
+                    {
+                        Monitor.PulseAll(_lockLargeFile);
+                        Monitor.Exit(_lockLargeFile);
+                    }
+                }
             });
 
             StopSave(save);
@@ -163,7 +178,7 @@ namespace EasySave
 
             return filesToCopy;
         }
-        
+
         /// <summary>
         /// Copie un fichier d'un emplacement à un autre
         /// </summary>
@@ -214,6 +229,7 @@ namespace EasySave
         /// <param name="state">Le nouvel état de la sauvegarde</param>
         private void UpdateSaveState(Save save, SaveState state)
         {
+            // TODO: Update statut save dans le fichier JSON
             save.State = state;
 
             //_loggerEtat.WriteStatesToFile();
