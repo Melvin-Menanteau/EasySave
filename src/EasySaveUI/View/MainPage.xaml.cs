@@ -21,7 +21,11 @@ public partial class MainPage : ContentPage
 
     protected override void OnAppearing()
     {
-        viewModel.GetSauvegardes();
+        if (viewModel.Saves.Count == 0)
+        {
+            viewModel.GetSauvegardes();
+        }
+        //viewModel.GetSauvegardes();
 
         SavesCollection.ItemsSource = viewModel.Saves;
 
