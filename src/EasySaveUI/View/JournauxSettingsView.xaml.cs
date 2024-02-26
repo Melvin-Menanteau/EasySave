@@ -2,8 +2,11 @@ namespace EasySaveUI.View;
 
 public partial class JournauxSettingsView : ContentView
 {
-    public JournauxSettingsView()
+    ParametersPageViewModel viewModel;
+    public JournauxSettingsView(ParametersPageViewModel viewModel)
     {
         InitializeComponent();
+        this.viewModel = viewModel;
+        BindingContext = viewModel;
     }
 }

@@ -12,7 +12,6 @@ namespace EasySaveUI.Services
         public List<string> PriorityExtensionsList = [];
         public List<string> BusinessApplicationsList = [];
         public int MaxFileSize;
-        public string EncryptionKey;
 
         private static string _extensionFileFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "extensionFile.json");
 
