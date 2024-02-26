@@ -45,16 +45,15 @@ public partial class RunSavesPage : ContentPage
         {
             SavesSelected.Remove(Save);
         }
+
         EditorSaveEditor();
     }
 
     private void EditorSaveEditor()
     {
         SavesEditor.Text = string.Empty;
-        foreach (var save in SavesSelected)
-        {
-            SavesEditor.Text += save.Id + "; ";
-        }
+
+        SavesEditor.Text = String.Join("\n", SavesSelected.Select((save) => $"{save.Name} (id: {save.Id})"));
     }
 
     private async void RunSavesButton_Clicked(object sender, EventArgs e)

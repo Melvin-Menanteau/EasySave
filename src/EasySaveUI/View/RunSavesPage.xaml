@@ -11,8 +11,8 @@
         <BackButtonBehavior IsVisible="False"/>
     </Shell.BackButtonBehavior>
 
-    <Grid Padding="10" 
-      ColumnSpacing="15">
+    <Grid Padding="10"
+          ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -22,12 +22,12 @@
         </Grid.ColumnDefinitions>
 
         <VerticalStackLayout Grid.Column="0"
-                         Grid.Row="0"
-                         BackgroundColor="#e3e5e8">
+                             Grid.Row="0">
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -38,33 +38,28 @@
                 <FlexLayout Grid.Column="0"
                             Grid.Row="0"
                             JustifyContent="SpaceBetween"
-                            VerticalOptions="Start"
-                            AlignContent="Center">
+                            VerticalOptions="Start">
                     <ImageButton Source="logo.png"
-                             WidthRequest="100"
-                             Margin="10"
-                             BackgroundColor="Transparent"/>
+                                 WidthRequest="75"
+                                 BackgroundColor="Transparent"
+                                 Clicked="OnImageTapped"/>
 
                     <ImageButton Source="black_back_arrow.png"
+                                 WidthRequest="25"
                                  BackgroundColor="Transparent"
-                                 HeightRequest="10"
-                                 Margin="0,15,5,0"
-                                 Clicked="OnImageTapped">
-                        <ImageButton.Triggers>
-                            <Trigger TargetType="ImageButton" 
-                                     Property="IsPressed" 
-                                     Value="True">
-                                <Setter Property="Scale" Value="1.2" />
-                            </Trigger>
-                        </ImageButton.Triggers>
-
-                    </ImageButton>
+                                 Clicked="OnImageTapped"/>
                 </FlexLayout>
+
+                <!-- Separator -->
+                <BoxView Grid.Row="1"
+                         Color="{StaticResource LightGray}"
+                         HeightRequest="1"
+                         Margin="10"/>
 
                 <!-- Liste des sauvegardes -->
                 <CollectionView x:Name="SavesSelectedCollection"
-                            Grid.Column="10"
-                            Grid.Row="1">
+                                Grid.Column="1"
+                                Grid.Row="2">
 
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
@@ -72,40 +67,46 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
-                            <Border Style="{StaticResource BorderRadius}" 
-                                StrokeThickness="1">
+                            <Border Style="{StaticResource BorderRadius}"
+                                    Shadow="{StaticResource CommonShadow}">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border"
-                                             Binding="{Binding IsSelected}"
-                                             Value="False">
+                                                 Binding="{Binding IsSelected}"
+                                                 Value="False">
                                         <Setter Property="Stroke"
-                                            Value="White"/>
+                                                Value="White"/>
                                     </DataTrigger>
                                     <DataTrigger TargetType="Border"
-                                             Binding="{Binding IsSelected}"
-                                             Value="True">
+                                                 Binding="{Binding IsSelected}"
+                                                 Value="True">
                                         <Setter Property="Stroke"
-                                            Value="{StaticResource Primary}"/>
+                                                Value="{StaticResource Primary}"/>
                                     </DataTrigger>
                                 </Border.Triggers>
 
                                 <VerticalStackLayout BackgroundColor="White"
-                                                 Padding="10"
-                                                 Shadow="{StaticResource CommonShadow}"
-                                                 WidthRequest="380">
+                                                     Padding="10"
+                                                     Shadow="{StaticResource CommonShadow}"
+                                                     Spacing="10">
                                     <FlexLayout Direction="Row"
-                                            JustifyContent="SpaceBetween">
-                                        <CheckBox CheckedChanged="CheckBox_CheckedChanged"/>
-                                        <Label Text="{Binding Name}"
-                                           FontAttributes="Bold"/>
-                                        <HorizontalStackLayout>
-                                            <Label Text="170"/>
+                                                JustifyContent="SpaceBetween">
+                                        <FlexLayout Direction="Row"
+                                                    JustifyContent="Start"
+                                                    AlignItems="Center">
+                                            <CheckBox CheckedChanged="CheckBox_CheckedChanged"/>
+                                            <Label Text="{Binding Name}"
+                                                    FontAttributes="Bold"/>
+                                        </FlexLayout>
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label x:Name="SaveNbFile"
+                                                   Text="{Binding TotalFilesToCopy}"/>
+                                            <!--<Image Source="file_icon.png" HeightRequest="20" WidthRequest="20"/>-->
                                         </HorizontalStackLayout>
                                     </FlexLayout>
                                     <VerticalStackLayout>
-                                        <Label Text="{Binding InputFolder}"/>
-                                        <Label Text="{Binding OutputFolder}"/>
-                                        <Label Text="{Binding SaveType}"/>
+                                        <Label Text="{Binding InputFolder}" FontSize="12"/>
+                                        <Label Text="{Binding OutputFolder}" FontSize="12"/>
+                                        <Label Text="{Binding SaveType}" FontSize="12"/>
                                     </VerticalStackLayout>
                                 </VerticalStackLayout>
                             </Border>
@@ -115,26 +116,48 @@
             </Grid>
         </VerticalStackLayout>
 
-        <FlexLayout Grid.Column="1"
+        <!-- Contenu de la page -->
+        <Border BackgroundColor="White"
+                Grid.Column="1"
                 Grid.Row="0"
-                BackgroundColor="White"
-                JustifyContent="Center"
-                Direction="Column">
+                Padding="20, 10"
+                Style="{StaticResource BorderRadius}"
+                Shadow="{StaticResource CommonShadow}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Label Text="Lancement des sauvegarde"
-                   x:Name="TitreLancementSauvegarde"
-                   FontSize="Large"/>
+                <Label Text="Lancement des sauvegardes"
+                       x:Name="TitreLancementSauvegarde"
+                       FontSize="Header"
+                       FontAttributes="Bold"
+                       Grid.Row="0"/>
 
-            <Label Text="Sauvegardes à lancer"/>
-            <Editor x:Name="SavesEditor"
-                    IsReadOnly="True"
-                    IsEnabled="False"/>
+                <FlexLayout Direction="Column"
+                            JustifyContent="Center"
+                            HorizontalOptions="FillAndExpand"
+                            Grid.Row="1">
+                    <Label Text="Sauvegarde à lancer"/>
+                    <Editor x:Name="SavesEditor"
+                            AutoSize="TextChanges"
+                            IsReadOnly="True"
+                            IsEnabled="False"/>
+                </FlexLayout>
 
-            <Button x:Name="RunSavesButton"
-                    Text="Lancer sauvegardes"
-                    BackgroundColor="{StaticResource Primary}"
-                    CornerRadius="15"
-                    Clicked="RunSavesButton_Clicked"/>
-        </FlexLayout>
+                <FlexLayout Direction="Row"
+                            JustifyContent="End"
+                            Grid.Row="2">
+                    <Border Style="{StaticResource BorderRadius}">
+                        <Button x:Name="RunSavesButton"
+                                Text="Lancer"
+                                BackgroundColor="{StaticResource Primary}"
+                                Clicked="RunSavesButton_Clicked"/>
+                    </Border>
+                </FlexLayout>
+            </Grid>
+        </Border>
     </Grid>
 </ContentPage>
