@@ -7,6 +7,8 @@ public partial class ParametersPage : ContentPage
 
     ParametersPageViewModel viewModel;
     string choice = "";
+    private bool returnPressed = false;
+
     public ParametersPage(ParametersPageViewModel viewModel)
     {
         InitializeComponent();
@@ -83,8 +85,6 @@ public partial class ParametersPage : ContentPage
             UpdateParametersView(choice);
         }
     }
-
-    bool returnPressed = false;
 
     private async void OnImageTapped(object sender, EventArgs e)
     {
