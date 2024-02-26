@@ -1,5 +1,4 @@
 namespace EasySaveUI.View;
-
 using CommunityToolkit.Maui.Storage;
 using System.Diagnostics;
 
@@ -132,6 +131,9 @@ public partial class MainPage : ContentPage
         try
         {
             FolderPickerResult folder = await FolderPicker.PickAsync(default);
+
+            if (!folder.IsSuccessful)
+                return;
 
             if (IsInput)
             {

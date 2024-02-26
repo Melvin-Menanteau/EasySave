@@ -39,24 +39,23 @@
                                  BackgroundColor="Transparent"
                                  Clicked="ReturnHome_Clicked"/>
 
-                    <ImageButton Source="gear.png"
-                                 WidthRequest="50"
-                                 Margin="10"
+                    <ImageButton Source="setting.png"
+                                 WidthRequest="25"
                                  BackgroundColor="Transparent"
                                  Clicked="ParametersButton_Clicked"/>
                 </FlexLayout>
-                
+
                 <!-- Liste des sauvegardes -->
                 <CollectionView x:Name="SavesCollection"
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 SelectionMode="Single"
                                 SelectionChanged="CollectionView_SelectionChanged">
-                    
+
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
                     </CollectionView.ItemsLayout>
-                    
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:Save">
                             <Border Style="{StaticResource BorderRadius}" Shadow="{StaticResource CommonShadow}">
@@ -74,7 +73,7 @@
                                                 Value="{StaticResource Primary}"/>
                                     </DataTrigger>
                                 </Border.Triggers>
-                                
+
                                 <VerticalStackLayout BackgroundColor="White"
                                                      Padding="10"
                                                      Shadow="{StaticResource CommonShadow}"
@@ -125,14 +124,14 @@
                                             Text="+"
                                             TextColor="{StaticResource Primary}"
                                             VerticalOptions="Center"/>
-                        </Border>
+                    </Border>
 
-                        <Border BackgroundColor="{StaticResource Primary}"
+                    <Border BackgroundColor="{StaticResource Primary}"
                             Stroke="{StaticResource Primary}"
                             Style="{StaticResource BorderRadius}"
                             StrokeThickness="1"
                             Grid.Column="1">
-                                    <Label FontAttributes="Bold"
+                        <Label FontAttributes="Bold"
                                             HorizontalOptions="Center"
                                             Text="LANCER SAUVEGARDE"
                                             TextColor="{StaticResource White}"
@@ -154,7 +153,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <Label Text="Configuration"
                        x:Name="TitleConfiguration"
                        FontSize="Header"
@@ -174,7 +173,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Entry Grid.Column="0"
                                x:Name="EntrySaveInputFolder"/>
                         <Button Grid.Column="1"
@@ -183,19 +182,19 @@
                     </Grid>
 
                     <Label Text="Dossier Cible"/>
-                        <Grid ColumnSpacing="15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                    <Grid ColumnSpacing="15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                            <Entry Grid.Column="0"
-                                   x:Name="EntrySaveOutputFolder"/>
-                            <Button Grid.Column="1"
-                                    Clicked="PickInputFolder"
-                                    Text="..."/>
+                        <Entry Grid.Column="0"
+                            x:Name="EntrySaveOutputFolder"/>
+                        <Button Grid.Column="1"
+                            Clicked="PickInputFolder"
+                            Text="..."/>
                     </Grid>
-
+                    
                     <Label Text="Type de sauvegarde"/>
                     <Picker x:Name="EntrySaveType"/>
                 </FlexLayout>
@@ -220,5 +219,4 @@
             </Grid>
         </Border>
     </Grid>
-
 </ContentPage>
