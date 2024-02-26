@@ -7,23 +7,27 @@ namespace EasySaveUI.Services
 {
     internal class Broker
     {
-        public enum StateEnum
-        {
-            STOPPED,
-            RUNNING,
-            PAUSED
-        }
 
+        private static Broker _instance;
         private TcpListener listener;
         private TcpClient client = null;
-        private StateEnum state = StateEnum.STOPPED;
         private StreamWriter writer;
 
 
-        public Broker()
+        private Broker()
         {
             listener = new TcpListener(IPAddress.Any , 40000);
             listener.Start();
+        }
+
+        public static Broker GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new Broker();
+            }
+
+            return _instance;
         }
 
         public void Brok()

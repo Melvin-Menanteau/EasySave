@@ -18,7 +18,7 @@ namespace EasySaveUI
                 Process.GetCurrentProcess().Kill();
             }
 
-            Broker broker = new Broker();
+            Broker broker = Broker.GetInstance();
             new Thread(broker.Brok).Start();
 
 
