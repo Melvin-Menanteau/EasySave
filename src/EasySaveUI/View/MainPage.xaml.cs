@@ -122,15 +122,15 @@ public partial class MainPage : ContentPage
 
     private async void PickInputFolder(object sender, EventArgs e)
     {
-        PickFolder(true);
+        await PickFolder(true);
     }
 
     private async void PickOutputFolder(object sender, EventArgs e)
     {
-        PickFolder(false);
+        await PickFolder(false);
     }
 
-    private async void PickFolder(bool IsInput)
+    private async Task PickFolder(bool IsInput)
     {
         try
         {
