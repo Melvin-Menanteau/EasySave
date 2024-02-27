@@ -123,6 +123,7 @@ public partial class MainPage : ContentPage
     private void AddSaveButton_Clicked(object sender, EventArgs e)
     {
         IsNew = true;
+        FormulaireConfiguration.IsVisible = true;
         DeleteButton.IsVisible= false;
         var cultureInfo = App.LanguageService.CurrentLanguage;
 
