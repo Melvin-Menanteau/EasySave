@@ -11,7 +11,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-        <Grid Padding="10"
+    <Grid Padding="10"
           ColumnSpacing="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -40,14 +40,14 @@
                             JustifyContent="SpaceBetween"
                             VerticalOptions="Start">
                 <ImageButton Source="logo.png"
-                                 WidthRequest="75"
-                                 BackgroundColor="Transparent"
-                                 Clicked="ReturnHome_Clicked"/>
+                             WidthRequest="75"
+                             BackgroundColor="Transparent"
+                             Clicked="ReturnHome_Clicked"/>
 
                 <ImageButton Source="setting.png"
-                                 WidthRequest="25"
-                                 BackgroundColor="Transparent"
-                                 Clicked="ParametersButton_Clicked"/>
+                             WidthRequest="25"
+                             BackgroundColor="Transparent"
+                             Clicked="ParametersButton_Clicked"/>
             </FlexLayout>
 
             <!-- Separator -->
@@ -59,11 +59,11 @@
 
             <!-- Liste des sauvegardes -->
             <CollectionView x:Name="SavesCollection"
-                                Grid.Column="0"
-                                Grid.Row="2"
-                                SelectionMode="Single"
-                                SelectionChanged="CollectionView_SelectionChanged"
-                                VerticalOptions="FillAndExpand">
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            SelectionMode="Single"
+                            SelectionChanged="CollectionView_SelectionChanged"
+                            VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Save">
                         <Border Style="{StaticResource BorderRadius}"
