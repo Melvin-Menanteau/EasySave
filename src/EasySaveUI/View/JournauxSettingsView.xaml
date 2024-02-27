@@ -6,7 +6,7 @@
              x:Class="EasySaveUI.View.JournauxSettingsView">
     <StackLayout Margin="20,10,0,0">
         <!-- Journalier au format XML -->
-        <Label Text="Journalier (XML)" FontSize="Medium" FontAttributes="Bold" />
+        <Label x:Name="DailyXMLLabel" FontSize="Medium" FontAttributes="Bold" />
         <ListView ItemsSource="{Binding XmlLogEntries}"
                   HorizontalOptions="Center">
             <ListView.ItemTemplate>
@@ -17,7 +17,7 @@
         </ListView>
 
         <!-- Journalier au format JSON -->
-        <Label Text="Journalier (JSON)" FontSize="Medium" FontAttributes="Bold" />
+        <Label x:Name="DailyJSONLabel" FontSize="Medium" FontAttributes="Bold" />
         <ListView ItemsSource="{Binding JsonLogEntries}"
                   HorizontalOptions="Center">
             <ListView.ItemTemplate>
@@ -28,7 +28,7 @@
         </ListView>
 
         <!-- Log d'état au format JSON -->
-        <Label Text="Log d'état (JSON)" FontSize="Medium" FontAttributes="Bold" />
+        <Label x:Name="StateLogJSON" FontSize="Medium" FontAttributes="Bold" />
         <ListView ItemsSource="{Binding StatusLogEntries}"
                   HorizontalOptions="Center">
             <ListView.ItemTemplate>

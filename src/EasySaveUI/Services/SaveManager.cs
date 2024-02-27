@@ -63,7 +63,8 @@ namespace EasySaveUI.Services
         /// Arrête une sauvegarde et supprime le thread associé
         /// </summary>
         /// <param name="save">La sauvegarde à arrêter</param>
-        public void StopSave(Save save)
+        /// <param name="resetProgress">Indique si la progression de la sauvegarde doit être réinitialisée</param>
+        public void StopSave(Save save, bool resetProgress = true)
         {
             lock (_lockRunningSave)
             {
@@ -75,6 +76,12 @@ namespace EasySaveUI.Services
                     _runningSaves.Remove(save.Id);
                     _runningSavesState.Remove(save.Id);
                     _runningSavesCancellation.Remove(save.Id);
+
+                    if (resetProgress)
+                    {
+                        save.NbFilesLeftToDo = save.TotalFilesToCopy;
+                        save.Progress = 0;
+                    }
                 }
             }
         }
@@ -97,6 +104,26 @@ namespace EasySaveUI.Services
             }
         }
 
+        public void PauseAllSaves()
+        {
+            lock (_lockRunningSave)
+            {
+                SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
+
+                _runningSaves.Keys.ToList().ForEach((id) => PauseSave(saveConfiguration.GetConfiguration(id)));
+            }
+        }
+
+        public void ResumeAllSaves()
+        {
+            lock (_lockRunningSave)
+            {
+                SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
+
+                _runningSaves.Keys.ToList().ForEach((id) => ResumeSave(saveConfiguration.GetConfiguration(id)));
+            }
+        }
+
         /// <summary>
         /// Fonction exécutée par un thread pour effectuer une sauvegarde
         /// </summary>
@@ -104,7 +131,7 @@ namespace EasySaveUI.Services
         private void SaveThread(Save save, CancellationToken cancellationToken)
         {
             UpdateSaveState(save, SaveState.IN_PROGRESS);
-
+            Broker broker = Broker.GetInstance();
             while (!cancellationToken.IsCancellationRequested)
             {
                 List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
@@ -116,16 +143,14 @@ namespace EasySaveUI.Services
                 filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
                 // Trier les fichiers par priorité
-                List<string> ext = new List<string>() { "vue", "txt" };
-
                 filesToCopy.Sort((string a, string b) =>
                 {
                     string extA = Path.GetExtension(a).TrimStart('.');
                     string extB = Path.GetExtension(b).TrimStart('.');
 
-                    if (ext.Contains(extA) && !ext.Contains(extB))
+                    if (_parameters.PriorityExtensionsList.Contains(extA) && !_parameters.PriorityExtensionsList.Contains(extB))
                         return -1;
-                    else if (!ext.Contains(extA) && ext.Contains(extB))
+                    else if (!_parameters.PriorityExtensionsList.Contains(extA) && _parameters.PriorityExtensionsList.Contains(extB))
                         return 1;
                     else
                         return 0;
@@ -135,7 +160,7 @@ namespace EasySaveUI.Services
                 {
                     _runningSavesState[save.Id].WaitOne();
 
-                    bool islargeFile = new FileInfo(file).Length > 500_000;
+                    bool islargeFile = new FileInfo(file).Length > _parameters.MaxFileSize;
 
                     if (islargeFile)
                     {
@@ -151,6 +176,7 @@ namespace EasySaveUI.Services
 
                         save.NbFilesLeftToDo--;
                         save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
+                        broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
                     }
                     catch (Exception e)
                     {
@@ -167,7 +193,13 @@ namespace EasySaveUI.Services
                     }
                 }
 
-                StopSave(save);
+                // Si la sauvegarde est différentielle et qu'il n'y a pas de fichier à copier, la sauvegarde est terminée
+                if (filesToCopy.Count == 0 && save.SaveType == SaveType.DIFFERENTIAL)
+                {
+                    save.Progress = 1;
+                }
+
+                StopSave(save, false);
             }
         }
 
@@ -241,9 +273,10 @@ namespace EasySaveUI.Services
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cryptosoft", "cryptosoft.exe"),
-                Arguments = $"{inputFullPath} {outputFullPath}", // Commande à exécuter
+                Arguments = $"\"{inputFullPath}\" \"{outputFullPath}\"", // Commande à exécuter
                 RedirectStandardOutput = true,
-                UseShellExecute = false
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
 
             Process process = Process.Start(startInfo);
@@ -273,7 +306,7 @@ namespace EasySaveUI.Services
         /// Met en pause une sauvegarde
         /// </summary>
         /// <param name="save">La sauvegarde a mettre en pause</param>
-        private void PauseSave(Save save)
+        public void PauseSave(Save save)
         {
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
@@ -286,7 +319,7 @@ namespace EasySaveUI.Services
         /// Relance une sauvegarde en pause
         /// </summary>
         /// <param name="save">La sauvegarde a relancer</param>
-        private void ResumeSave(Save save)
+        public void ResumeSave(Save save)
         {
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {

@@ -6,26 +6,25 @@
              x:Class="EasySaveUI.View.ChiffrementSettingsView">
     <VerticalStackLayout>
         <FlexLayout Direction="Column">
-            <Label Text="Liste des types à chiffrer :"
+            <Label x:Name="ListTypeLabel"
                 Margin="10,10,0,0"/>
             <Editor x:Name="editor"
-                    Placeholder="Un type par ligne"
                     HeightRequest="70"
                     TextChanged="OnEditorTextChanged"
                     Margin="10,5,10,0"/>
-            <Button Text="Valider"
+            <Button x:Name="SaveEditorButton"
                     HorizontalOptions="End"
                     Margin="10,5,10,0"
                     Clicked="SaveEditorButton_Clicked"/>
         </FlexLayout>
         <FlexLayout Direction="Column">
-            <Label Text="Clé de chiffrement :"
+            <Label x:Name="KeyLabel"
                    Margin="10,10,0,0"/>
             <Entry 
                 x:Name="editorKey"
                 TextChanged="OnTextChanged"
                 Margin="10,5,10,0"/>
-            <Button Text="Valider"
+            <Button x:Name="SaveKeyButton"
                 HorizontalOptions="End"
                     Clicked="SaveKeyButton_Clicked"
                 Margin="10,5,10,0"/>

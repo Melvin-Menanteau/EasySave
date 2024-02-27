@@ -1,11 +1,13 @@
 namespace EasySaveUI.View;
 using CommunityToolkit.Maui.Storage;
 using System.Diagnostics;
+using System.Globalization;
+using System.Resources;
 
 public partial class MainPage : ContentPage
 {
     MainPageViewModel viewModel;
-
+    private ResourceManager _resourceManager;
     public bool IsNew = false;
 
     public MainPage(MainPageViewModel viewModel)
@@ -13,10 +15,29 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         this.viewModel = viewModel;
 
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
+        MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
+        {
+            LoadLocalizedTexts();
+        });
+        LoadLocalizedTexts();
         foreach (var saveType in Enum.GetValues(typeof(SaveType)))
         {
             EntrySaveType.Items.Add(saveType.ToString());
         }
+    }
+
+    private void LoadLocalizedTexts()
+    {
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+        TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
+        SaveNameLabel.Text = _resourceManager.GetString("SaveNameLabelKey", cultureInfo);
+        InputFolderLabel.Text = _resourceManager.GetString("InputFolderLabelKey", cultureInfo);
+        OutputFolderLabel.Text = _resourceManager.GetString("OutputFolderLabelKey", cultureInfo);
+        SaveTypeLabel.Text = _resourceManager.GetString("SaveTypeLabelKey", cultureInfo);
+        DeleteButton.Text = _resourceManager.GetString("DeleteButtonKey", cultureInfo);
+        SaveButton.Text = _resourceManager.GetString("ValidateKey", cultureInfo);
+        RunSaveButton.Text = _resourceManager.GetString("RunSaveButtonKey", cultureInfo);
     }
 
     protected override void OnAppearing()
@@ -46,7 +67,9 @@ public partial class MainPage : ContentPage
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IsNew = false;
-        TitleConfiguration.Text = "Configuration";
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+
+        TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
 
         viewModel.SetSelectedSave((Save)e.CurrentSelection.FirstOrDefault());
 
@@ -81,7 +104,9 @@ public partial class MainPage : ContentPage
 
             IsNew = false;
             DeleteButton.IsVisible = true;
-            TitleConfiguration.Text = "Configuration";
+            var cultureInfo = App.LanguageService.CurrentLanguage;
+
+            TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
         }
         else
         {
@@ -95,8 +120,9 @@ public partial class MainPage : ContentPage
     {
         IsNew = true;
         DeleteButton.IsVisible= false;
+        var cultureInfo = App.LanguageService.CurrentLanguage;
 
-        TitleConfiguration.Text = "Nouvelle Configuration";
+        TitleConfigurationLabel.Text = _resourceManager.GetString("NewTitleConfigurationLabelKey", cultureInfo);
 
         ResetInput();
     }
@@ -122,15 +148,15 @@ public partial class MainPage : ContentPage
 
     private async void PickInputFolder(object sender, EventArgs e)
     {
-        PickFolder(true);
+        await PickFolder(true);
     }
 
     private async void PickOutputFolder(object sender, EventArgs e)
     {
-        PickFolder(false);
+        await PickFolder(false);
     }
 
-    private async void PickFolder(bool IsInput)
+    private async Task PickFolder(bool IsInput)
     {
         try
         {
@@ -152,5 +178,29 @@ public partial class MainPage : ContentPage
         {
             Debug.WriteLine(excp.Message);
         }
+    }
+
+    private void PauseButton_Clicked(object sender, EventArgs e)
+    {
+        Save save = (Save)((Image)sender).BindingContext;
+
+        viewModel.TogglePauseSave(save);
+
+        // TODO: Vérifier qu'il n'y ait pas eu d'erreur lors de la mise en pause
+        //if (save.State == SaveState.PAUSED)
+        //{
+        //    ((Image)sender).Source = "play.png";
+        //}
+        //else
+        //{
+        //    ((Image)sender).Source = "pause.png";
+        //}
+    }
+
+    private void StopButton_Clicked(object sender, EventArgs e)
+    {
+        Save save = (Save)((Image)sender).BindingContext;
+
+        viewModel.StopSave(save);
     }
 }

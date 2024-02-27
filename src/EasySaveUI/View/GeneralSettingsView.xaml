@@ -6,19 +6,17 @@
     <VerticalStackLayout>
         <!-- Première ligne -->
         <FlexLayout Direction="Column">
-            <Label Text="Taille maximum des fichiers :"
+            <Label x:Name="FileSizeLabel"
                     Margin="10,10,0,0"/>
             <Entry x:Name="TailleFichiersEntry"
-                   Placeholder="Taille des fichiers"
                    Margin="10,5,10,0"/>
         </FlexLayout>
 
         <!-- Deuxième ligne-->
         <FlexLayout Direction="Column">
-            <Label Text="Ajouter les types des fichiers prioritaires :"
+            <Label x:Name="PriorityExtensionsLabel"
                    Margin="10,10,0,0"/>
             <Editor x:Name="editorPriority"
-                Placeholder="Un type par ligne"
                 HeightRequest="70"
                 TextChanged="OnEditorPriorityTextChanged"
                 Completed="OnEditorPriorityCompleted"
@@ -27,16 +25,15 @@
         
         <!--Troisième ligne-->
         <FlexLayout Direction="Column">
-            <Label Text="Applications métiers :"
+            <Label x:Name="BusinessAppLabel"
                    Margin="10,10,0,0"/>
             <Editor x:Name="editorMetiers"
-                Placeholder="Une application par ligne"
                 HeightRequest="70"
                 TextChanged="OnEditorMetiersTextChanged"
                 Completed="OnEditorMetiersCompleted"
                 Margin="10,5,10,0"/>
         </FlexLayout>
-        <Button Text="Valider"
+        <Button x:Name="SaveButton"
                 HorizontalOptions="End"
                 Clicked="OnValiderClicked"
                 Margin="10,5,10,0"/>

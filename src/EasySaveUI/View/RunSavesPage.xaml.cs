@@ -1,15 +1,32 @@
+using System.Resources;
+
 namespace EasySaveUI.View;
 
 public partial class RunSavesPage : ContentPage
 {
     RunSavesPageViewModel viewModel;
     List<Save> SavesSelected = new List<Save>();
+    private ResourceManager _resourceManager;
     private bool returnPressed = false;
 
     public RunSavesPage(RunSavesPageViewModel viewModel)
 	{
 		InitializeComponent();
         this.viewModel = viewModel;
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
+        MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
+        {
+            LoadLocalizedTexts();
+        });
+        LoadLocalizedTexts();
+    }
+
+    private void LoadLocalizedTexts()
+    {
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+        TitreLancementSauvegarde.Text = _resourceManager.GetString("TitreLancementSauvegardeKey", cultureInfo);
+        SavesToRunLabel.Text = _resourceManager.GetString("SavesToRunLabelKey", cultureInfo);
+        RunSavesButton.Text = _resourceManager.GetString("RunSavesButtonKey", cultureInfo);
     }
 
     protected override void OnAppearing()
@@ -45,16 +62,15 @@ public partial class RunSavesPage : ContentPage
         {
             SavesSelected.Remove(Save);
         }
+
         EditorSaveEditor();
     }
 
     private void EditorSaveEditor()
     {
         SavesEditor.Text = string.Empty;
-        foreach (var save in SavesSelected)
-        {
-            SavesEditor.Text += save.Id + "; ";
-        }
+
+        SavesEditor.Text = String.Join("\n", SavesSelected.Select((save) => $"{save.Name} (id: {save.Id})"));
     }
 
     private async void RunSavesButton_Clicked(object sender, EventArgs e)

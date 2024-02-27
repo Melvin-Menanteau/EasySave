@@ -9,6 +9,7 @@ namespace EasySaveUI.Services
 {
     internal class BusinessObserver
     {
+        private static bool savesPaused = false;
         public BusinessObserver() { }
 
         public static void Observer(string business)
@@ -24,7 +25,19 @@ namespace EasySaveUI.Services
                         processes = Process.GetProcessesByName(business);
                         Debug.WriteLine("Process " + business + " is running");
                         SaveManager sm = SaveManager.GetInstance();
-                        sm.StopAllSaves();
+
+                        if (!savesPaused)
+                        {
+                            sm.PauseAllSaves();
+                            savesPaused = true;
+                        }
+                    }
+
+                    if (savesPaused)
+                    {
+                        SaveManager sm = SaveManager.GetInstance();
+                        sm.ResumeAllSaves();
+                        savesPaused = false;
                     }
                 }
             }

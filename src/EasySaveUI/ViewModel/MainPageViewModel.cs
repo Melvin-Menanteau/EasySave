@@ -6,12 +6,14 @@ namespace EasySaveUI.ViewModel;
 public partial class MainPageViewModel : BaseViewModel
 {
     private readonly SaveConfiguration _saveConfiguration = SaveConfiguration.GetInstance();
+    private SaveManager _saveManager;
     public ObservableCollection<Save> Saves { get; set; } = new();
     public Save SelectedSave { get; set; }
 
     public MainPageViewModel()
     {
         Title = "";
+        _saveManager = SaveManager.GetInstance();
     }
 
     public void GetSauvegardes()
@@ -38,5 +40,25 @@ public partial class MainPageViewModel : BaseViewModel
     public void RemoveSave()
     {
         _saveConfiguration.RemoveConfiguration(SelectedSave.Id);
+    }
+
+    public void TogglePauseSave(Save save)
+    {
+        if (save.State == SaveState.PAUSED)
+        {
+            _saveManager.ResumeSave(save);
+        }
+        else if (save.State == SaveState.IN_PROGRESS)
+        {
+            _saveManager.PauseSave(save);
+        }
+    }
+
+    public void StopSave(Save save)
+    {
+        if (save.State == SaveState.IN_PROGRESS || save.State == SaveState.PAUSED)
+        {
+            _saveManager.StopSave(save);
+        }
     }
 }

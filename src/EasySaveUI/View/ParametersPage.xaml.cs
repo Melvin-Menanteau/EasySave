@@ -15,10 +15,9 @@ public partial class ParametersPage : ContentPage
     {
         InitializeComponent();
 
-        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(LanguageService).Assembly);
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
 
         this.viewModel = viewModel;
-        titlePage.Text = "Général";
         GeneralBoxView.IsVisible = true;
         GeneralButton.FontAttributes = FontAttributes.Bold;
 
@@ -39,6 +38,7 @@ public partial class ParametersPage : ContentPage
         LanguesButton.Text = _resourceManager.GetString("LanguesKey", cultureInfo);
         JournauxButton.Text = _resourceManager.GetString("JournauxKey", cultureInfo);
         ThemesButton.Text = _resourceManager.GetString("ThemesKey", cultureInfo);
+        titlePage.Text = _resourceManager.GetString("LanguesKey", cultureInfo);
     }
     private void UpdateParametersView(string choice)
     {
@@ -47,30 +47,27 @@ public partial class ParametersPage : ContentPage
             case "Général":
             case "General":
             default:
-                // Paramétrer les logiciel métier
-                // Taille des fichiers
-                // Fichiers prioritaires
+                titlePage.Text = _resourceManager.GetString("GeneralKey", App.LanguageService.CurrentLanguage);
                 ParametersView.Content = new GeneralSettingsView(viewModel);
                 break;
             case "Chiffrement":
             case "Encryption":
-                // Types de fichiers devant être chiffrés
-                // Choix de la clé de chiffrement
+                titlePage.Text = _resourceManager.GetString("ChiffrementKey", App.LanguageService.CurrentLanguage);
                 ParametersView.Content = new ChiffrementSettingsView(viewModel);
                 break;
             case "Langues":
             case "Languages":
-                // Choix de la langue
+                titlePage.Text = _resourceManager.GetString("LanguesKey", App.LanguageService.CurrentLanguage);
                 ParametersView.Content = new LanguesSettingsView();
                 break;
             case "Journaux d'activités":
             case "Activity Logs":
-                // Affichage des journaux de logs
+                titlePage.Text = _resourceManager.GetString("JournauxKey", App.LanguageService.CurrentLanguage);
                 ParametersView.Content = new JournauxSettingsView(viewModel);
                 break;
             case "Thèmes":
             case "Themes":
-                // Choix du thèmes
+                titlePage.Text = _resourceManager.GetString("ThemesKey", App.LanguageService.CurrentLanguage);
                 ParametersView.Content = new ThemesSettingsView();
                 break;
         }
