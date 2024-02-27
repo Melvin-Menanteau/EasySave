@@ -94,7 +94,7 @@
                                                FontAttributes="Bold"/>
                                     <HorizontalStackLayout Spacing="5">
                                         <Label x:Name="SaveNbFile" Text="{Binding TotalFilesToCopy}"/>
-                                        <!--<Image Source="file_icon.png" HeightRequest="20" WidthRequest="20"/>-->
+                                        <Image Source="file.png" HeightRequest="15" WidthRequest="15"/>
                                     </HorizontalStackLayout>
                                 </FlexLayout>
                                 <VerticalStackLayout>
