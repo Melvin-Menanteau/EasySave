@@ -2,11 +2,12 @@
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Globalization;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace EasySaveUI
 {
     public static class MauiProgram
-    {        
+    {
 
         public static MauiApp CreateMauiApp()
         {
@@ -26,12 +27,19 @@ namespace EasySaveUI
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .ConfigureLifecycleEvents(events =>
+                {
+                    events.AddWindows(windows => windows
+                           .OnClosed((window, args) => { Process.GetCurrentProcess().Kill(); })
+                             
+                           );
+
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<MainPage>();
 
@@ -47,6 +55,8 @@ namespace EasySaveUI
 #endif
 
             return builder.Build();
+
         }
+
     }
 }
