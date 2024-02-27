@@ -327,7 +327,13 @@ namespace EasySaveUI.Services
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
                 mre.Reset();
-                barrier.RemoveParticipant();
+
+                // Il est possible de mettre en pause une sauvegarde de plusieurs manière
+                // notamment par appui sur le bouton ou présence d'un logiciel métier.
+                // Il se pourrait donc que le nombre de participants soit négatif.
+                if (barrier.ParticipantCount > 0)
+                    barrier.RemoveParticipant();
+
                 UpdateSaveState(save, SaveState.PAUSED);
             }
         }
