@@ -1,6 +1,7 @@
 namespace EasySaveUI.View;
 using CommunityToolkit.Maui.Storage;
 using System.Diagnostics;
+using System.Globalization;
 using System.Resources;
 
 public partial class MainPage : ContentPage
@@ -66,7 +67,9 @@ public partial class MainPage : ContentPage
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IsNew = false;
-        //TitleConfiguration.Text = "Configuration";
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+
+        TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
 
         viewModel.SetSelectedSave((Save)e.CurrentSelection.FirstOrDefault());
 
@@ -101,7 +104,9 @@ public partial class MainPage : ContentPage
 
             IsNew = false;
             DeleteButton.IsVisible = true;
-            //TitleConfiguration.Text = "Configuration";
+            var cultureInfo = App.LanguageService.CurrentLanguage;
+
+            TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
         }
         else
         {
@@ -115,8 +120,9 @@ public partial class MainPage : ContentPage
     {
         IsNew = true;
         DeleteButton.IsVisible= false;
+        var cultureInfo = App.LanguageService.CurrentLanguage;
 
-        //TitleConfiguration.Text = "Nouvelle Configuration";
+        TitleConfigurationLabel.Text = _resourceManager.GetString("NewTitleConfigurationLabelKey", cultureInfo);
 
         ResetInput();
     }

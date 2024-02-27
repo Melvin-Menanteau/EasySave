@@ -153,6 +153,9 @@
   <data name="ListTypeLabelKey" xml:space="preserve">
     <value>List of types that must be encrypted:</value>
   </data>
+  <data name="NewTitleConfigurationLabelKey" xml:space="preserve">
+    <value>New Configuration</value>
+  </data>
   <data name="OutputFolderLabelKey" xml:space="preserve">
     <value>Output Folder:</value>
   </data>

@@ -153,6 +153,9 @@
   <data name="ListTypeLabelKey" xml:space="preserve">
     <value>Liste des types à chiffrer :</value>
   </data>
+  <data name="NewTitleConfigurationLabelKey" xml:space="preserve">
+    <value>Nouvelle configuration</value>
+  </data>
   <data name="OutputFolderLabelKey" xml:space="preserve">
     <value>Fichier de destination :</value>
   </data>
