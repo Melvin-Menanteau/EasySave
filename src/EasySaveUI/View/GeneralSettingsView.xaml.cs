@@ -63,7 +63,7 @@ public partial class GeneralSettingsView : ContentView
 
     private void OnValiderClicked(object sender, EventArgs e)
     {
-        if (MaxFileSize == null)
+        if ((TailleFichiersEntry.Text == null) || (TailleFichiersEntry.Text == ""))
         {
             MaxFileSize = 0;
         }
@@ -71,12 +71,18 @@ public partial class GeneralSettingsView : ContentView
         {
             MaxFileSize = int.Parse(TailleFichiersEntry.Text);
         }
-        PriorityExtensionsList = [.. editorPriority.Text.Split(";")];
-        PriorityExtensionsList = PriorityExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
-        PriorityExtensionsList = PriorityExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
-        BusinessApplicationsList = editorMetiers.Text.Split(";").ToList();
-        BusinessApplicationsList = BusinessApplicationsList.Select(str => str.Replace(" ", string.Empty)).ToList();
-        BusinessApplicationsList = BusinessApplicationsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
+        if (editorPriority.Text != null)
+        {
+            PriorityExtensionsList = [.. editorPriority.Text.Split(";")];
+            PriorityExtensionsList = PriorityExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
+            PriorityExtensionsList = PriorityExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
+        }
+        if (editorMetiers.Text != null)
+        {
+            BusinessApplicationsList = editorMetiers.Text.Split(";").ToList();
+            BusinessApplicationsList = BusinessApplicationsList.Select(str => str.Replace(" ", string.Empty)).ToList();
+            BusinessApplicationsList = BusinessApplicationsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
+        }
 
         viewModel.SaveBusinessApplications(BusinessApplicationsList);
         viewModel.SaveMaxFileSize(MaxFileSize);
