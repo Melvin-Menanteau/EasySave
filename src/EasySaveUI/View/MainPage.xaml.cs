@@ -14,6 +14,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         this.viewModel = viewModel;
+        FormulaireConfiguration.IsVisible = false;
 
         _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
         MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
@@ -67,6 +68,8 @@ public partial class MainPage : ContentPage
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IsNew = false;
+        FormulaireConfiguration.IsVisible = true;
+
         var cultureInfo = App.LanguageService.CurrentLanguage;
 
         TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
@@ -92,6 +95,7 @@ public partial class MainPage : ContentPage
     {
         IsNew = false;
         DeleteButton.IsVisible = false;
+        FormulaireConfiguration.IsVisible = false;
 
         ResetInput();
     }
@@ -138,7 +142,7 @@ public partial class MainPage : ContentPage
         ResetInput();
         viewModel.GetSauvegardes();
         SavesCollection.ItemsSource = viewModel.Saves;
-
+        FormulaireConfiguration.IsVisible = false;
     }
 
     private async void ButtonNavigation_Clicked(object sender, EventArgs e)

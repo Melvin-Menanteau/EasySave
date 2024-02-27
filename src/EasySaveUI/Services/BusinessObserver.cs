@@ -26,9 +26,11 @@ namespace EasySaveUI.Services
                         Debug.WriteLine("Process " + business + " is running");
                         SaveManager sm = SaveManager.GetInstance();
 
+                        // Remettre en pause en permanence afin de s'assurer que les sauvegardes sont bien en pause même si l'utilisateur a relancé manuellement
+                        sm.PauseAllSaves();
+
                         if (!savesPaused)
                         {
-                            sm.PauseAllSaves();
                             savesPaused = true;
                         }
                     }
