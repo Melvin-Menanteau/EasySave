@@ -13,6 +13,7 @@ namespace EasySaveUI.Services
         private readonly Parameters _parameters = Parameters.GetInstance();
         private Barrier barrier = new Barrier(0);
         private Dictionary<string, Thread> _BusinessObserversThreads;
+        private readonly LoggerJournalier _loggerJournalier = LoggerJournalier.GetInstance();
         //private readonly LoggerJournalier _loggerJournalier = new();
         //private readonly LoggerEtat _loggerEtat = new();
 
