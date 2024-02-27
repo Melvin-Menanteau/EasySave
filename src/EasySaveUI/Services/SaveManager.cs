@@ -217,14 +217,21 @@ namespace EasySaveUI.Services
                     Directory.CreateDirectory(Path.GetDirectoryName(file.Replace(save.InputFolder, save.OutputFolder)));
                 }
 
+                List<int?> times = [];
                 if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
-                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    times = EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                 else
-                    CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                    times = CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
 
                 save.NbFilesLeftToDo--;
                 save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
-                broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
+                using (Mutex m = new Mutex(false, "WriteProgress"))
+                {
+                    m.WaitOne();
+                    broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
+                    _loggerJournalier.Log(save.Name, save.InputFolder, save.OutputFolder, file.Length, times[0], times[1]);
+                    m.ReleaseMutex();
+                }
             }
             catch (Exception e)
             {
@@ -275,8 +282,9 @@ namespace EasySaveUI.Services
         /// </summary>
         /// <param name="inputFullPath">Le chemin complet du fichier source</param>
         /// <param name="outputFullPath">Le chemin complet du fichier de destination</param>
-        private static void CopyFile(string inputFullPath, string outputFullPath)
+        private static List<int?> CopyFile(string inputFullPath, string outputFullPath)
         {
+            float transferTime = -1;
             try
             {
                 DateTime startTime = DateTime.Now;
@@ -285,12 +293,13 @@ namespace EasySaveUI.Services
 
                 DateTime endTime = DateTime.Now;
 
-                float transferTime = (float)(endTime - startTime).TotalMilliseconds;
+                transferTime = (float)(endTime - startTime).TotalMilliseconds;
             }
             catch (Exception e)
             {
                 Debug.WriteLine($"Error while copying file {inputFullPath} to {outputFullPath}: {e.Message}");
             }
+            return [(int)transferTime, null];
         }
 
         /// <summary>
@@ -299,7 +308,7 @@ namespace EasySaveUI.Services
         /// </summary>
         /// <param name="inputFullPath">Le chemin complet du fichier source</param>
         /// <param name="outputFullPath">Le chemin complet du fichier de destination</param>
-        private void EncryptFile(string inputFullPath, string outputFullPath)
+        private List<int?> EncryptFile(string inputFullPath, string outputFullPath)
         {
             DateTime StartTime = DateTime.Now;
 
@@ -319,7 +328,9 @@ namespace EasySaveUI.Services
             process.WaitForExit();
             process.Close();
 
+
             TimeSpan DurationTotal = DateTime.Now - StartTime;
+            return [(int)DurationTotal.TotalMilliseconds, int.Parse(DurationEncryption)];
         }
 
         /// <summary>

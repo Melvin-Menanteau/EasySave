@@ -69,7 +69,7 @@ namespace EasySaveUI.Services
 
             float transferTime = (float)(endTransfert - startTransfert).TotalMilliseconds;
 
-            _loggerJournalier.Log(save.Name, sourceFile, targetDir, (int)(new FileInfo(sourceFile)).Length, transferTime);
+            _loggerJournalier.Log(save.Name, sourceFile, targetDir, (int)(new FileInfo(sourceFile)).Length, (int)transferTime);
         }
 
         /// <summary>

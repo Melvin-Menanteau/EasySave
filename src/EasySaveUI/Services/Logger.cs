@@ -73,14 +73,14 @@ namespace EasySaveUI.Services
             {
                 _logFileJSON?.Close();
 
-                _logFileJSON = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".json", FileMode.Append);
+                _logFileJSON = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log_" + date.ToString("yyyy-MM-dd") + ".json"), FileMode.Append);
             }
 
             if (_logFileXML == null || _logFileXML.Name != "log_" + date.ToString("yyyy-MM-dd") + ".xml")
             {
                 _logFileXML?.Close();
 
-                _logFileXML = new FileStream("log_" + date.ToString("yyyy-MM-dd") + ".xml", FileMode.Append);
+                _logFileXML = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log_" + date.ToString("yyyy-MM-dd") + ".xml"), FileMode.Append);
             }
         }
 
@@ -92,7 +92,7 @@ namespace EasySaveUI.Services
         /// <param name="target">Fichier de destination</param>
         /// <param name="size">Taille du fichier en octets</param>
         /// <param name="transfer_time">Temps de transfer millisecondes</param>
-        public void Log(string save_name, string source, string target, int size, float transfer_time , float? encryption_time = null)
+        public void Log(string save_name, string source, string target, int size, int? transfer_time , int? encryption_time = null)
         {
             OpenFile();
 
