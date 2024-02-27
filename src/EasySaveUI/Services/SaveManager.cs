@@ -142,7 +142,7 @@ namespace EasySaveUI.Services
                 {
                     _runningSavesState[save.Id].WaitOne();
 
-                    bool islargeFile = new FileInfo(file).Length > 500_000;
+                    bool islargeFile = new FileInfo(file).Length > _parameters.MaxFileSize;
 
                     if (islargeFile)
                     {
