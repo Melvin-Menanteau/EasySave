@@ -111,7 +111,7 @@ namespace EasySaveUI.Services
         private void SaveThread(Save save, CancellationToken cancellationToken)
         {
             UpdateSaveState(save, SaveState.IN_PROGRESS);
-
+            Broker broker = Broker.GetInstance();
             while (!cancellationToken.IsCancellationRequested)
             {
                 List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
@@ -156,6 +156,7 @@ namespace EasySaveUI.Services
 
                         save.NbFilesLeftToDo--;
                         save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
+                        broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
                     }
                     catch (Exception e)
                     {
