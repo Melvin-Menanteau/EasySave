@@ -195,6 +195,11 @@ namespace EasySaveUI.Services
 
             try
             {
+                if (!Directory.Exists(save.OutputFolder))
+                {
+                    Directory.CreateDirectory(save.OutputFolder);
+                }
+
                 if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
                     EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                 else
@@ -257,11 +262,6 @@ namespace EasySaveUI.Services
         {
             try
             {
-                if (!Directory.Exists(Path.GetDirectoryName(outputFullPath)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(outputFullPath));
-                }
-
                 DateTime startTime = DateTime.Now;
 
                 File.Copy(inputFullPath, outputFullPath, true);
