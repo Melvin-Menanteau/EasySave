@@ -252,7 +252,7 @@ namespace EasySaveUI.Services
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cryptosoft", "cryptosoft.exe"),
-                Arguments = $"{inputFullPath} {outputFullPath}", // Commande à exécuter
+                Arguments = $"\"{inputFullPath}\" \"{outputFullPath}\"", // Commande à exécuter
                 RedirectStandardOutput = true,
                 UseShellExecute = false
             };
