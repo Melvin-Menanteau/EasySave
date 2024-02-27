@@ -295,7 +295,7 @@ namespace EasySaveUI.Services
                 CreateNoWindow = true
             };
 
-            Process process = Process.Start(startInfo);
+            using Process process = Process.Start(startInfo);
 
             string DurationEncryption = process.StandardOutput.ReadToEnd();
 
