@@ -7,7 +7,7 @@ public partial class MainPageViewModel : BaseViewModel
 {
     private readonly SaveConfiguration _saveConfiguration = SaveConfiguration.GetInstance();
     private SaveManager _saveManager;
-    public ObservableCollection<Save> Saves { get; set; } = new();
+    public ObservableCollection<Save> Saves { get; set; } = [];
     public Save SelectedSave { get; set; }
 
     public MainPageViewModel()
