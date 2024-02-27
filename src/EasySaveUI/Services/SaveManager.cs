@@ -11,6 +11,7 @@ namespace EasySaveUI.Services
         private readonly object _lockRunningSave = new object();
         private readonly object _lockLargeFile = new object();
         private readonly Parameters _parameters = Parameters.GetInstance();
+        private Barrier barrier = new Barrier(0);
         //private readonly LoggerJournalier _loggerJournalier = new();
         //private readonly LoggerEtat _loggerEtat = new();
 
@@ -52,6 +53,8 @@ namespace EasySaveUI.Services
 
                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
+                barrier.AddParticipant();
+
                 _runningSaves.Add(save.Id, new Thread(() => SaveThread(save, cancellationToken.Token)));
                 _runningSavesState.Add(save.Id, new ManualResetEvent(true));
                 _runningSavesCancellation.Add(save.Id, cancellationToken);
@@ -77,6 +80,8 @@ namespace EasySaveUI.Services
                     _runningSavesState.Remove(save.Id);
                     _runningSavesCancellation.Remove(save.Id);
 
+                    barrier.RemoveParticipant();
+
                     if (resetProgress)
                     {
                         save.NbFilesLeftToDo = save.TotalFilesToCopy;
@@ -96,11 +101,13 @@ namespace EasySaveUI.Services
                 _runningSavesCancellation.Values.ToList().ForEach(c => {
                     c.Cancel();
                     c.Dispose();
-                 });
+                });
 
                 _runningSaves.Clear();
                 _runningSavesState.Clear();
                 _runningSavesCancellation.Clear();
+
+                barrier.RemoveParticipants(_runningSaves.Count);
             }
         }
 
@@ -131,7 +138,8 @@ namespace EasySaveUI.Services
         private void SaveThread(Save save, CancellationToken cancellationToken)
         {
             UpdateSaveState(save, SaveState.IN_PROGRESS);
-            Broker broker = Broker.GetInstance();
+            save.Progress = 0;
+
             while (!cancellationToken.IsCancellationRequested)
             {
                 List<string> filesToCopy = GetFilesToCopy(save.SaveType, save.InputFolder, save.OutputFolder);
@@ -139,58 +147,20 @@ namespace EasySaveUI.Services
                 save.TotalFilesToCopy = filesToCopy.Count;
                 save.NbFilesLeftToDo = filesToCopy.Count;
 
-                // Trier les fichiers par taille dans l'ordre croissant
-                filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
+                List<string> priority = filesToCopy.Where((file) => _parameters.PriorityExtensionsList.Contains(Path.GetExtension(file).TrimStart('.'))).ToList();
+                List<string> nonPriority = filesToCopy.Except(priority).ToList();
 
-                // Trier les fichiers par priorité
-                filesToCopy.Sort((string a, string b) =>
+                // Copier les fichiers prioritaires en premier
+                foreach (string file in priority)
                 {
-                    string extA = Path.GetExtension(a).TrimStart('.');
-                    string extB = Path.GetExtension(b).TrimStart('.');
+                    HandleCopy(save, file);
+                }
 
-                    if (_parameters.PriorityExtensionsList.Contains(extA) && !_parameters.PriorityExtensionsList.Contains(extB))
-                        return -1;
-                    else if (!_parameters.PriorityExtensionsList.Contains(extA) && _parameters.PriorityExtensionsList.Contains(extB))
-                        return 1;
-                    else
-                        return 0;
-                });
+                barrier.SignalAndWait();
 
-                foreach (string file in filesToCopy)
+                foreach (string file in nonPriority)
                 {
-                    _runningSavesState[save.Id].WaitOne();
-
-                    bool islargeFile = new FileInfo(file).Length > _parameters.MaxFileSize;
-
-                    if (islargeFile)
-                    {
-                        Monitor.Enter(_lockLargeFile);
-                    }
-
-                    try
-                    {
-                        if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
-                            EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-                        else
-                            CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-
-                        save.NbFilesLeftToDo--;
-                        save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
-                        broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine($"Error while copying file {file}: {e.Message}");
-                    }
-                    finally
-                    {
-                        // Liberer le lock si c'est un gros fichier
-                        if (islargeFile)
-                        {
-                            Monitor.PulseAll(_lockLargeFile);
-                            Monitor.Exit(_lockLargeFile);
-                        }
-                    }
+                    HandleCopy(save, file);
                 }
 
                 // Si la sauvegarde est différentielle et qu'il n'y a pas de fichier à copier, la sauvegarde est terminée
@@ -200,6 +170,52 @@ namespace EasySaveUI.Services
                 }
 
                 StopSave(save, false);
+            }
+        }
+
+        private void HandleCopy(Save save, string file)
+        {
+            Broker broker = Broker.GetInstance();
+
+            try
+            {
+                // Il est possible que la sauvegarde est été annulée (stop), dans ce cas l'index ne sera plus disponible
+                _runningSavesState[save.Id].WaitOne();
+            } catch (Exception e)
+            {
+                return;
+            }
+
+            bool islargeFile = new FileInfo(file).Length > _parameters.MaxFileSize;
+
+            if (islargeFile)
+            {
+                Monitor.Enter(_lockLargeFile);
+            }
+
+            try
+            {
+                if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
+                    EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+                else
+                    CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
+
+                save.NbFilesLeftToDo--;
+                save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
+                broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error while copying file {file}: {e.Message}");
+            }
+            finally
+            {
+                // Liberer le lock si c'est un gros fichier
+                if (islargeFile)
+                {
+                    Monitor.PulseAll(_lockLargeFile);
+                    Monitor.Exit(_lockLargeFile);
+                }
             }
         }
 
@@ -275,8 +291,7 @@ namespace EasySaveUI.Services
                 FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cryptosoft", "cryptosoft.exe"),
                 Arguments = $"\"{inputFullPath}\" \"{outputFullPath}\"", // Commande à exécuter
                 RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
+                UseShellExecute = false
             };
 
             Process process = Process.Start(startInfo);
@@ -311,6 +326,7 @@ namespace EasySaveUI.Services
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
                 mre.Reset();
+                barrier.RemoveParticipant();
                 UpdateSaveState(save, SaveState.PAUSED);
             }
         }
@@ -324,6 +340,7 @@ namespace EasySaveUI.Services
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
                 mre.Set();
+                barrier.AddParticipant();
                 UpdateSaveState(save, SaveState.IN_PROGRESS);
             }
         }
