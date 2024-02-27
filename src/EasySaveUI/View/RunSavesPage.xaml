@@ -130,8 +130,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="Lancement des sauvegardes"
-                       x:Name="TitreLancementSauvegarde"
+                <Label x:Name="TitreLancementSauvegarde"
                        FontSize="Header"
                        FontAttributes="Bold"
                        Grid.Row="0"/>
@@ -140,7 +139,7 @@
                             JustifyContent="Center"
                             HorizontalOptions="FillAndExpand"
                             Grid.Row="1">
-                    <Label Text="Sauvegarde à lancer"/>
+                    <Label x:Name="SavesToRunLabel"/>
                     <Editor x:Name="SavesEditor"
                             AutoSize="TextChanges"
                             IsReadOnly="True"
@@ -152,7 +151,6 @@
                             Grid.Row="2">
                     <Border Style="{StaticResource BorderRadius}">
                         <Button x:Name="RunSavesButton"
-                                Text="Lancer"
                                 BackgroundColor="{StaticResource Primary}"
                                 Clicked="RunSavesButton_Clicked"/>
                     </Border>

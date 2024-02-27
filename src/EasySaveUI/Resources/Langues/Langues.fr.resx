@@ -129,11 +129,17 @@
   <data name="DailyXMLLabelKey" xml:space="preserve">
     <value>Log journalier (XML) :</value>
   </data>
+  <data name="DeleteButtonKey" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
   <data name="FileSizeLabelKey" xml:space="preserve">
     <value>Taille maximum des fichiers (Ko) :</value>
   </data>
   <data name="GeneralKey" xml:space="preserve">
     <value>Général</value>
+  </data>
+  <data name="InputFolderLabelKey" xml:space="preserve">
+    <value>Fichier source :</value>
   </data>
   <data name="JournauxKey" xml:space="preserve">
     <value>Journaux d'activités</value>
@@ -147,8 +153,26 @@
   <data name="ListTypeLabelKey" xml:space="preserve">
     <value>Liste des types à chiffrer :</value>
   </data>
+  <data name="OutputFolderLabelKey" xml:space="preserve">
+    <value>Fichier de destination :</value>
+  </data>
   <data name="PriorityExtensionsLabelKey" xml:space="preserve">
     <value>Liste des types prioritaires :</value>
+  </data>
+  <data name="RunSaveButtonKey" xml:space="preserve">
+    <value>LANCER SAUVEGARDE</value>
+  </data>
+  <data name="RunSavesButtonKey" xml:space="preserve">
+    <value>Lancer sauvegardes</value>
+  </data>
+  <data name="SaveNameLabelKey" xml:space="preserve">
+    <value>Nom de la sauvegarde :</value>
+  </data>
+  <data name="SavesToRunLabelKey" xml:space="preserve">
+    <value>Sauvegardes à lancer</value>
+  </data>
+  <data name="SaveTypeLabelKey" xml:space="preserve">
+    <value>Type de sauvegarde :</value>
   </data>
   <data name="SelectLanguageKey" xml:space="preserve">
     <value>Sélectionner une langue :</value>
@@ -159,8 +183,14 @@
   <data name="ThemesKey" xml:space="preserve">
     <value>Thèmes</value>
   </data>
+  <data name="TitleConfigurationLabelKey" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="TitreLancementSauvegardeKey" xml:space="preserve">
+    <value>Lancer sauvegardes</value>
+  </data>
   <data name="ValidateKey" xml:space="preserve">
-    <value>Valider</value>
+    <value>Enregistrer</value>
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
     <value>Bienvenue dans EasySave</value>

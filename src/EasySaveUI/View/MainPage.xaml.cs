@@ -1,11 +1,12 @@
 namespace EasySaveUI.View;
 using CommunityToolkit.Maui.Storage;
 using System.Diagnostics;
+using System.Resources;
 
 public partial class MainPage : ContentPage
 {
     MainPageViewModel viewModel;
-
+    private ResourceManager _resourceManager;
     public bool IsNew = false;
 
     public MainPage(MainPageViewModel viewModel)
@@ -13,10 +14,29 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         this.viewModel = viewModel;
 
+        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
+        MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
+        {
+            LoadLocalizedTexts();
+        });
+        LoadLocalizedTexts();
         foreach (var saveType in Enum.GetValues(typeof(SaveType)))
         {
             EntrySaveType.Items.Add(saveType.ToString());
         }
+    }
+
+    private void LoadLocalizedTexts()
+    {
+        var cultureInfo = App.LanguageService.CurrentLanguage;
+        TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
+        SaveNameLabel.Text = _resourceManager.GetString("SaveNameLabelKey", cultureInfo);
+        InputFolderLabel.Text = _resourceManager.GetString("InputFolderLabelKey", cultureInfo);
+        OutputFolderLabel.Text = _resourceManager.GetString("OutputFolderLabelKey", cultureInfo);
+        SaveTypeLabel.Text = _resourceManager.GetString("SaveTypeLabelKey", cultureInfo);
+        DeleteButton.Text = _resourceManager.GetString("DeleteButtonKey", cultureInfo);
+        SaveButton.Text = _resourceManager.GetString("ValidateKey", cultureInfo);
+        RunSaveButton.Text = _resourceManager.GetString("RunSaveButtonKey", cultureInfo);
     }
 
     protected override void OnAppearing()
@@ -46,7 +66,7 @@ public partial class MainPage : ContentPage
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         IsNew = false;
-        TitleConfiguration.Text = "Configuration";
+        //TitleConfiguration.Text = "Configuration";
 
         viewModel.SetSelectedSave((Save)e.CurrentSelection.FirstOrDefault());
 
@@ -81,7 +101,7 @@ public partial class MainPage : ContentPage
 
             IsNew = false;
             DeleteButton.IsVisible = true;
-            TitleConfiguration.Text = "Configuration";
+            //TitleConfiguration.Text = "Configuration";
         }
         else
         {
@@ -96,7 +116,7 @@ public partial class MainPage : ContentPage
         IsNew = true;
         DeleteButton.IsVisible= false;
 
-        TitleConfiguration.Text = "Nouvelle Configuration";
+        //TitleConfiguration.Text = "Nouvelle Configuration";
 
         ResetInput();
     }

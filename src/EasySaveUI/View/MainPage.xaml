@@ -170,11 +170,11 @@
                             StrokeThickness="1"
                             Grid.Column="1">
                     <Button Clicked="ButtonNavigation_Clicked"
-                                FontAttributes="Bold"
-                                HorizontalOptions="Center"
-                                Text="LANCER SAUVEGARDE"
-                                TextColor="{StaticResource White}"
-                                VerticalOptions="Center"/>
+                            x:Name="RunSaveButton"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            TextColor="{StaticResource White}"
+                            VerticalOptions="Center"/>
                 </Border>
             </Grid>
         </Grid>
@@ -192,8 +192,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="Configuration"
-                       x:Name="TitleConfiguration"
+                <Label x:Name="TitleConfigurationLabel"
                        FontSize="Header"
                        FontAttributes="Bold"
                        Grid.Row="0"/>
@@ -202,10 +201,10 @@
                             JustifyContent="Center"
                             HorizontalOptions="FillAndExpand"
                             Grid.Row="1">
-                    <Label Text="Nom de la sauvegarde"/>
+                    <Label x:Name="SaveNameLabel"/>
                     <Entry x:Name="EntrySaveName"/>
 
-                    <Label Text="Dossier source"/>
+                    <Label x:Name="InputFolderLabel"/>
                     <Grid ColumnSpacing="15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -219,7 +218,7 @@
                                 Text="..."/>
                     </Grid>
 
-                    <Label Text="Dossier Cible"/>
+                    <Label x:Name="OutputFolderLabel"/>
                     <Grid ColumnSpacing="15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -233,7 +232,7 @@
                                 Text="..."/>
                     </Grid>
 
-                    <Label Text="Type de sauvegarde"/>
+                    <Label x:Name="SaveTypeLabel"/>
                     <Picker x:Name="EntrySaveType"/>
                 </FlexLayout>
 
@@ -242,14 +241,12 @@
                             Grid.Row="2">
                     <Border Style="{StaticResource BorderRadius}">
                         <Button x:Name="DeleteButton"
-                                Text="Supprimer"
                                 BackgroundColor="{StaticResource Red}"
                                 Clicked="DeleteButton_Clicked"/>
                     </Border>
 
                     <Border Style="{StaticResource BorderRadius}">
-                        <Button x:Name="SaveButton" 
-                                Text="Enregistrer"
+                        <Button x:Name="SaveButton"
                                 BackgroundColor="{StaticResource Primary}"
                                 Clicked="SaveButton_Clicked"/>
                     </Border>
