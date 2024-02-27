@@ -63,10 +63,13 @@ public partial class GeneralSettingsView : ContentView
 
     private void OnValiderClicked(object sender, EventArgs e)
     {
-        MaxFileSize = int.Parse(TailleFichiersEntry.Text);
         if (MaxFileSize == null)
         {
             MaxFileSize = 0;
+        }
+        else
+        {
+            MaxFileSize = int.Parse(TailleFichiersEntry.Text);
         }
         PriorityExtensionsList = [.. editorPriority.Text.Split(";")];
         PriorityExtensionsList = PriorityExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
