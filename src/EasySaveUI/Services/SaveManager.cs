@@ -48,9 +48,12 @@ namespace EasySaveUI.Services
                 List<string> list_buisness_apps = _parameters.BusinessApplicationsList;
                 for (int i = 0; i < list_buisness_apps.Count; i++)
                 {
-                    if (!_BusinessObserversThreads.ContainsKey(list_buisness_apps[i]))
+                    Debug.WriteLine(list_buisness_apps[i]);
+                    Debug.WriteLine(i);
+                    string appname = list_buisness_apps[i];
+                    if (!_BusinessObserversThreads.ContainsKey(appname) && appname != null)
                     {
-                        Thread thread = new Thread(new ThreadStart(() => BusinessObserver.Observer(list_buisness_apps[i])));
+                        Thread thread = new Thread(new ThreadStart(() => BusinessObserver.Observer(appname)));
                         thread.Start();
                         _BusinessObserversThreads.Add(list_buisness_apps[i], thread);
                     }
