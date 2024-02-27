@@ -38,13 +38,24 @@ namespace EasySaveUI.Services
 
     class LoggerJournalier : Logger
     {
+        private static LoggerJournalier _instance;
         private FileStream _logFileJSON;
         private FileStream _logFileXML;
 
-        public LoggerJournalier()
+        private LoggerJournalier()
         {
             OpenFile();
         }
+
+        public static LoggerJournalier GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new LoggerJournalier();
+            }
+
+            return _instance;
+        } 
 
         ~LoggerJournalier()
         {
