@@ -103,7 +103,7 @@
                                     <Label Text="{Binding SaveType}" FontSize="12"/>
                                 </VerticalStackLayout>
                                 <Grid ColumnSpacing="2"
-                                          VerticalOptions="Center">
+                                      VerticalOptions="Center">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -117,17 +117,17 @@
                                     <Label Grid.Column="1"
                                                Text="{Binding Progress, Converter={StaticResource MathExpressionConverter}, ConverterParameter='x*100', StringFormat='{0:F2} %'}"/>
                                     <Image Grid.Column="2"
-                                               Source="pause.png"
-                                               WidthRequest="20"
-                                               HeightRequest="20">
+                                           Source="{Binding ImageSource}"
+                                           WidthRequest="20"
+                                           HeightRequest="20">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="PauseButton_Clicked"/>
                                         </Image.GestureRecognizers>
                                     </Image>
                                     <Image Grid.Column="3"
-                                               Source="stop.png"
-                                               WidthRequest="20"
-                                               HeightRequest="20">
+                                           Source="stop.png"
+                                           WidthRequest="20"
+                                           HeightRequest="20">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="StopButton_Clicked"/>
                                         </Image.GestureRecognizers>
@@ -141,34 +141,34 @@
 
             <!-- Footer menu (Ajouter / lancer sauvegarde) -->
             <Grid ColumnSpacing="10"
-                      Grid.Column="0"
-                      Grid.Row="3">
+                  Grid.Column="0"
+                  Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Border Stroke="{StaticResource Primary}"
-                            WidthRequest="50"
-                            HeightRequest="50"
-                            Style="{StaticResource BorderRadius}" 
-                            StrokeThickness="1"
-                            Grid.Column="0">
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        Style="{StaticResource BorderRadius}" 
+                        StrokeThickness="1"
+                        Grid.Column="0">
                     <Button BackgroundColor="Transparent"
-                                            Clicked="AddSaveButton_Clicked"
-                                            FontSize="Large"
-                                            FontAttributes="Bold"
-                                            HorizontalOptions="Center"
-                                            Text="+"
-                                            TextColor="{StaticResource Primary}"
-                                            VerticalOptions="Center"/>
+                            Clicked="AddSaveButton_Clicked"
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            Text="+"
+                            TextColor="{StaticResource Primary}"
+                            VerticalOptions="Center"/>
                 </Border>
 
                 <Border BackgroundColor="{StaticResource Primary}"
-                            Stroke="{StaticResource Primary}"
-                            Style="{StaticResource BorderRadius}"
-                            StrokeThickness="1"
-                            Grid.Column="1">
+                        Stroke="{StaticResource Primary}"
+                        Style="{StaticResource BorderRadius}"
+                        StrokeThickness="1"
+                        Grid.Column="1">
                     <Button Clicked="ButtonNavigation_Clicked"
                             x:Name="RunSaveButton"
                             FontAttributes="Bold"

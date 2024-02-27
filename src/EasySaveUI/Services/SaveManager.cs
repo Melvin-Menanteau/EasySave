@@ -104,6 +104,26 @@ namespace EasySaveUI.Services
             }
         }
 
+        public void PauseAllSaves()
+        {
+            lock (_lockRunningSave)
+            {
+                SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
+
+                _runningSaves.Keys.ToList().ForEach((id) => PauseSave(saveConfiguration.GetConfiguration(id)));
+            }
+        }
+
+        public void ResumeAllSaves()
+        {
+            lock (_lockRunningSave)
+            {
+                SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
+
+                _runningSaves.Keys.ToList().ForEach((id) => ResumeSave(saveConfiguration.GetConfiguration(id)));
+            }
+        }
+
         /// <summary>
         /// Fonction exécutée par un thread pour effectuer une sauvegarde
         /// </summary>

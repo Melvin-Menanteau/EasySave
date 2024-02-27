@@ -37,7 +37,9 @@ namespace EasySaveUI.Model
         [JsonIgnore]
         private double _progress { get; set; }
         [JsonIgnore]
-        public SaveState State { get; set; }
+        private SaveState _state { get; set; }
+        [JsonIgnore]
+        public string _imageSource { get; set; } = "pause.png";
         [JsonIgnore]
         private bool _isSelected = false;
 
@@ -87,6 +89,25 @@ namespace EasySaveUI.Model
         {
             get => _isSelected;
             set => SetProperty(_isSelected, value, this, (save, val) => save._isSelected = val);
+        }
+
+        public SaveState State
+        {
+            get => _state;
+            set {
+                SetProperty(_state, value, this, (save, val) => save._state = val);
+
+                if (value == SaveState.PAUSED)
+                    ImageSource = "play.png";
+                else
+                    ImageSource = "pause.png";
+            }
+        }
+
+        public string ImageSource
+        {
+            get => _imageSource;
+            set => SetProperty(_imageSource, value, this, (save, val) => save._imageSource = val);
         }
 
         public override string ToString()
