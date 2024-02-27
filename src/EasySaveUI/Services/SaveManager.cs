@@ -123,16 +123,14 @@ namespace EasySaveUI.Services
                 filesToCopy.Sort((string a, string b) => new FileInfo(a).Length.CompareTo(new FileInfo(b).Length));
 
                 // Trier les fichiers par priorité
-                List<string> ext = new List<string>() { "vue", "txt" };
-
                 filesToCopy.Sort((string a, string b) =>
                 {
                     string extA = Path.GetExtension(a).TrimStart('.');
                     string extB = Path.GetExtension(b).TrimStart('.');
 
-                    if (ext.Contains(extA) && !ext.Contains(extB))
+                    if (_parameters.PriorityExtensionsList.Contains(extA) && !_parameters.PriorityExtensionsList.Contains(extB))
                         return -1;
-                    else if (!ext.Contains(extA) && ext.Contains(extB))
+                    else if (!_parameters.PriorityExtensionsList.Contains(extA) && _parameters.PriorityExtensionsList.Contains(extB))
                         return 1;
                     else
                         return 0;
