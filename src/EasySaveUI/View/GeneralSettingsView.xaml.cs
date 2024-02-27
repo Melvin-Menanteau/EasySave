@@ -5,10 +5,14 @@ namespace EasySaveUI.View;
 public partial class GeneralSettingsView : ContentView
 {
     ParametersPageViewModel viewModel;
+    
+    private static Parameters _instance;
+    public List<string> EncryptionExstensionsList = [];
     private ResourceManager _resourceManager;
-    public int MaxFileSize;
     public List<string> PriorityExtensionsList = [];
     public List<string> BusinessApplicationsList = [];
+    public string EncryptionKey;
+    public int MaxFileSize;
     public GeneralSettingsView(ParametersPageViewModel viewModel)
     {
         InitializeComponent();
@@ -59,7 +63,14 @@ public partial class GeneralSettingsView : ContentView
 
     private void OnValiderClicked(object sender, EventArgs e)
     {
-        MaxFileSize = int.Parse(TailleFichiersEntry.Text);
+        if (MaxFileSize == null)
+        {
+            MaxFileSize = 0;
+        }
+        else
+        {
+            MaxFileSize = int.Parse(TailleFichiersEntry.Text);
+        }
         PriorityExtensionsList = [.. editorPriority.Text.Split(";")];
         PriorityExtensionsList = PriorityExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
         PriorityExtensionsList = PriorityExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();

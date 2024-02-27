@@ -185,7 +185,7 @@
                 Padding="20, 10"
                 Style="{StaticResource BorderRadius}"
                 Shadow="{StaticResource CommonShadow}">
-            <Grid>
+            <Grid x:Name="FormulaireConfiguration">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
