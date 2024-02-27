@@ -64,6 +64,10 @@
                             SelectionMode="Single"
                             SelectionChanged="CollectionView_SelectionChanged"
                             VerticalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+                
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Save">
                         <Border Style="{StaticResource BorderRadius}"
