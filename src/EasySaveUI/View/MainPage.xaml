@@ -228,7 +228,7 @@
                         <Entry Grid.Column="0"
                                 x:Name="EntrySaveOutputFolder"/>
                         <Button Grid.Column="1"
-                                Clicked="PickInputFolder"
+                                Clicked="PickOutputFolder"
                                 Text="..."/>
                     </Grid>
 
