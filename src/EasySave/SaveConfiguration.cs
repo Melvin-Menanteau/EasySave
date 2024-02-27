@@ -87,9 +87,9 @@ namespace EasySave
             return ListeConfiguration.Find(save => save.Name == name) ?? null;
         }
 
-        public static int GetMaximunIdFromSaves()
+        private static int GetMaximumIdFromSaves()
         {
-            int maximunId = 0;
+            int maximumId = 0;
 
             List<Save> saves = GetConfigurations();
 
@@ -97,14 +97,14 @@ namespace EasySave
             {
                 foreach (Save save in saves)
                 {
-                    if (save.Id > maximunId)
+                    if (save.Id > maximumId)
                     {
-                        maximunId = save.Id;
+                        maximumId = save.Id;
                     }
                 }
             }
 
-            return maximunId;
+            return maximumId;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace EasySave
         /// <exception cref="Exception">Il existe deja 5 configurations enregistr�es</exception>
         public void AddConfiguration(string nom, string inputFolder, string outputFolder, SaveType saveType)
         {
-            int id = GetMaximunIdFromSaves() + 1;
+            int id = GetMaximumIdFromSaves() + 1;
 
             ListeConfiguration.Add(new Save(id, nom, inputFolder, outputFolder, saveType));
 

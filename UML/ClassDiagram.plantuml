@@ -57,6 +57,7 @@ class SaveConfiguration {
 	+GetConfiguration() : List<Save>
 	+GetConfiguration(id: int) : Save
 	+GetConfiguration(name: string) : Save
+	{static}+GetMaximumIdFromSave() : int
 	+AddConfiguration(name: string, inputFolder: string, outputFolder: string, saveType: SaveType) : void
 	+RemoveConfiguration(id: int) : bool
 	+UpdateConfiguration(id: int, name: string?, inputFolder: string?, outputFolder: string?, saveType: SaveType?) : void
@@ -88,7 +89,7 @@ class Save {
 	+TotalFilesSize: int
 	+NbFilesleftToDo: int
 	+State: SaveState
-	+Save(id: int?, name: string, inputFolder: string, outputFolder: string, saveType: SaveType)
+	+Save(id: int, name: string, inputFolder: string, outputFolder: string, saveType: SaveType)
 
 }
 
