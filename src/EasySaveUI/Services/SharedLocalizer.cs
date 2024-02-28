@@ -1,36 +1,39 @@
 ﻿using System.Globalization;
 using System.Resources;
 
-public class SharedLocalizer
+namespace EasySaveUI.Services
 {
-    private static SharedLocalizer _instance;
-    private CultureInfo _currentLanguage;
-    private ResourceManager _resourceManager;
-
-    public CultureInfo CurrentLanguage => _currentLanguage;
-
-    private SharedLocalizer(CultureInfo initialLanguage)
+    public class SharedLocalizer
     {
-        _currentLanguage = initialLanguage;
-        _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
-    }
+        private static SharedLocalizer _instance;
+        private CultureInfo _currentLanguage;
+        private ResourceManager _resourceManager;
 
-    public static SharedLocalizer GetInstance(CultureInfo initialLanguage)
-    {
-        if (_instance == null)
+        public CultureInfo CurrentLanguage => _currentLanguage;
+
+        private SharedLocalizer(CultureInfo initialLanguage)
         {
-            _instance = new SharedLocalizer(initialLanguage);
+            _currentLanguage = initialLanguage;
+            _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
         }
-        return _instance;
-    }
 
-    public void SetLanguage(CultureInfo culture)
-    {
-        _currentLanguage = culture;
-    }
+        public static SharedLocalizer GetInstance(CultureInfo initialLanguage)
+        {
+            if (_instance == null)
+            {
+                _instance = new SharedLocalizer(initialLanguage);
+            }
+            return _instance;
+        }
 
-    public string GetString(string key)
-    {
-        return _resourceManager.GetString(key, _currentLanguage);
+        public void SetLanguage(CultureInfo culture)
+        {
+            _currentLanguage = culture;
+        }
+
+        public string GetString(string key)
+        {
+            return _resourceManager.GetString(key, _currentLanguage);
+        }
     }
 }
