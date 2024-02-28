@@ -181,7 +181,7 @@ namespace EasySaveUI.Services
             file.Close();
         }
 
-        public void SetSelectedSave(int id)
+        public void SetSelectedSave(int? id)
         {
             foreach (Save save in ListeConfiguration)
             {

@@ -67,7 +67,7 @@ public partial class MainPage : ContentPage
 
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        IsNew = false;
+        IsNew = e.CurrentSelection.Count == 0;
         FormulaireConfiguration.IsVisible = true;
 
         var cultureInfo = App.LanguageService.CurrentLanguage;
@@ -75,6 +75,8 @@ public partial class MainPage : ContentPage
         TitleConfigurationLabel.Text = _resourceManager.GetString("TitleConfigurationLabelKey", cultureInfo);
 
         viewModel.SetSelectedSave((Save)e.CurrentSelection.FirstOrDefault());
+
+        if (IsNew) return;
 
         if (viewModel.SelectedSave == null)
         {
@@ -125,6 +127,9 @@ public partial class MainPage : ContentPage
         IsNew = true;
         FormulaireConfiguration.IsVisible = true;
         DeleteButton.IsVisible= false;
+        viewModel.SetSelectedSave(null);
+        SavesCollection.SelectedItem = null;
+
         var cultureInfo = App.LanguageService.CurrentLanguage;
 
         TitleConfigurationLabel.Text = _resourceManager.GetString("NewTitleConfigurationLabelKey", cultureInfo);
