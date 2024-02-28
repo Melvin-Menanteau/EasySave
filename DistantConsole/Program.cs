@@ -42,11 +42,11 @@ namespace DistantConsole
 
                             for (int i = 0; i < 20; i++)
                             {
-                                if (i < percentage % 20 || percentage == 100)
+                                if (i < percentage / 20 || percentage == 100)
                                 {
                                     progress += "=";
                                 }
-                                else if (i == percentage % 20)
+                                else if (i == percentage / 20)
                                 {
                                     progress += ">";
                                 }
@@ -76,7 +76,6 @@ namespace DistantConsole
                                 Console.WriteLine(save);
                             }
                         }
-                        // TODO: ajouter une methode pour mettre en forme le messag recu. 
                     }
                 }
                 catch (Exception e)
