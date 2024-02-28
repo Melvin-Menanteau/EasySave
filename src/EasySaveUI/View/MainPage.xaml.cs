@@ -53,6 +53,8 @@ public partial class MainPage : ContentPage
 
         DeleteButton.IsVisible = false;
 
+        ResetInput();
+
         // Fait apparaitre la page principale
         base.OnAppearing();
     }
@@ -62,7 +64,8 @@ public partial class MainPage : ContentPage
         EntrySaveName.Text = string.Empty;
         EntrySaveInputFolder.Text = string.Empty;
         EntrySaveOutputFolder.Text = string.Empty;
-        EntrySaveType.SelectedItem = null;
+        EntrySaveType.SelectedItem = SaveType.COMPLETE;
+        EntrySaveType.SelectedIndex = 0;
     }
 
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)

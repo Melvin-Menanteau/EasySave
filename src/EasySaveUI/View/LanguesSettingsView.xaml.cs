@@ -17,8 +17,18 @@ namespace EasySaveUI.View
             // Initialize the ResourceManager with your resources
             _resourceManager = new ResourceManager("EasySaveUI.Resources.Langues.Langues", typeof(SharedLocalizer).Assembly);
 
-            // Initialize the picker with the default language (English)
-            LanguagePicker.SelectedIndex = 0; // Assuming English is the first language in the list
+            // Get the current culture info from the language service
+            var currentLanguage = App.LanguageService.CurrentLanguage;
+
+            // Check the current language and set the picker accordingly
+            if (currentLanguage.Name == "en")
+            {
+                LanguagePicker.SelectedIndex = 0; // English
+            }
+            else if (currentLanguage.Name == "fr")
+            {
+                LanguagePicker.SelectedIndex = 1; // French
+            }
 
             // Load the localized texts
             LoadLocalizedTexts();
