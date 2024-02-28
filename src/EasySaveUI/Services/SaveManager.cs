@@ -11,7 +11,7 @@ namespace EasySaveUI.Services
         private readonly object _lockRunningSave = new object();
         private readonly object _lockLargeFile = new object();
         private readonly Parameters _parameters = Parameters.GetInstance();
-        private Barrier barrier = new Barrier(0);
+        private Barrier _barrier = new Barrier(0);
         private Dictionary<string, Thread> _BusinessObserversThreads;
         private readonly LoggerJournalier _loggerJournalier = LoggerJournalier.GetInstance();
         private readonly LoggerEtat _loggerEtat = LoggerEtat.GetInstance();
@@ -68,7 +68,7 @@ namespace EasySaveUI.Services
 
                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
 
-                barrier.AddParticipant();
+                _barrier.AddParticipant();
 
                 _runningSaves.Add(save.Id, new Thread(() => SaveThread(save, cancellationToken.Token)));
                 _runningSavesState.Add(save.Id, new ManualResetEvent(true));
@@ -95,7 +95,7 @@ namespace EasySaveUI.Services
                     _runningSavesState.Remove(save.Id);
                     _runningSavesCancellation.Remove(save.Id);
 
-                    barrier.RemoveParticipant();
+                    _barrier.RemoveParticipant();
                     UpdateSaveState(save, SaveState.FINISHED);
 
 
@@ -124,7 +124,7 @@ namespace EasySaveUI.Services
                 _runningSavesState.Clear();
                 _runningSavesCancellation.Clear();
 
-                barrier.RemoveParticipants(_runningSaves.Count);
+                _barrier.RemoveParticipants(_runningSaves.Count);
             }
         }
 
@@ -173,7 +173,7 @@ namespace EasySaveUI.Services
                     HandleCopy(save, file);
                 }
 
-                barrier.SignalAndWait();
+                _barrier.SignalAndWait();
 
                 foreach (string file in nonPriority)
                 {
@@ -361,8 +361,8 @@ namespace EasySaveUI.Services
                 // Il est possible de mettre en pause une sauvegarde de plusieurs manière
                 // notamment par appui sur le bouton ou présence d'un logiciel métier.
                 // Il se pourrait donc que le nombre de participants soit négatif.
-                if (barrier.ParticipantCount > 0)
-                    barrier.RemoveParticipant();
+                if (_barrier.ParticipantCount > 0)
+                    _barrier.RemoveParticipant();
 
                 UpdateSaveState(save, SaveState.PAUSED);
             }
@@ -377,7 +377,7 @@ namespace EasySaveUI.Services
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
                 mre.Set();
-                barrier.AddParticipant();
+                _barrier.AddParticipant();
                 UpdateSaveState(save, SaveState.IN_PROGRESS);
             }
         }
