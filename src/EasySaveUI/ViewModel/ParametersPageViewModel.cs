@@ -5,7 +5,6 @@ namespace EasySaveUI.ViewModel
     public partial class ParametersPageViewModel : BaseViewModel
     {
         private readonly Parameters _parameters = Parameters.GetInstance();
-        string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
         public List<string> XmlLogEntries { get; private set; }
         public List<string> JsonLogEntries { get; private set; }
         public List<string> StatusLogEntries { get; private set; }
