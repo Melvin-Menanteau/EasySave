@@ -12,6 +12,7 @@ namespace EasySaveUI.Services
         private readonly object _lockLargeFile = new object();
         private readonly Parameters _parameters = Parameters.GetInstance();
         private Barrier barrier = new Barrier(0);
+        private Dictionary<string, Thread> _BusinessObserversThreads;
         //private readonly LoggerJournalier _loggerJournalier = new();
         //private readonly LoggerEtat _loggerEtat = new();
 
@@ -20,6 +21,7 @@ namespace EasySaveUI.Services
             _runningSaves = new Dictionary<int, Thread>();
             _runningSavesState = new Dictionary<int, ManualResetEvent>();
             _runningSavesCancellation = new Dictionary<int, CancellationTokenSource>();
+            _BusinessObserversThreads = new Dictionary<string, Thread>();
         }
 
         /// <summary>
@@ -43,6 +45,19 @@ namespace EasySaveUI.Services
         {
             lock (_lockRunningSave)
             {
+                List<string> list_buisness_apps = _parameters.BusinessApplicationsList;
+                for (int i = 0; i < list_buisness_apps.Count; i++)
+                {
+                    Debug.WriteLine(list_buisness_apps[i]);
+                    Debug.WriteLine(i);
+                    string appname = list_buisness_apps[i];
+                    if (!_BusinessObserversThreads.ContainsKey(appname) && appname != null)
+                    {
+                        Thread thread = new Thread(new ThreadStart(() => BusinessObserver.Observer(appname)));
+                        thread.Start();
+                        _BusinessObserversThreads.Add(list_buisness_apps[i], thread);
+                    }
+                }
                 if (_runningSaves.ContainsKey(save.Id))
                 {
                     Debug.WriteLine($"La sauvegarde \"{save.Name}\" est déjà en cours d'exécution");

@@ -38,8 +38,6 @@ namespace EasySaveUI.Services
                 writer = new StreamWriter(client.GetStream(), encoding: Encoding.ASCII) { AutoFlush = true };
                 Debug.WriteLine("Client connected");
                 // send message to client
-                writer.WriteLine("Server connected");
-                SendProgressToClient("test", 1, 2);
             }
         }
 
