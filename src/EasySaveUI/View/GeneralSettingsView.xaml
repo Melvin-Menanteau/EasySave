@@ -17,9 +17,7 @@
             <Label x:Name="PriorityExtensionsLabel"
                    Margin="10,10,0,0"/>
             <Editor x:Name="editorPriority"
-                HeightRequest="70"
-                TextChanged="OnEditorPriorityTextChanged"
-                Completed="OnEditorPriorityCompleted"
+                    HeightRequest="70"
                     Margin="10,5,10,0"/>
         </FlexLayout>
         
@@ -28,10 +26,8 @@
             <Label x:Name="BusinessAppLabel"
                    Margin="10,10,0,0"/>
             <Editor x:Name="editorMetiers"
-                HeightRequest="70"
-                TextChanged="OnEditorMetiersTextChanged"
-                Completed="OnEditorMetiersCompleted"
-                Margin="10,5,10,0"/>
+                    HeightRequest="70"
+                    Margin="10,5,10,0"/>
         </FlexLayout>
         <Button x:Name="SaveButton"
                 HorizontalOptions="End"
