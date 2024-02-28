@@ -15,8 +15,6 @@ namespace EasySaveUI.Services
         private Dictionary<string, Thread> _BusinessObserversThreads;
         private readonly LoggerJournalier _loggerJournalier = LoggerJournalier.GetInstance();
         private readonly LoggerEtat _loggerEtat = LoggerEtat.GetInstance();
-        //private readonly LoggerJournalier _loggerJournalier = new();
-        //private readonly LoggerEtat _loggerEtat = new();
 
         private SaveManager()
         {
