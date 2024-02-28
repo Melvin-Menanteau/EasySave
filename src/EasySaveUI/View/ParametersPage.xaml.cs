@@ -32,13 +32,12 @@ public partial class ParametersPage : ContentPage
     private void LoadLocalizedTexts()
     {
         var cultureInfo = App.LanguageService.CurrentLanguage;
-
+        titlePage.Text = _resourceManager.GetString("GeneralKey", cultureInfo);
         GeneralButton.Text = _resourceManager.GetString("GeneralKey", cultureInfo);
         ChiffrementButton.Text = _resourceManager.GetString("ChiffrementKey", cultureInfo);
         LanguesButton.Text = _resourceManager.GetString("LanguesKey", cultureInfo);
         JournauxButton.Text = _resourceManager.GetString("JournauxKey", cultureInfo);
         ThemesButton.Text = _resourceManager.GetString("ThemesKey", cultureInfo);
-        titlePage.Text = _resourceManager.GetString("LanguesKey", cultureInfo);
     }
     private void UpdateParametersView(string choice)
     {
