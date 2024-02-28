@@ -144,7 +144,7 @@ namespace DistantConsole
                                         }
                                     }
                                     break;
-                                case ConsoleKey.L:
+                                case ConsoleKey.A:
                                     uis[1] = "Entrez les id des sauvegardes que vous voulez lancer ( all pour tout stopper)";
                                     Console.Clear();
                                     foreach (string ui in uis)
@@ -175,6 +175,25 @@ namespace DistantConsole
                                             writer.WriteLine("launch " + str);
                                         }
                                     }
+                                    break;
+                                case ConsoleKey.L:
+                                    writer.WriteLine("list");
+                                    message = reader.ReadLine();
+                                    List<string> list = message.Split(';').ToList();
+                                    Console.Clear();
+                                    foreach (string save in list)
+                                    {
+                                        Console.WriteLine(save);
+                                    }
+                                    Console.ReadKey();
+                                    break;
+                                case ConsoleKey.H:
+                                    Console.Clear();
+                                    Console.WriteLine("A : Lancer une sauvegarde");
+                                    Console.WriteLine("P : Mettre en pause une sauvegarde");
+                                    Console.WriteLine("R : Relancer une sauvegarde");
+                                    Console.WriteLine("S : Stopper une sauvegarde");
+                                    Console.ReadKey();
                                     break;
                             }
                             Console.Clear();

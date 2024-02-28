@@ -124,12 +124,23 @@ namespace EasySaveUI.Services
                     {
                         foreach (Save save in saveConfiguration.GetConfiguration())
                         {
+                            // check if mess contain uniquely int value
                             if (save.Id == int.Parse(mess))
                             {
                                 saveManager.RunSave(save);
                             }
                         }
                     }
+                }
+                else if (message.StartsWith("list"))
+                {
+                    SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
+                    string messagelist = "";
+                    foreach (Save save in saveConfiguration.GetConfiguration())
+                    {
+                        messagelist += "ID:" + save.Id + " Name: " + save.Name + ";";
+                    }
+                    SendToClient(messagelist);
                 }
             }
         }
