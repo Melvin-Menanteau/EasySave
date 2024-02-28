@@ -40,7 +40,7 @@ namespace EasySaveUI.Services
                 if (client == null || !client.Connected)
                 {
                     client = listener.AcceptTcpClient();
-                
+                }
                 writer = new StreamWriter(client.GetStream(), encoding: Encoding.ASCII) { AutoFlush = true };
                 listener = new TcpListener(IPAddress.Any, 40000);
                 Debug.WriteLine("Client connected");
@@ -51,7 +51,6 @@ namespace EasySaveUI.Services
                 if (stream.DataAvailable)
                 {
                     message = streamReader.ReadLine();
-                }
                 if (message.StartsWith("pause"))
                 {
                     SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
@@ -122,6 +121,7 @@ namespace EasySaveUI.Services
                 {
                     SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
                     string mess = message.Split(" ")[1];
+                    Debug.WriteLine(mess);
                     if (mess == "all")
                     {
                         
@@ -161,7 +161,6 @@ namespace EasySaveUI.Services
                     SendToClient(messagelist);
                 }
                 }
-                //Thread.Sleep(500);
                 if (!client.Connected)
                 {
                     client = null;

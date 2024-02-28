@@ -155,7 +155,6 @@ namespace DistantConsole
                                         break;
                                     case ConsoleKey.S:
                                         uis[1] = "Entrez les id des sauvegardes que vous voulez lancer séparés espaces ( all pour tout stopper)";
-                                        entry = Console.ReadLine();
                                         Console.Clear();
                                         foreach (string ui in uis)
                                         {
@@ -165,7 +164,8 @@ namespace DistantConsole
                                         {
                                             Console.WriteLine(save);
                                         }
-                                        if (entry == "q" || entry == "" || entry == " ")
+                                        entry = Console.ReadLine();
+                                        if (entry == "q")
                                         {
                                             break;
                                         }
