@@ -195,9 +195,9 @@ namespace EasySaveUI.Services
 
             try
             {
-                if (!Directory.Exists(save.OutputFolder))
+                if (!Directory.Exists(Path.GetDirectoryName(file.Replace(save.InputFolder, save.OutputFolder))))
                 {
-                    Directory.CreateDirectory(save.OutputFolder);
+                    Directory.CreateDirectory(Path.GetDirectoryName(file.Replace(save.InputFolder, save.OutputFolder)));
                 }
 
                 if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
