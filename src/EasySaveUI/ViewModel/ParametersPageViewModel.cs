@@ -1,4 +1,6 @@
-﻿namespace EasySaveUI.ViewModel
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace EasySaveUI.ViewModel
 {
     public partial class ParametersPageViewModel : BaseViewModel
     {
@@ -11,44 +13,68 @@
         public ParametersPageViewModel()
         {
             LoadXmlLogEntries();
+            LoadJsonLogEntries();
+            LoadStatusLogEntries();
         }
 
         public List<string> LoadStatusLogEntries()
         {
+            DateTime date = DateTime.Now;
             List<string> statusLogs = new List<string>();
-            if (File.Exists(currentDirectory + "state.txt"))
-            {
-                string[] lines = File.ReadAllLines(currentDirectory + "state.txt");
-                statusLogs.AddRange(lines);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.txt");
 
-                return statusLogs;
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader streamReader = new StreamReader(fileStream))
+                {
+                    while (!streamReader.EndOfStream)
+                    {
+                        string line = streamReader.ReadLine();
+                        statusLogs.Add(line);
+                    }
+                }
             }
 
             return statusLogs;
         }
-        private List<string> LoadJsonLogEntries()
+        public List<string> LoadJsonLogEntries()
         {
+            DateTime date = DateTime.Now;
             List<string> jsonLogs = new List<string>();
-            if (File.Exists(currentDirectory + "log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".json"))
-            {
-                string[] lines = File.ReadAllLines(currentDirectory + "log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".json");
-                jsonLogs.AddRange(lines);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log_" + date.ToString("yyyy-MM-dd") + ".json");
 
-                return jsonLogs;
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader streamReader = new StreamReader(fileStream))
+                {
+                    while (!streamReader.EndOfStream)
+                    {
+                        string line = streamReader.ReadLine();
+                        jsonLogs.Add(line);
+                    }
+                }
             }
 
             return jsonLogs;
         }
-        private List<string> LoadXmlLogEntries()
+        public List<string> LoadXmlLogEntries()
         {
+            DateTime date = DateTime.Now;
             List<string> xmlLogs = new List<string>();
-            if (File.Exists(currentDirectory + "log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xml"))
-            {
-                string[] lines = File.ReadAllLines(currentDirectory + "log_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xml");
-                xmlLogs.AddRange(lines);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log_" + date.ToString("yyyy-MM-dd") + ".xml");
 
-                return xmlLogs;
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader streamReader = new StreamReader(fileStream))
+                {
+                    while (!streamReader.EndOfStream)
+                    {
+                        string line = streamReader.ReadLine();
+                        xmlLogs.Add(line);
+                    }
+                }
             }
+
             return xmlLogs;
         }
         public void SaveBusinessApplications(List<string> businessApplicationsList)

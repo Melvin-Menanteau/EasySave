@@ -3,39 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:EasySaveUI.ViewModel"
-             x:Class="EasySaveUI.View.JournauxSettingsView">
-    <StackLayout Margin="20,10,0,0">
-        <!-- Journalier au format XML -->
-        <Label x:Name="DailyXMLLabel" FontSize="Medium" FontAttributes="Bold" />
-        <ListView ItemsSource="{Binding XmlLogEntries}"
-                  HorizontalOptions="Center">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+             x:Class="EasySaveUI.View.JournauxSettingsView"
+             x:DataType="viewmodel:ParametersPageViewModel">
+    <ScrollView>
+        <StackLayout Margin="20,10,0,0">
+            
+            <!-- Log d'état au format JSON -->
+            <Label x:Name="StateLogJSON" FontSize="Medium" FontAttributes="Bold" />
+            <StackLayout HorizontalOptions="Start">
+                <Label x:Name="StatusLogEntries" />
+            </StackLayout>
+            
+            <!-- Journalier au format XML -->
+            <Label x:Name="DailyXMLLabel" FontSize="Medium" FontAttributes="Bold" />
+            <StackLayout HorizontalOptions="Start">
+                <Label x:Name="XmlLogEntries" />
+            </StackLayout>
 
-        <!-- Journalier au format JSON -->
-        <Label x:Name="DailyJSONLabel" FontSize="Medium" FontAttributes="Bold" />
-        <ListView ItemsSource="{Binding JsonLogEntries}"
-                  HorizontalOptions="Center">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <!-- Log d'état au format JSON -->
-        <Label x:Name="StateLogJSON" FontSize="Medium" FontAttributes="Bold" />
-        <ListView ItemsSource="{Binding StatusLogEntries}"
-                  HorizontalOptions="Center">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
+            <!-- Journalier au format JSON -->
+            <Label x:Name="DailyJSONLabel" FontSize="Medium" FontAttributes="Bold" />
+            <StackLayout HorizontalOptions="Start">
+                <Label x:Name="JsonLogEntries" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentView>
