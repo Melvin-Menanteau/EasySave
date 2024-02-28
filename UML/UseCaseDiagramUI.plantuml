@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+
+actor Utilisateur as user
+
+' Package EasySave
+package EasySave {
+    ' Cas d'utilisation pour les paramètres
+    usecase "Paramétrer l'application" as UC_Parameters
+    usecase "Ouvrir les paramètres généraux" as UC_GeneralParameters
+    usecase "Ouvrir les paramètres de chiffrement" as UC_EncryptionParameters
+    usecase "Ouvrir les paramètres de langues" as UC_LanguageParameters
+    usecase "Ouvrir les journaux d'activités" as UC_LogParameters
+    
+    ' Cas d'utilisation pour les paramètres généraux
+    usecase "Gérer les extensions des fichiers prioritaires" as UC_PriorityExtension
+    usecase "Gérer la taille maximum des fichiers sans pause des sauvegardes" as UC_FileSizeMax
+    usecase "Liste des applications métiers qui stoppent l'application" as UC_BusinessApp
+    
+    ' Cas d'utilisation pour les paramètres de chiffrement
+    usecase "Liste des extensions des fichiers à chiffrer" as UC_EncryptionExtension
+    usecase "Gérer la clé de chiffrement" as UC_EncryptionKey
+    
+    ' Cas d'utilisation pour les paramètres de langues
+    usecase "Modifier la langue" as UC_Language
+    
+    ' Cas d'utilisation pour les journaux d'activités
+    usecase "Consulter les logs Journaliers" as UC_DailyLog
+    usecase "Consulter les logs d'états" as UC_StateLog
+    
+    ' Cas d'utilisation pour les sauvegardes
+    usecase "Créer une sauvegarde" as UC_CreateSave
+    usecase "Lancer des sauvegardes" as UC_RunSave
+}
+
+user --> UC_Parameters
+UC_Parameters --> UC_GeneralParameters
+UC_Parameters --> UC_EncryptionParameters
+UC_Parameters --> UC_LanguageParameters
+UC_Parameters --> UC_LogParameters
+UC_GeneralParameters --> UC_PriorityExtension
+UC_GeneralParameters --> UC_FileSizeMax
+UC_GeneralParameters --> UC_BusinessApp
+UC_EncryptionParameters --> UC_EncryptionExtension
+UC_EncryptionParameters --> UC_EncryptionKey
+UC_LanguageParameters --> UC_Language
+UC_LogParameters --> UC_DailyLog
+UC_LogParameters --> UC_StateLog
+user --> UC_CreateSave
+user --> UC_RunSave
+@enduml
