@@ -6,7 +6,7 @@ public partial class ChiffrementSettingsView : ContentView
 {
     ParametersPageViewModel viewModel;
     private ResourceManager _resourceManager;
-    public List<string> EncryptionExstensionsList = [];
+    public List<string> EncryptionExtensionsList = [];
     public string EncryptionKey;
 
 	public ChiffrementSettingsView(ParametersPageViewModel viewModel)
@@ -33,11 +33,11 @@ public partial class ChiffrementSettingsView : ContentView
 
     public void OnPageAppearing()
     {
-        EncryptionExstensionsList = viewModel.GetEncryptionExtensionList();
+        EncryptionExtensionsList = viewModel.GetEncryptionExtensionList();
         EncryptionKey = viewModel.GetEncryptionKey();
-        if (EncryptionExstensionsList.Count > 0 )
+        if (EncryptionExtensionsList.Count > 0 )
         {
-            foreach ( var extension in EncryptionExstensionsList )
+            foreach ( var extension in EncryptionExtensionsList )
             {
                 editor.Text += "."+extension + "; ";
             }
@@ -58,13 +58,13 @@ public partial class ChiffrementSettingsView : ContentView
 
     private void OnEditorTextChanged(object sender, TextChangedEventArgs e)
     {
-        EncryptionExstensionsList = [.. editor.Text.Split(";")];
-        EncryptionExstensionsList = EncryptionExstensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
-        EncryptionExstensionsList = EncryptionExstensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
+        EncryptionExtensionsList = [.. editor.Text.Split(";")];
+        EncryptionExtensionsList = EncryptionExtensionsList.Select(str => str.Replace(" ", string.Empty).Replace(".", string.Empty)).ToList();
+        EncryptionExtensionsList = EncryptionExtensionsList.Where(str => !string.IsNullOrEmpty(str)).ToList();
     }
 
     private void SaveEditorButton_Clicked(object sender, EventArgs e)
     {
-        viewModel.SaveEncryptionExtension(EncryptionExstensionsList);
+        viewModel.SaveEncryptionExtension(EncryptionExtensionsList);
     }
 }
