@@ -19,7 +19,6 @@ namespace EasySave
 
 	public class Save
 	{
-		private static int _idCounter = 0;
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string InputFolder { get; set; }
