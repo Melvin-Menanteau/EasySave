@@ -7,7 +7,7 @@ public partial class GeneralSettingsView : ContentView
     ParametersPageViewModel viewModel;
     
     private static Parameters _instance;
-    public List<string> EncryptionExstensionsList = [];
+    public List<string> EncryptionExtensionsList = [];
     private ResourceManager _resourceManager;
     public List<string> PriorityExtensionsList = [];
     public List<string> BusinessApplicationsList = [];
