@@ -16,7 +16,7 @@ namespace EasySaveUI.Services
     {
         private readonly SaveConfiguration _saveConfiguration;
         private readonly LoggerJournalier _loggerJournalier = LoggerJournalier.GetInstance();
-        private readonly LoggerEtat _loggerEtat = new ();
+        private readonly LoggerEtat _loggerEtat = LoggerEtat.GetInstance();
 
         public EasySave()
         {

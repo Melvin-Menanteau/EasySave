@@ -137,12 +137,24 @@ namespace EasySaveUI.Services
     class LoggerEtat : Logger
     {
         private readonly SaveConfiguration _saveConfiguration = SaveConfiguration.GetInstance();
+        private static LoggerEtat _instance;
 
-        public LoggerEtat()
+        private LoggerEtat()
         {
             // create a new log file with the current date
             ReopenFile();
         }
+
+        public static LoggerEtat GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new LoggerEtat();
+            }
+
+            return _instance;
+        }
+
         ~LoggerEtat()
         {
             Logfile.Close();
@@ -150,12 +162,17 @@ namespace EasySaveUI.Services
 
         private void ReopenFile()
         {
-            if (Logfile != null)
+            using (Mutex mutex = new Mutex(false, "Ecriture"))
             {
-                Logfile.Close();
-            }
+                mutex.WaitOne();
+                if (Logfile != null)
+                {
+                    Logfile.Close();
+                }
 
-            Logfile = new FileStream("state.txt", FileMode.OpenOrCreate);
+                Logfile = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "state.txt"), FileMode.OpenOrCreate);
+                mutex.ReleaseMutex();
+            }
         }
 
         public void WriteStatesToFile()
@@ -185,8 +202,6 @@ namespace EasySaveUI.Services
                         break;
                 }
 
-                float progress = 1 - save.TotalFilesToCopy / (save.NbFilesLeftToDo != 0 ? save.NbFilesLeftToDo : 1);
-
                 StatesJSON.Append("{\n");
                 StatesJSON.Append(" \"Name\": \"" + save.Name + "\",\n");
                 StatesJSON.Append(" \"SourceFilePath\": \"" + save.InputFolder + "\",\n");
@@ -195,7 +210,6 @@ namespace EasySaveUI.Services
                 StatesJSON.Append(" \"TotalFilesToCopy\": \"" + save.TotalFilesToCopy + "\",\n");
                 StatesJSON.Append(" \"TotalFilesSize\": \"" + save.TotalFilesSize + "\",\n");
                 StatesJSON.Append(" \"NbFilesLeftToDo\": \"" + save.NbFilesLeftToDo + "\",\n");
-                StatesJSON.Append(" \"Progression\": \"" + progress + "\",\n");
                 StatesJSON.Append(" }");
             }
             

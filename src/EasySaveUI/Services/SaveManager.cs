@@ -14,6 +14,7 @@ namespace EasySaveUI.Services
         private Barrier barrier = new Barrier(0);
         private Dictionary<string, Thread> _BusinessObserversThreads;
         private readonly LoggerJournalier _loggerJournalier = LoggerJournalier.GetInstance();
+        private readonly LoggerEtat _loggerEtat = LoggerEtat.GetInstance();
         //private readonly LoggerJournalier _loggerJournalier = new();
         //private readonly LoggerEtat _loggerEtat = new();
 
@@ -97,6 +98,8 @@ namespace EasySaveUI.Services
                     _runningSavesCancellation.Remove(save.Id);
 
                     barrier.RemoveParticipant();
+                    UpdateSaveState(save, SaveState.FINISHED);
+
 
                     if (resetProgress)
                     {
@@ -225,11 +228,12 @@ namespace EasySaveUI.Services
 
                 save.NbFilesLeftToDo--;
                 save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
+                int length = (int)new FileInfo(file).Length;
                 using (Mutex m = new Mutex(false, "WriteProgress"))
                 {
                     m.WaitOne();
                     broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
-                    _loggerJournalier.Log(save.Name, save.InputFolder, save.OutputFolder, file.Length, times[0], times[1]);
+                    _loggerJournalier.Log(save.Name, file, file.Replace(save.InputFolder, save.OutputFolder), length, times[0], times[1]);
                     m.ReleaseMutex();
                 }
             }
@@ -343,7 +347,7 @@ namespace EasySaveUI.Services
             // TODO: Update statut save dans le fichier JSON
             save.State = state;
 
-            //_loggerEtat.WriteStatesToFile();
+            _loggerEtat.WriteStatesToFile();
         }
 
         /// <summary>
