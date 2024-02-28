@@ -27,7 +27,7 @@ namespace EasySaveUI.Model
         public string OutputFolder { get; set; }
         public SaveType SaveType { get; set; }
         [JsonIgnore]
-        private int _TotalFilesToCopy { get; set; } = 0;
+        private int _totalFilesToCopy { get; set; } = 0;
         [JsonIgnore]
         public int TotalFilesSize { get; set; }
         [JsonIgnore]
@@ -70,8 +70,8 @@ namespace EasySaveUI.Model
         /// </summary>
         public int TotalFilesToCopy
         {
-            get => _TotalFilesToCopy;
-            set => SetProperty(_TotalFilesToCopy, value, this, (save, val) => save._TotalFilesToCopy = val);
+            get => _totalFilesToCopy;
+            set => SetProperty(_totalFilesToCopy, value, this, (save, val) => save._totalFilesToCopy = val);
         }
 
         /// <summary>
