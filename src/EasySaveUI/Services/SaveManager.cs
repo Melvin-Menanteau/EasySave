@@ -201,7 +201,8 @@ namespace EasySaveUI.Services
                 return;
             }
 
-            bool islargeFile = new FileInfo(file).Length > _parameters.MaxFileSize;
+            // Si l'utilisateur ne renseigne pas de taille maximale, on ne bloque pas la copie
+            bool islargeFile = _parameters.MaxFileSize > 0 && new FileInfo(file).Length > _parameters.MaxFileSize;
 
             if (islargeFile)
             {
