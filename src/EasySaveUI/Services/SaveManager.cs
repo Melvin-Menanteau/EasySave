@@ -344,8 +344,21 @@ namespace EasySaveUI.Services
         {
             // TODO: Update statut save dans le fichier JSON
             save.State = state;
+            
+            string state_string = "";
+            if (state == SaveState.IN_PROGRESS)
+                state_string = "En cours";
+            else if (state == SaveState.PAUSED)
+                state_string = "En pause";
+            else if (state == SaveState.FINISHED)
+                state_string = "Terminée";
+            else if (state == SaveState.STOPPED)
+                state_string = "Arrêtée";
 
             _loggerEtat.WriteStatesToFile();
+            Broker broker = Broker.GetInstance();
+            broker.SendStatusToClient(save.Name, state_string);
+            Debug.WriteLine($"La sauvegarde \"{save.Name}\" est maintenant {state_string}");
         }
 
         /// <summary>
@@ -364,7 +377,7 @@ namespace EasySaveUI.Services
                 if (_barrier.ParticipantCount > 0)
                     _barrier.RemoveParticipant();
 
-                UpdateSaveState(save, SaveState.PAUSED);
+                
             }
         }
 
@@ -374,6 +387,7 @@ namespace EasySaveUI.Services
         /// <param name="save">La sauvegarde a relancer</param>
         public void ResumeSave(Save save)
         {
+            
             if (_runningSavesState.TryGetValue(save.Id, out ManualResetEvent mre))
             {
                 mre.Set();

@@ -13,6 +13,7 @@ namespace EasySaveUI.Services
         private TcpClient client = null;
         private StreamWriter writer;
         private StreamReader streamReader;
+        private NetworkStream stream;
 
 
         private Broker()
@@ -36,14 +37,14 @@ namespace EasySaveUI.Services
             while (true)
             {
                 string message = "";
-                if (client == null)
+                if (client == null || !client.Connected)
                 {
                     client = listener.AcceptTcpClient();
-                }
+                
                 writer = new StreamWriter(client.GetStream(), encoding: Encoding.ASCII) { AutoFlush = true };
                 listener = new TcpListener(IPAddress.Any, 40000);
                 Debug.WriteLine("Client connected");
-                NetworkStream stream = client.GetStream();
+                stream = client.GetStream();
                 streamReader = new StreamReader(stream, Encoding.ASCII);
                 // if client send message
                 SaveManager saveManager = SaveManager.GetInstance();
@@ -61,11 +62,14 @@ namespace EasySaveUI.Services
                     }
                     else
                     {
-                        foreach (Save save in saveConfiguration.GetConfiguration())
+                        foreach (string abc in message.Split(" "))
                         {
-                            if (save.Id == int.Parse(mess))
+                            if (int.TryParse(abc, out _))
                             {
-                                saveManager.PauseSave(save);
+                                foreach (Save save in saveConfiguration.GetConfiguration())
+                                {
+                                    saveManager.PauseSave(save);
+                                }
                             }
                         }
                     }
@@ -80,11 +84,14 @@ namespace EasySaveUI.Services
                     }
                     else
                     {
-                        foreach (Save save in saveConfiguration.GetConfiguration())
+                        foreach (string abc in message.Split(" "))
                         {
-                            if (save.Id == int.Parse(mess))
+                            if (int.TryParse(abc, out _))
                             {
-                                saveManager.StopSave(save);
+                                foreach (Save save in saveConfiguration.GetConfiguration())
+                                {
+                                    saveManager.StopSave(save);
+                                }
                             }
                         }
                     }
@@ -99,11 +106,14 @@ namespace EasySaveUI.Services
                     }
                     else
                     {
-                        foreach (Save save in saveConfiguration.GetConfiguration())
+                        foreach (string abc in message.Split(" "))
                         {
-                            if (save.Id == int.Parse(mess))
+                            if (int.TryParse(abc, out _))
                             {
-                                saveManager.ResumeSave(save);
+                                foreach (Save save in saveConfiguration.GetConfiguration())
+                                {
+                                    saveManager.ResumeSave(save);
+                                }
                             }
                         }
                     }
@@ -122,12 +132,20 @@ namespace EasySaveUI.Services
                     }
                     else
                     {
-                        foreach (Save save in saveConfiguration.GetConfiguration())
+
+                        foreach (string abc in message.Split(" "))
                         {
-                            // check if mess contain uniquely int value
-                            if (save.Id == int.Parse(mess))
+                            if (int.TryParse(abc, out _))
                             {
-                                saveManager.RunSave(save);
+                                foreach (Save save in saveConfiguration.GetConfiguration())
+                                {
+
+                                    // check if mess contain uniquely int value
+                                    if (save.Id == int.Parse(abc))
+                                    {
+                                        saveManager.RunSave(save);
+                                    }
+                                }
                             }
                         }
                     }
@@ -141,6 +159,12 @@ namespace EasySaveUI.Services
                         messagelist += "ID:" + save.Id + " Name: " + save.Name + ";";
                     }
                     SendToClient(messagelist);
+                }
+                }
+                //Thread.Sleep(500);
+                if (!client.Connected)
+                {
+                    client = null;
                 }
             }
         }
@@ -164,6 +188,20 @@ namespace EasySaveUI.Services
             using (Mutex mutex = new Mutex(false, "EasySaveUIBrokerMutex"))
             {
                 string message = "prog_message" + files_processed + " " + nb_total + " " + name;
+                mutex.WaitOne();
+                if (client != null)
+                {
+                    writer.WriteLine(message);
+                }
+                mutex.ReleaseMutex();
+            }
+        }
+
+        public void SendStatusToClient(string name, string status)
+        {
+            using (Mutex mutex = new Mutex(false, "EasySaveUIBrokerMutex"))
+            {
+                string message = "status_message" + name + ";" + status;
                 mutex.WaitOne();
                 if (client != null)
                 {
