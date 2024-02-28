@@ -1,0 +1,38 @@
+@startuml
+enum SaveType {
+    COMPLETE,
+    DIFFERENTIAL,
+}
+enum SaveState {
+    ERROR= -1,
+    NOT_STARTED= 0,
+    IN_PROGRESS= 1,
+    FINISHED= 2,
+    STOPPED= 3,
+    PAUSED= 4,
+}
+class Save {
+    - {static} _idCounter : int = 0
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + InputFolder : string <<get>> <<set>>
+    + OutputFolder : string <<get>> <<set>>
+    - _TotalFilesToCopy : int <<get>> <<set>> = 0
+    + TotalFilesSize : int <<get>> <<set>>
+    + NbFilesLeftToDo : int <<get>> <<set>>
+    - _progress : double <<get>> <<set>>
+    + _imageSource : string <<get>> <<set>> = "pause.png"
+    - _isSelected : bool = false
+    + Save(id:int, name:string, inputFolder:string, outputFolder:string, saveType:SaveType)
+    + Save()
+    + TotalFilesToCopy : int <<get>> <<set>>
+    + Progress : double <<get>> <<set>>
+    + IsSelected : bool <<get>> <<set>>
+    + ImageSource : string <<get>> <<set>>
+    + <<override>> ToString() : string
+}
+ObservableObject <|-- Save
+Save --> "SaveType" SaveType
+Save --> "_state" SaveState
+Save --> "State" SaveState
+@enduml

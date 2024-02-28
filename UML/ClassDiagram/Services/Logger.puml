@@ -1,0 +1,32 @@
+@startuml
+abstract class Logger {
+    # log(message:string) : void
+}
+class LoggerJournalier {
+    - LoggerJournalier()
+    + {static} GetInstance() : LoggerJournalier
+    - OpenFile() : void
+    + Log(save_name:string, source:string, target:string, size:int, transfer_time:int?, encryption_time:int?) : void
+}
+class LoggerEtat {
+    - LoggerEtat()
+    + {static} GetInstance() : LoggerEtat
+    - ReopenFile() : void
+    + WriteStatesToFile() : void
+}
+class LoggerConfiguration {
+    + LoggerConfiguration()
+    - ReopenFile() : void
+    + WriteConfigToFile() : void
+}
+Logger --> "Logfile" FileStream
+Logger <|-- LoggerJournalier
+LoggerJournalier --> "_instance" LoggerJournalier
+LoggerJournalier --> "_logFileJSON" FileStream
+LoggerJournalier --> "_logFileXML" FileStream
+Logger <|-- LoggerEtat
+LoggerEtat o-> "_saveConfiguration" SaveConfiguration
+LoggerEtat --> "_instance" LoggerEtat
+Logger <|-- LoggerConfiguration
+LoggerConfiguration o-> "_saveConfiguration" SaveConfiguration
+@enduml

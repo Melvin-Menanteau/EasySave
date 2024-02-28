@@ -1,0 +1,26 @@
+@startuml
+class ParametersPageViewModel <<partial>> {
+    - currentDirectory : string
+    + ParametersPageViewModel()
+    + LoadStatusLogEntries() : List<string>
+    - LoadJsonLogEntries() : List<string>
+    - LoadXmlLogEntries() : List<string>
+    + SaveBusinessApplications(businessApplicationsList:List<string>) : void
+    + GetBusinessApplicationsList() : List<string>
+    + SaveMaxFileSize(maxFileSize:int) : void
+    + GetMaxFileSize() : int
+    + SavePriorityExtension(extentionList:List<string>) : void
+    + GetPriorityExtensionList() : List<string>
+    + SaveEncryptionExtension(extentionList:List<string>) : void
+    + GetEncryptionExtensionList() : List<string>
+    + SaveEncryptionKey(key:string) : void
+    + GetEncryptionKey() : string
+}
+class "List`1"<T> {
+}
+BaseViewModel <|-- ParametersPageViewModel
+ParametersPageViewModel o-> "_parameters" Parameters
+ParametersPageViewModel --> "XmlLogEntries<string>" "List`1"
+ParametersPageViewModel --> "JsonLogEntries<string>" "List`1"
+ParametersPageViewModel --> "StatusLogEntries<string>" "List`1"
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class App <<partial>> {
+    + App()
+}
+Application <|-- App
+App --> "LanguageService" SharedLocalizer
+@enduml

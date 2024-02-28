@@ -1,0 +1,21 @@
+@startuml
+class SaveConfiguration {
+    - {static} _configFilePath : string
+    - SaveConfiguration()
+    + {static} GetInstance() : SaveConfiguration
+    - {static} GetConfigurations() : List<Save>
+    + GetConfiguration() : List<Save>
+    + GetConfiguration(id:int) : Save
+    + GetConfiguration(name:string) : Save
+    + {static} GetMaximumIdFromSaves() : int
+    + AddConfiguration(nom:string, inputFolder:string, outputFolder:string, saveType:SaveType) : void
+    + RemoveConfiguration(id:int) : bool
+    + UpdateConfiguration(id:int, nom:string, inputFolder:string, outputFolder:string, saveType:SaveType?) : void
+    - SaveConfigToFile() : void
+    + SetSelectedSave(id:int) : void
+}
+class "List`1"<T> {
+}
+SaveConfiguration --> "_instance" SaveConfiguration
+SaveConfiguration --> "ListeConfiguration<Save>" "List`1"
+@enduml

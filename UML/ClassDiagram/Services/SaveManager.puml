@@ -1,0 +1,32 @@
+@startuml
+class SaveManager {
+    - <<readonly>> _lockRunningSave : object
+    - <<readonly>> _lockLargeFile : object
+    - SaveManager()
+    + {static} GetInstance() : SaveManager
+    + RunSave(save:Save) : void
+    + StopSave(save:Save, resetProgress:bool) : void
+    + StopAllSaves() : void
+    + PauseAllSaves() : void
+    + ResumeAllSaves() : void
+    - SaveThread(save:Save, cancellationToken:CancellationToken) : void
+    - HandleCopy(save:Save, file:string) : void
+    - GetFilesToCopy(saveType:SaveType, inputFolder:string, outputFolder:string?) : List<string>
+    - {static} CopyFile(inputFullPath:string, outputFullPath:string) : List<int?>
+    - EncryptFile(inputFullPath:string, outputFullPath:string) : List<int?>
+    - UpdateSaveState(save:Save, state:SaveState) : void
+    + PauseSave(save:Save) : void
+    + ResumeSave(save:Save) : void
+}
+class "Dictionary`2"<T1,T2> {
+}
+SaveManager --> "_instance" SaveManager
+SaveManager --> "_runningSaves<int,Thread>" "Dictionary`2"
+SaveManager --> "_runningSavesState<int,ManualResetEvent>" "Dictionary`2"
+SaveManager --> "_runningSavesCancellation<int,CancellationTokenSource>" "Dictionary`2"
+SaveManager o-> "_parameters" Parameters
+SaveManager o-> "barrier" Barrier
+SaveManager --> "_BusinessObserversThreads<string,Thread>" "Dictionary`2"
+SaveManager o-> "_loggerJournalier" LoggerJournalier
+SaveManager o-> "_loggerEtat" LoggerEtat
+@enduml

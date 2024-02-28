@@ -1,0 +1,23 @@
+@startuml
+class GeneralSettingsView <<partial>> {
+    + EncryptionKey : string
+    + MaxFileSize : int
+    + GeneralSettingsView(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+    + OnPageAppearing() : void
+    - OnValiderClicked(sender:object, e:EventArgs) : void
+    - OnEditorPriorityTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - OnEditorPriorityCompleted(sender:object, e:EventArgs) : void
+    - OnEditorMetiersTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - OnEditorMetiersCompleted(sender:object, e:EventArgs) : void
+}
+class "List`1"<T> {
+}
+ContentView <|-- GeneralSettingsView
+GeneralSettingsView --> "viewModel" ParametersPageViewModel
+GeneralSettingsView --> "_instance" Parameters
+GeneralSettingsView o-> "EncryptionExstensionsList<string>" "List`1"
+GeneralSettingsView --> "_resourceManager" ResourceManager
+GeneralSettingsView o-> "PriorityExtensionsList<string>" "List`1"
+GeneralSettingsView o-> "BusinessApplicationsList<string>" "List`1"
+@enduml

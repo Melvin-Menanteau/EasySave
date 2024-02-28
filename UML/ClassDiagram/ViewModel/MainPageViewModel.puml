@@ -1,0 +1,19 @@
+@startuml
+class MainPageViewModel <<partial>> {
+    + MainPageViewModel()
+    + GetSauvegardes() : void
+    + SetSelectedSave(save:Save) : void
+    + AddSave(name:string, inputFolder:string, outputFolder:string, saveType:SaveType) : void
+    + UpdateSave(name:string, inputFolder:string, outputFolder:string, saveType:SaveType) : void
+    + RemoveSave() : void
+    + TogglePauseSave(save:Save) : void
+    + StopSave(save:Save) : void
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- MainPageViewModel
+MainPageViewModel o-> "_saveConfiguration" SaveConfiguration
+MainPageViewModel --> "_saveManager" SaveManager
+MainPageViewModel o-> "Saves<Save>" "ObservableCollection`1"
+MainPageViewModel --> "SelectedSave" Save
+@enduml

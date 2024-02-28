@@ -1,0 +1,9 @@
+@startuml
+class LanguesSettingsView <<partial>> {
+    + LanguesSettingsView()
+    - LoadLocalizedTexts() : void
+    - ValidateButton_Clicked(sender:object, e:EventArgs) : void
+}
+ContentView <|-- LanguesSettingsView
+LanguesSettingsView --> "_resourceManager" ResourceManager
+@enduml

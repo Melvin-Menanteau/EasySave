@@ -1,0 +1,24 @@
+@startuml
+class MainPage <<partial>> {
+    + IsNew : bool = false
+    + MainPage(viewModel:MainPageViewModel)
+    - LoadLocalizedTexts() : void
+    # <<override>> OnAppearing() : void
+    - ResetInput() : void
+    - <<async>> CollectionView_SelectionChanged(sender:object, e:SelectionChangedEventArgs) : void
+    - ReturnHome_Clicked(sender:object, e:EventArgs) : void
+    - SaveButton_Clicked(sender:object, e:EventArgs) : void
+    - AddSaveButton_Clicked(sender:object, e:EventArgs) : void
+    - <<async>> ParametersButton_Clicked(sender:object, e:EventArgs) : void
+    - DeleteButton_Clicked(sender:object, e:EventArgs) : void
+    - <<async>> ButtonNavigation_Clicked(sender:object, e:EventArgs) : void
+    - <<async>> PickInputFolder(sender:object, e:EventArgs) : void
+    - <<async>> PickOutputFolder(sender:object, e:EventArgs) : void
+    - <<async>> PickFolder(IsInput:bool) : Task
+    - PauseButton_Clicked(sender:object, e:EventArgs) : void
+    - StopButton_Clicked(sender:object, e:EventArgs) : void
+}
+ContentPage <|-- MainPage
+MainPage --> "viewModel" MainPageViewModel
+MainPage --> "_resourceManager" ResourceManager
+@enduml

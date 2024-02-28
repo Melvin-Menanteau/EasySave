@@ -1,0 +1,12 @@
+@startuml
+class SharedLocalizer {
+    - SharedLocalizer(initialLanguage:CultureInfo)
+    + {static} GetInstance(initialLanguage:CultureInfo) : SharedLocalizer
+    + SetLanguage(culture:CultureInfo) : void
+    + GetString(key:string) : string
+}
+SharedLocalizer --> "_instance" SharedLocalizer
+SharedLocalizer --> "_currentLanguage" CultureInfo
+SharedLocalizer --> "_resourceManager" ResourceManager
+SharedLocalizer --> "CurrentLanguage" CultureInfo
+@enduml

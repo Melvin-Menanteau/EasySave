@@ -1,0 +1,25 @@
+@startuml
+class Parameters {
+    + EncryptionKey : string
+    + MaxFileSize : int
+    - {static} _extensionFileFilePath : string
+    - Parameters()
+    + {static} GetInstance() : Parameters
+    + WriteEncryptionKey(key:string) : void
+    + ReadEncryptionKey() : string
+    + ReadJsonEncryptionExtensionFile() : void
+    + WriteJsonEncryptionExtensionFile() : void
+    + ReadJsonBusinessApplicationsFile() : void
+    + WriteJsonBusinessApplicationsFile() : void
+    + ReadJsonPriorityExtensionFile() : void
+    + WriteJsonPriorityExtensionFile() : void
+    + ReadMaxFileSize() : void
+    + WriteMaxFileSize() : void
+}
+class "List`1"<T> {
+}
+Parameters --> "_instance" Parameters
+Parameters o-> "EncryptionExstensionsList<string>" "List`1"
+Parameters o-> "PriorityExtensionsList<string>" "List`1"
+Parameters o-> "BusinessApplicationsList<string>" "List`1"
+@enduml

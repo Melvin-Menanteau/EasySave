@@ -1,0 +1,18 @@
+@startuml
+class ChiffrementSettingsView <<partial>> {
+    + EncryptionKey : string
+    + ChiffrementSettingsView(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+    + OnPageAppearing() : void
+    - OnTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - SaveKeyButton_Clicked(sender:object, e:EventArgs) : void
+    - OnEditorTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - SaveEditorButton_Clicked(sender:object, e:EventArgs) : void
+}
+class "List`1"<T> {
+}
+ContentView <|-- ChiffrementSettingsView
+ChiffrementSettingsView --> "viewModel" ParametersPageViewModel
+ChiffrementSettingsView --> "_resourceManager" ResourceManager
+ChiffrementSettingsView o-> "EncryptionExstensionsList<string>" "List`1"
+@enduml

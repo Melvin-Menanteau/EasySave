@@ -1,0 +1,15 @@
+@startuml
+class ParametersPage <<partial>> {
+    - choice : string = ""
+    - returnPressed : bool = false
+    + ParametersPage(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+    - UpdateParametersView(choice:string) : void
+    - OnParameterClicked(sender:object, e:EventArgs) : void
+    - <<async>> ReturnHome_Clicked(sender:object, e:EventArgs) : void
+    # <<override>> OnDisappearing() : void
+}
+ContentPage <|-- ParametersPage
+ParametersPage --> "viewModel" ParametersPageViewModel
+ParametersPage --> "_resourceManager" ResourceManager
+@enduml

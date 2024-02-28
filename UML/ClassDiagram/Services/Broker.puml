@@ -1,0 +1,13 @@
+@startuml
+class Broker {
+    - Broker()
+    + {static} GetInstance() : Broker
+    + Brok() : void
+    + SendToClient(message:string) : void
+    + SendProgressToClient(name:string, files_processed:int, nb_total:int) : void
+}
+Broker --> "_instance" Broker
+Broker --> "listener" TcpListener
+Broker o-> "client" TcpClient
+Broker --> "writer" StreamWriter
+@enduml

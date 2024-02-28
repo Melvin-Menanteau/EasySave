@@ -1,0 +1,9 @@
+@startuml
+class JournauxSettingsView <<partial>> {
+    + JournauxSettingsView(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+}
+ContentView <|-- JournauxSettingsView
+JournauxSettingsView --> "viewModel" ParametersPageViewModel
+JournauxSettingsView --> "_resourceManager" ResourceManager
+@enduml

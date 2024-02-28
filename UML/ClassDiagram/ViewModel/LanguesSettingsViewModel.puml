@@ -1,0 +1,5 @@
+@startuml
+class LanguagePickerViewModel {
+    + LanguagePickerViewModel()
+}
+@enduml

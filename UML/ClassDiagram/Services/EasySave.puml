@@ -1,0 +1,15 @@
+@startuml
+class EasySave {
+    + EasySave()
+    + LancerSauvegarde(listeId:List<int>) : void
+    - CopyFile(save:Save, sourceFile:string, targetDir:string) : void
+    - CopyDirectory(save:Save, sourceDir:string, targetDir:string) : void
+    + EffectuerSauvegardeComplete(save:Save) : void
+    + EffectuerSauvegardeDifferentielle(save:Save) : void
+    - {static} IsSameContent(file1:string, file2:string) : bool
+    - UpdateSaveState(save:Save, state:SaveState) : void
+}
+EasySave --> "_saveConfiguration" SaveConfiguration
+EasySave o-> "_loggerJournalier" LoggerJournalier
+EasySave o-> "_loggerEtat" LoggerEtat
+@enduml

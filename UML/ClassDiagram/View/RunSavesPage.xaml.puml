@@ -1,0 +1,18 @@
+@startuml
+class RunSavesPage <<partial>> {
+    - returnPressed : bool = false
+    + RunSavesPage(viewModel:RunSavesPageViewModel)
+    - LoadLocalizedTexts() : void
+    # <<override>> OnAppearing() : void
+    - <<async>> OnImageTapped(sender:object, e:EventArgs) : void
+    - CheckBox_CheckedChanged(sender:object, e:CheckedChangedEventArgs) : void
+    - EditorSaveEditor() : void
+    - <<async>> RunSavesButton_Clicked(sender:object, e:EventArgs) : void
+}
+class "List`1"<T> {
+}
+ContentPage <|-- RunSavesPage
+RunSavesPage --> "viewModel" RunSavesPageViewModel
+RunSavesPage o-> "SavesSelected<Save>" "List`1"
+RunSavesPage --> "_resourceManager" ResourceManager
+@enduml

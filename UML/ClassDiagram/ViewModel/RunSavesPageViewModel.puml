@@ -1,0 +1,11 @@
+@startuml
+class RunSavesPageViewModel <<partial>> {
+    + RunSavesPageViewModel()
+    + GetSauvegardes() : void
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- RunSavesPageViewModel
+RunSavesPageViewModel o-> "_saveConfiguration" SaveConfiguration
+RunSavesPageViewModel o-> "Saves<Save>" "ObservableCollection`1"
+@enduml

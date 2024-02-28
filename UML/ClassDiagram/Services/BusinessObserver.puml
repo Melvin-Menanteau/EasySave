@@ -1,0 +1,7 @@
+@startuml
+class BusinessObserver {
+    - {static} savesPaused : bool = false
+    + BusinessObserver()
+    + {static} Observer(business:string) : void
+}
+@enduml

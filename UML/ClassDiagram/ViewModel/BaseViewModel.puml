@@ -1,0 +1,7 @@
+@startuml
+class BaseViewModel <<partial>> {
+    - title : string
+    + BaseViewModel()
+}
+ObservableObject <|-- BaseViewModel
+@enduml

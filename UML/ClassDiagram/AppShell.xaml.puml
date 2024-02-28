@@ -1,0 +1,6 @@
+@startuml
+class AppShell <<partial>> {
+    + AppShell()
+}
+Shell <|-- AppShell
+@enduml
