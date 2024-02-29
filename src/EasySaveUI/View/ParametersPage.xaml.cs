@@ -24,6 +24,7 @@ public partial class ParametersPage : ContentPage
         UpdateParametersView(choice);
         MessagingCenter.Subscribe<LanguesSettingsView>(this, "LanguageChanged", (sender) =>
         {
+            titlePage.Text = _resourceManager.GetString("LanguesKey", App.LanguageService.CurrentLanguage);
             LoadLocalizedTexts();
         });
         LoadLocalizedTexts();
@@ -32,7 +33,6 @@ public partial class ParametersPage : ContentPage
     private void LoadLocalizedTexts()
     {
         var cultureInfo = App.LanguageService.CurrentLanguage;
-        titlePage.Text = _resourceManager.GetString("GeneralKey", cultureInfo);
         GeneralButton.Text = _resourceManager.GetString("GeneralKey", cultureInfo);
         ChiffrementButton.Text = _resourceManager.GetString("ChiffrementKey", cultureInfo);
         LanguesButton.Text = _resourceManager.GetString("LanguesKey", cultureInfo);
