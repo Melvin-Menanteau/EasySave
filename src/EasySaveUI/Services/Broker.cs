@@ -121,7 +121,6 @@ namespace EasySaveUI.Services
                 {
                     SaveConfiguration saveConfiguration = SaveConfiguration.GetInstance();
                     string mess = message.Split(" ")[1];
-                    Debug.WriteLine(mess);
                     if (mess == "all")
                     {
                         

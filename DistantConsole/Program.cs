@@ -248,11 +248,11 @@ namespace DistantConsole
 
                     for (int i = 0; i < 20; i++)
                     {
-                        if (i < percentage / 20 || percentage == 100)
+                        if (i < percentage /5  || percentage == 100)
                         {
                             progress += "=";
                         }
-                        else if (i == percentage / 20)
+                        else if (i == percentage /5)
                         {
                             progress += ">";
                         }
@@ -315,8 +315,6 @@ namespace DistantConsole
                         bool found = false;
                         foreach( string sv in saves_statut)
                         {
-                            Console.WriteLine(sv);
-                            Console.WriteLine(sv.Split(';')[0]);
                             if (save.Contains(sv.Split(';')[0]))
                             {
 
@@ -329,7 +327,7 @@ namespace DistantConsole
                             Console.WriteLine(save);
                         }
                     }
-                    Thread.Sleep(10);
+                    //Thread.Sleep(10);
                     mutex.ReleaseMutex();
                 }
             }

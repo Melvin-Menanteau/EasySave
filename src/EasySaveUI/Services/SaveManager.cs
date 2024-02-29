@@ -377,7 +377,7 @@ namespace EasySaveUI.Services
                 if (_barrier.ParticipantCount > 0)
                     _barrier.RemoveParticipant();
 
-                
+                UpdateSaveState(save, SaveState.PAUSED);
             }
         }
 
