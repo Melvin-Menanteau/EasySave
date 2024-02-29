@@ -90,5 +90,7 @@ Afin de faire une interface graphique intuitive pour les utilisateurs, nous avon
 Avant de développer l'interface, nous avons fait un prototype grâce à Figma. Cette maquette est consultable à cette adresse : [Maquette Figma](https://www.figma.com/file/h0wg5Pk5RSOqjisnsjItVY/UI?type=design&node-id=0%3A1&mode=design&t=YucPl4NqAwJ3LCeY-1)
 
 ### Cas d'utilisation de EasySave
+![Diagramme de cas d'utilisation de l'application EasySaveUI](./UML/output/UseCaseDiagramUI.svg)
 
 ### Diagramme de classe
+![Diagramme de classe de l'application EasySaveUI](./UML/output/ClassDiagramUI.svg)
