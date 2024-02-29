@@ -211,6 +211,8 @@ namespace EasySaveUI.Services
                 Monitor.Enter(_lockLargeFile);
             }
 
+            List<int?> times = [];
+
             try
             {
                 if (!Directory.Exists(Path.GetDirectoryName(file.Replace(save.InputFolder, save.OutputFolder))))
@@ -218,22 +220,10 @@ namespace EasySaveUI.Services
                     Directory.CreateDirectory(Path.GetDirectoryName(file.Replace(save.InputFolder, save.OutputFolder)));
                 }
 
-                List<int?> times = [];
                 if (_parameters.EncryptionExstensionsList.Contains(Path.GetExtension(file).TrimStart('.')))
                     times = EncryptFile(file, file.Replace(save.InputFolder, save.OutputFolder));
                 else
                     times = CopyFile(file, file.Replace(save.InputFolder, save.OutputFolder));
-
-                save.NbFilesLeftToDo--;
-                save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
-                int length = (int)new FileInfo(file).Length;
-                using (Mutex m = new Mutex(false, "WriteProgress"))
-                {
-                    m.WaitOne();
-                    broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
-                    _loggerJournalier.Log(save.Name, file, file.Replace(save.InputFolder, save.OutputFolder), length, times[0], times[1]);
-                    m.ReleaseMutex();
-                }
             }
             catch (Exception e)
             {
@@ -241,6 +231,20 @@ namespace EasySaveUI.Services
             }
             finally
             {
+                save.NbFilesLeftToDo--;
+                save.Progress = ((save.TotalFilesToCopy - save.NbFilesLeftToDo) / (float)save.TotalFilesToCopy);
+
+                int length = (int)new FileInfo(file).Length;
+                using (Mutex m = new Mutex(false, "WriteProgress"))
+                {
+                    m.WaitOne();
+                    broker.SendProgressToClient(save.Name, save.TotalFilesToCopy - save.NbFilesLeftToDo, save.TotalFilesToCopy);
+
+                    _loggerJournalier.Log(save.Name, file, file.Replace(save.InputFolder, save.OutputFolder), length, times[0], times[1] != null ? times[1] : null);
+
+                    m.ReleaseMutex();
+                }
+
                 // Liberer le lock si c'est un gros fichier
                 if (islargeFile)
                 {
@@ -287,6 +291,8 @@ namespace EasySaveUI.Services
         private static List<int?> CopyFile(string inputFullPath, string outputFullPath)
         {
             float transferTime = -1;
+            int? encryptionTime = null;
+
             try
             {
                 DateTime startTime = DateTime.Now;
@@ -300,8 +306,9 @@ namespace EasySaveUI.Services
             catch (Exception e)
             {
                 Debug.WriteLine($"Error while copying file {inputFullPath} to {outputFullPath}: {e.Message}");
+                transferTime = -1;
             }
-            return [(int)transferTime, null];
+            return [(int)transferTime, encryptionTime];
         }
 
         /// <summary>
@@ -313,26 +320,37 @@ namespace EasySaveUI.Services
         private List<int?> EncryptFile(string inputFullPath, string outputFullPath)
         {
             DateTime StartTime = DateTime.Now;
+            float transferTime = -1;
+            int encryptionTime = -1;
 
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            try
             {
-                FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cryptosoft", "cryptosoft.exe"),
-                Arguments = $"\"{inputFullPath}\" \"{outputFullPath}\"", // Commande à exécuter
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cryptosoft", "cryptosoft.exe"),
+                    Arguments = $"\"{inputFullPath}\" \"{outputFullPath}\"", // Commande à exécuter
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
-            using Process process = Process.Start(startInfo);
+                using Process process = Process.Start(startInfo);
 
-            string DurationEncryption = process.StandardOutput.ReadToEnd();
+                int.TryParse(process.StandardOutput.ReadToEnd(), out encryptionTime);
 
-            process.WaitForExit();
-            process.Close();
+                process.WaitForExit();
+                process.Close();
 
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error while encrypting file {inputFullPath} to {outputFullPath}: {e.Message}");
+                transferTime = -1;
+                encryptionTime = -1;
+            }
 
             TimeSpan DurationTotal = DateTime.Now - StartTime;
-            return [(int)DurationTotal.TotalMilliseconds, int.Parse(DurationEncryption)];
+            return [(int)DurationTotal.TotalMilliseconds, encryptionTime];
         }
 
         /// <summary>
