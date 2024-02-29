@@ -95,7 +95,9 @@ namespace EasySaveUI.Services
                     _runningSavesState.Remove(save.Id);
                     _runningSavesCancellation.Remove(save.Id);
 
-                    _barrier.RemoveParticipant();
+                    if (_barrier.ParticipantCount > 0)
+                        _barrier.RemoveParticipant();
+
                     UpdateSaveState(save, SaveState.FINISHED);
 
 
