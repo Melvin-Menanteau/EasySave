@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F04A1618-D75A-478D-B4C9-B9EBB93A112E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B2F87FA4-424F-403E-83A5-DEFEB98849C4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySave", "src\EasySave\EasySave.csproj", "{8744A062-87FC-4259-A198-2CB43B1209CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasySaveTest", "test\EasySaveTest\EasySaveTest.csproj", "{D1DE958E-FE3B-4291-8370-C3B44B9301ED}"
@@ -46,13 +42,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8744A062-87FC-4259-A198-2CB43B1209CB} = {F04A1618-D75A-478D-B4C9-B9EBB93A112E}
-		{D1DE958E-FE3B-4291-8370-C3B44B9301ED} = {B2F87FA4-424F-403E-83A5-DEFEB98849C4}
-		{2F2ABDC3-6AB9-4E97-87B8-D97F4F81E3A7} = {F04A1618-D75A-478D-B4C9-B9EBB93A112E}
-		{F567D513-0350-48D8-934C-CF0260CA1CB5} = {F04A1618-D75A-478D-B4C9-B9EBB93A112E}
-		{97229775-172F-4B51-AAAD-6C2337CB5FD5} = {F04A1618-D75A-478D-B4C9-B9EBB93A112E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E457D35-1863-42E1-8682-231C89788802}
