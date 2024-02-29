@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace EasySaveUI.ViewModel
+﻿namespace EasySaveUI.ViewModel
 {
     public partial class ParametersPageViewModel : BaseViewModel
     {

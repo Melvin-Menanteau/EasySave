@@ -131,6 +131,8 @@ namespace EasySaveUI.Services
                 CopyDirectory(save, save.InputFolder, save.OutputFolder);
 
                 UpdateSaveState(save, SaveState.FINISHED);
+                Broker broker = Broker.GetInstance();
+                broker.SendStatusToClient(save.Name, "FINISHED");
                 Console.WriteLine("La sauvegarde est terminée.");
             }
             catch (Exception ex)

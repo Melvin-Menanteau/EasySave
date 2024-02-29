@@ -1,0 +1,323 @@
+@startuml Diagramme de classe UI
+enum SaveType {
+    COMPLETE,
+    DIFFERENTIAL,
+}
+enum SaveState {
+    ERROR= -1,
+    NOT_STARTED= 0,
+    IN_PROGRESS= 1,
+    FINISHED= 2,
+    STOPPED= 3,
+    PAUSED= 4,
+}
+
+Save --> SaveType
+Save --> SaveState
+class Save {
+    + Id : int
+    + Name : string
+    + InputFolder : string
+    + OutputFolder : string
+    + SaveType : SaveType
+    - _totalFilesToCopy : int = 0
+    + TotalFilesSize : int
+    + NbFilesLeftToDo : int
+    - _progress : double
+    - _state : SaveState
+    + _imageSource : string = "pause.png"
+    - _isSelected : bool = false
+    + Save(id:int, name:string, inputFolder:string, outputFolder:string, saveType:SaveType)
+    + Save()
+}
+
+class Broker {
+    - {static} _instance : Broker
+    - listener : TcpListener
+    - client : TcpClient
+    - writer : StreamWriter
+    - Broker()
+    + {static} GetInstance() : Broker
+    + Brok() : void
+    + SendToClient(message:string) : void
+    + SendProgressToClient(name:string, files_processed:int, nb_total:int) : void
+}
+
+BusinessObserver --> SaveManager
+class BusinessObserver {
+    - {static} savesPaused : bool = false
+    + BusinessObserver()
+    + {static} Observer(business:string) : void
+}
+
+EasySave --> Save
+EasySave --> SaveConfiguration
+EasySave --> LoggerJournalier
+EasySave --> LoggerEtat
+class EasySave {
+    - _saveConfiguration : SaveConfiguration
+    - _loggerJournalier : LoggerJournalier
+    - _loggerEtat : LoggerEtat
+    + EasySave()
+    + LancerSauvegarde(listeId:List<int>) : void
+    - CopyFile(save:Save, sourceFile:string, targetDir:string) : void
+    - CopyDirectory(save:Save, sourceDir:string, targetDir:string) : void
+    + EffectuerSauvegardeComplete(save:Save) : void
+    + EffectuerSauvegardeDifferentielle(save:Save) : void
+    - {static} IsSameContent(file1:string, file2:string) : bool
+    - UpdateSaveState(save:Save, state:SaveState) : void
+}
+
+abstract class Logger {
+    # LogFile : FileStream
+    # log(message:string) : void
+}
+
+Logger <|-- LoggerJournalier
+class LoggerJournalier {
+    - _logFileJSON : FileStream
+    - _logFileXML : FileStream
+    + LoggerJournalier()
+    - OpenFile() : void
+    + Log(save_name:string, source:string, target:string, size:int, transfer_time:float, encryption_time:float?) : void
+}
+
+Logger <|-- LoggerEtat
+LoggerEtat --> SaveConfiguration
+class LoggerEtat {
+    - _saveConfiguration : SaveConfiguration
+    + LoggerEtat()
+    - ReopenFile() : void
+    + WriteStatesToFile() : void
+}
+
+Logger <|-- LoggerConfiguration
+LoggerConfiguration --> SaveConfiguration
+class LoggerConfiguration {
+    - _saveConfiguration : SaveConfiguration
+    + LoggerConfiguration()
+    - ReopenFile() : void
+    + WriteConfigToFile() : void
+}
+
+class Parameters {
+    - _instance : Parameters
+    - EncryptionExstensionsList : List<string>
+    - PriorityExtensionsList : List<string>
+    - BusinessApplicationsList : List<string>
+    + EncryptionKey : string
+    + MaxFileSize : int
+    - {static} _extensionFileFilePath : string
+    - Parameters()
+    + {static} GetInstance() : Parameters
+    + WriteEncryptionKey(key:string) : void
+    + ReadEncryptionKey() : string
+    + ReadJsonEncryptionExtensionFile() : void
+    + WriteJsonEncryptionExtensionFile() : void
+    + ReadJsonBusinessApplicationsFile() : void
+    + WriteJsonBusinessApplicationsFile() : void
+    + ReadJsonPriorityExtensionFile() : void
+    + WriteJsonPriorityExtensionFile() : void
+    + ReadMaxFileSize() : void
+    + WriteMaxFileSize() : void
+}
+
+SaveConfiguration --> Save
+SaveConfiguration --> SaveConfiguration
+class SaveConfiguration {
+    - {static} _instance : SaveConfiguration
+    - ListeConfiguration : List<Save>
+    - {static} _configFilePath : string
+    - SaveConfiguration()
+    + {static} GetInstance() : SaveConfiguration
+    - {static} GetConfigurations() : List<Save>
+    + GetConfiguration() : List<Save>
+    + GetConfiguration(id:int) : Save
+    + GetConfiguration(name:string) : Save
+    + {static} GetMaximumIdFromSaves() : int
+    + AddConfiguration(nom:string, inputFolder:string, outputFolder:string, saveType:SaveType) : void
+    + RemoveConfiguration(id:int) : bool
+    + UpdateConfiguration(id:int, nom:string, inputFolder:string, outputFolder:string, saveType:SaveType?) : void
+    - SaveConfigToFile() : void
+    + SetSelectedSave(id:int) : void
+}
+
+SaveManager --> BusinessObserver
+SaveManager --> LoggerJournalier
+SaveManager --> LoggerEtat
+SaveManager --> Parameters
+SaveManager --> Broker
+class SaveManager {
+    - {static} _instance : SaveManager
+    - _runningSaves : Dictionary<int,Thread>
+    - _runningSavesState : Dictionary<int,ManualResetEvent>
+    - _runningSavesCancellation : Dictionary<int,CancellationTokenSource>
+    - _lockRunningSave : object
+    - _lockLargeFile : object
+    - _parameters : Parameters
+    - _barrier : Barrier
+    - _loggerJournalier : LoggerJournalier
+    - _loggerEtat : LoggerEtat
+    - _BusinessObserversThreads<string,Thread> : Dictionary<string,Thread>
+    - SaveManager()
+    + {static} GetInstance() : SaveManager
+    + RunSave(save:Save) : void
+    + StopSave(save:Save, resetProgress:bool) : void
+    + StopAllSaves() : void
+    + PauseAllSaves() : void
+    + ResumeAllSaves() : void
+    - SaveThread(save:Save, cancellationToken:CancellationToken) : void
+    - HandleCopy(save:Save, file:string) : void
+    - GetFilesToCopy(saveType:SaveType, inputFolder:string, outputFolder:string?) : List<string>
+    - {static} CopyFile(inputFullPath:string, outputFullPath:string) : void
+    - EncryptFile(inputFullPath:string, outputFullPath:string) : void
+    - UpdateSaveState(save:Save, state:SaveState) : void
+    + PauseSave(save:Save) : void
+    + ResumeSave(save:Save) : void
+}
+
+class SharedLocalizer {
+    - {static} _instance : SharedLocalizer
+    - _currentLanguage : CultureInfo
+    - _resourceManager : ResourceManager
+    + CurrentLanguage : CultureInfo
+    - SharedLocalizer(initialLanguage:CultureInfo)
+    + {static} GetInstance(initialLanguage:CultureInfo) : SharedLocalizer
+    + SetLanguage(culture:CultureInfo) : void
+    + GetString(key:string) : string
+}
+
+ChiffrementSettingsView --> SharedLocalizer
+class ChiffrementSettingsView {
+    - _resourceManager : ResourceManager
+    + EncryptionExtensionsList : List<string>
+    + EncryptionKey : string
+    + ChiffrementSettingsView(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+    + OnPageAppearing() : void
+    - OnTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - SaveKeyButton_Clicked(sender:object, e:EventArgs) : void
+    - OnEditorTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - SaveEditorButton_Clicked(sender:object, e:EventArgs) : void
+}
+
+GeneralSettingsView --> SharedLocalizer
+class GeneralSettingsView {
+    + EncryptionExtensionsList : List<string>
+    - _resourceManager : ResourceManager
+    + PriorityExtensionsList : List<string>
+    + BusinessApplicationsList : List<string>
+    + EncryptionKey : string
+    + MaxFileSize : int
+    + GeneralSettingsView(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+    + OnPageAppearing() : void
+    - OnValiderClicked(sender:object, e:EventArgs) : void
+    - OnEditorPriorityTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - OnEditorPriorityCompleted(sender:object, e:EventArgs) : void
+    - OnEditorMetiersTextChanged(sender:object, e:TextChangedEventArgs) : void
+    - OnEditorMetiersCompleted(sender:object, e:EventArgs) : void
+}
+
+JournauxSettingsView --> SharedLocalizer
+class JournauxSettingsView {
+    - _resourceManager : ResourceManager
+    + JournauxSettingsView(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+}
+
+LanguesSettingsView --> SharedLocalizer
+class LanguesSettingsView {
+    - _resourceManager : ResourceManager
+    + LanguesSettingsView()
+    - LoadLocalizedTexts() : void
+    - ValidateButton_Clicked(sender:object, e:EventArgs) : void
+}
+
+RunSavesPage --> SaveManager
+RunSavesPage --> SharedLocalizer
+class RunSavesPage {
+    - _resourceManager : ResourceManager
+    + SavesSelected : List<Save>
+    - returnPressed : bool = false
+    + RunSavesPage(viewModel:RunSavesPageViewModel)
+    - LoadLocalizedTexts() : void
+    # OnAppearing() : void
+    - OnImageTapped(sender:object, e:EventArgs) : void
+    - CheckBox_CheckedChanged(sender:object, e:CheckedChangedEventArgs) : void
+    - EditorSaveEditor() : void
+    - RunSavesButton_Clicked(sender:object, e:EventArgs) : void
+}
+
+MainPage --> MainPageViewModel
+MainPage --> SharedLocalizer
+class MainPage {
+    - _resourceManager : ResourceManager
+    + IsNew : bool = false
+    + MainPage(viewModel:MainPageViewModel)
+    - LoadLocalizedTexts() : void
+    # OnAppearing() : void
+    - ResetInput() : void
+    - CollectionView_SelectionChanged(sender:object, e:SelectionChangedEventArgs) : void
+    - ReturnHome_Clicked(sender:object, e:EventArgs) : void
+    - SaveButton_Clicked(sender:object, e:EventArgs) : void
+    - AddSaveButton_Clicked(sender:object, e:EventArgs) : void
+    - ParametersButton_Clicked(sender:object, e:EventArgs) : void
+    - DeleteButton_Clicked(sender:object, e:EventArgs) : void
+    - ButtonNavigation_Clicked(sender:object, e:EventArgs) : void
+    - PickInputFolder(sender:object, e:EventArgs) : void
+    - PickOutputFolder(sender:object, e:EventArgs) : void
+    - PickFolder(IsInput:bool) : Task
+    - PauseButton_Clicked(sender:object, e:EventArgs) : void
+    - StopButton_Clicked(sender:object, e:EventArgs) : void
+}
+
+MainPageViewModel --> SaveManager
+class MainPageViewModel {
+    - _saveConfiguration : SaveConfiguration
+    - _saveManager : SaveManager
+    + Saves<Save> : ObservableCollection<Save>
+    + SelectedSave : Save
+    + MainPageViewModel()
+    + GetSauvegardes() : void
+    + SetSelectedSave(save:Save) : void
+    + AddSave(name:string, inputFolder:string, outputFolder:string, saveType:SaveType) : void
+    + UpdateSave(name:string, inputFolder:string, outputFolder:string, saveType:SaveType) : void
+    + RemoveSave() : void
+    + TogglePauseSave(save:Save) : void
+    + StopSave(save:Save) : void
+}
+
+ParametersPage --> ParametersPageViewModel
+ParametersPage --> SharedLocalizer
+class ParametersPage {
+    - _resourceManager : ResourceManager
+    - choice : string = ""
+    - returnPressed : bool = false
+    + ParametersPage(viewModel:ParametersPageViewModel)
+    - LoadLocalizedTexts() : void
+    - UpdateParametersView(choice:string) : void
+    - OnParameterClicked(sender:object, e:EventArgs) : void
+    - ReturnHome_Clicked(sender:object, e:EventArgs) : void
+    # OnDisappearing() : void
+}
+
+ParametersPageViewModel --> Parameters
+class ParametersPageViewModel {
+    - _parameters : Parameters
+    + ParametersPageViewModel()
+    + LoadStatusLogEntries() : List<string>
+    - LoadJsonLogEntries() : List<string>
+    - LoadXmlLogEntries() : List<string>
+    + SaveBusinessApplications(businessApplicationsList:List<string>) : void
+    + GetBusinessApplicationsList() : List<string>
+    + SaveMaxFileSize(maxFileSize:int) : void
+    + GetMaxFileSize() : int
+    + SavePriorityExtension(extentionList:List<string>) : void
+    + GetPriorityExtensionList() : List<string>
+    + SaveEncryptionExtension(extentionList:List<string>) : void
+    + GetEncryptionExtensionList() : List<string>
+    + SaveEncryptionKey(key:string) : void
+    + GetEncryptionKey() : string
+}
+@enduml
