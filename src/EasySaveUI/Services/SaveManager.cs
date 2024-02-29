@@ -362,7 +362,6 @@ namespace EasySaveUI.Services
         /// <param name="state">Le nouvel état de la sauvegarde</param>
         private void UpdateSaveState(Save save, SaveState state)
         {
-            // TODO: Update statut save dans le fichier JSON
             save.State = state;
             
             string state_string = "";

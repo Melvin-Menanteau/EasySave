@@ -198,16 +198,6 @@ public partial class MainPage : ContentPage
         Save save = (Save)((Image)sender).BindingContext;
 
         viewModel.TogglePauseSave(save);
-
-        // TODO: Vérifier qu'il n'y ait pas eu d'erreur lors de la mise en pause
-        //if (save.State == SaveState.PAUSED)
-        //{
-        //    ((Image)sender).Source = "play.png";
-        //}
-        //else
-        //{
-        //    ((Image)sender).Source = "pause.png";
-        //}
     }
 
     private void StopButton_Clicked(object sender, EventArgs e)
