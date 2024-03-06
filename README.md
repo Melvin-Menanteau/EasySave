@@ -1,6 +1,6 @@
 # EasySave
 ##### Projet bloc Programmation Système - 2024
-##### Groupe 4 : CARTERON Pierre - MENANTEAU Melvin - PETIT Victor - VIGNAUD Mathéo
+##### Groupe 4 : [CARTERON Pierre](https://github.com/Wrench451) - [MENANTEAU Melvin](https://github.com/Melvin-Menanteau) - [PETIT Victor](https://github.com/Faugnell) - [VIGNAUD Mathéo](https://github.com/Pokecreatorfr)
 
 ## Présentation du projet
 EasySave est un logiciel de sauvegarde de données. Il permet de sauvegarder des fichiers et des dossiers sur un support de stockage externe (disque dur, clé USB, etc.). L'application est capable de réaliser des sauvegardes complètes ou différentielles, de lancer plusieurs travaux de sauvegarde en parallèle, de mettre en pause et de reprendre un travail de sauvegarde, d'arrêter un travail de sauvegarde, de consulter les logs directement depuis l'interface, de définir des fichiers à copier en priorité, de définir des fichiers devant être chiffrés (et pouvoir définir la clé de chiffrement), de copier un seul fichier à la fois si un fichier est trop volumineux pour éviter de saturer la bande passante, de consulter l'état des sauvegardes depuis un poste distant et de mettre en pause la sauvegarde lorsqu'un logiciel métier est détecté. La sauvegarde reprendra automatiquement lorsque le logiciel métier sera fermé.
